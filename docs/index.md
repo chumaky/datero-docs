@@ -1,0 +1,51 @@
+# Datero
+
+`Datero` is an open-source data platform which allows to query heterogeneous datasources via plain `SQL`.
+
+It can join data from `CSV` files, `SQL` and `NoSQL` databases via single `SELECT` statement.
+
+Built on top of official latest `Postgres` database is also a fully functional `RDBMS` system.
+
+
+## Quickstart
+All you have to do is to create connection to the source either via web based GUI or through `YAML` config.
+
+Depending on connector, `Datero` will be able to automatically scan datasource and generate schema definition.
+But you will have to say which source schema/database do you want to scan.
+Generated meta layer is stored as an `external` tables within local postgres schema.
+From accessing perspective, they are non-distinguishable from basic table in postgres.
+
+And that's it. You are ready to query your data.
+
+
+## Example
+Assume, you created connection to your `MySQL`, `SQLite`, `Postgres` and `Mongo` databases.
+`MySQL` contains data about users. All the other databases contain different data related to these users.
+
+```sql title="Individual datasources"
+SELECT * FROM mysql.users;
+SELECT * FROM sqlite.profiles;
+SELECT * FROM postgres.salaries;
+SELECT * FROM mongo.orders;
+```
+
+Now, to query all these data, just use plain `SQL`.
+
+```sql title="Final query to show the results of the joins from different databases"
+SELECT *
+FROM mysql.users        u
+JOIN sqlite.profiles    p ON p.user_id = u.id
+JOIN postgres.salaries  s ON s.user_id = u.id
+JOIN mongo.orders       o ON o.user_id = u.id
+;
+```
+
+
+`Datero` leverages _no ETL_ approach. Data are not copied to the system.
+Only requested data are brought in and joined.
+Depending on used connectors, filtering predicates are pushed to the source.
+This allows you to easily query multimillion tables assuming you have a selective filtering criteria.
+
+Another exciting feature is capability to implement `reverse ETL`.
+Many connectors allow `write` mode. This means, that you could change data in multiple databases right from the `Datero`.
+Joining this with exiciting `Postgres` feature of `CTE` which could do `DML` operations allows to do such crazy thing as changing a data in multiple sources from within single `SQL` statement!
