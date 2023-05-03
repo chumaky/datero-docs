@@ -1,11 +1,16 @@
 site_name: Datero Docs
+site_url: https://datero.tech/docs/
 theme:
   name: material
   features:
   #- navigation.tabs
+  - navigation.instant
   - navigation.sections
-  #- toc.integrate
+  - navigation.tracking
   - navigation.top
+  - navigation.path
+  # this options switches off "Table of Contents" section on the right side
+  #- toc.integrate
   - search.suggest
   - search.highlight
   - content.tabs.link
@@ -27,6 +32,9 @@ theme:
       name: Switch to light mode
     primary: teal
     accent: lime
+
+extra_css:
+  - extra.css
 
 markdown_extensions:
 # Python Markdown
