@@ -40,6 +40,7 @@ jobs:
           port: ${{ secrets.REMOTE_PORT }}
           source: site/*
           target: /home/toleg/team/datero/docs2
+          strip_components: 1
 
       - name: Clean up the build
         if: always()
