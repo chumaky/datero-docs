@@ -38,12 +38,12 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
-          env:
-            BASE_PATH: /home/toleg/team/datero
           script: |
             rm -rf ${BASE_PATH}/docs_old
             mv ${BASE_PATH}/docs ${BASE_PATH}/docs_old
             mkdir ${BASE_PATH}/docs
+        env:
+          BASE_PATH: /home/toleg/team/datero
 
       - name: Deploy to remote server
         uses: appleboy/scp-action@v0.1.3
