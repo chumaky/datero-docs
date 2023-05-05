@@ -40,9 +40,9 @@ jobs:
           port: ${{ secrets.REMOTE_PORT }}
           script: |
             export BASE_PATH=/home/toleg/team/datero
-            rm -rf ${BASE_PATH}/docs_old
-            mv ${BASE_PATH}/docs ${BASE_PATH}/docs_old
-            mkdir ${BASE_PATH}/docs
+            mkdir -p ${BASE_PATH}/docs_old
+            rm -rf ${BASE_PATH}/docs_old/*
+            mv ${BASE_PATH}/docs/* ${BASE_PATH}/docs_old
 
       - name: Deploy to remote server
         uses: appleboy/scp-action@v0.1.3
