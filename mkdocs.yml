@@ -9,13 +9,16 @@ theme:
   - navigation.tracking
   - navigation.top
   - navigation.path
+  - navigation.footer
   # this options switches off "Table of Contents" section on the right side
   #- toc.integrate
+  #- toc.follow
   - search.suggest
   - search.highlight
   - content.tabs.link
   - content.code.annotate
   - content.code.copy
+  - content.tooltips
   language: en
   palette:
   - media: "(prefers-color-scheme: light)"
@@ -34,7 +37,7 @@ theme:
     accent: lime
 
 extra_css:
-  - extra.css
+  - stylesheets/extra.css
 
 markdown_extensions:
 # Python Markdown
@@ -46,6 +49,7 @@ markdown_extensions:
 - md_in_html
 - toc:
     permalink: true
+- tables
 # Python Markdown Extensions
 - pymdownx.arithmatex:
     generic: true
@@ -61,9 +65,17 @@ markdown_extensions:
 - pymdownx.keys
 - pymdownx.mark
 - pymdownx.smartsymbols
+- pymdownx.snippets:
+    auto_append:
+      - include/abbreviations.md
 - pymdownx.superfences
 - pymdownx.tabbed:
     alternate_style: true
 - pymdownx.tasklist:
     custom_checkbox: true
 - pymdownx.tilde
+
+
+plugins:
+- search
+- glightbox

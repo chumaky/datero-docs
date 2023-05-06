@@ -2,14 +2,26 @@
 
 `Datero` is an open-source data platform which allows to query heterogeneous datasources via plain `SQL`.
 
-It can join data from `CSV` files, `SQL` and `NoSQL` databases via single `SELECT` statement.
-If supported by corresponding connector, it is possible to `write` data back to datasources.
+It can join data from different sources such as `CSV` files, `SQL` and `NoSQL` databases via single `SELECT` statement.
 
-Built on top of official latest `Postgres` database `Datero` is also a fully functional `RDBMS` system.
+
+Data is fetched from the source via connector.
+If supported by corresponding connector, it is possible to _write_ data back to datasource. Thus implementing reverse ETL feature.
+
+Built on top of official `Postgres` database `Datero` is also a fully functional RDBMS system.
+Its releases are kept in sync with official `Postgres` releases.
+This means, that you can use all the latest features of `Postgres` in `Datero`.
 
 
 ## Quickstart
 All you have to do is to create connection to the source either via web based UI or through `YAML` config.
+
+
+<figure markdown>
+  ![Default Datero dashboard](./images/datero_dashboard.jpg){ loading=lazy }
+  <figcaption>Datero dashboard</figcaption>
+</figure>
+
 
 Depending on connector, `Datero` will be able to automatically scan datasource and generate schema definition.
 But you will have to say which source schema/database do you want to scan.
@@ -49,8 +61,8 @@ Only requested data are brought in and joined.
 Depending on used connectors, filtering predicates are pushed to the source.
 This allows you to easily query multimillion tables assuming you have a selective filtering criteria.
 
-Another exciting feature is capability to implement _reverse ETL_.
-Many connectors allow `write` mode. This means, that you could change data in multiple databases right from the `Datero`.
+Another exciting feature is capability to implement reverse ETL.
+Many connectors support _write_ mode. This means, that you could change data in multiple databases right from the `Datero`.
 
-`Postgres` has an exciting feature of `CTE` which could do `DML` operations.
+`Postgres` has an exciting feature of CTE which could do DML operations.
 This allows to do such a crazy thing as changing the data in multiple sources from within single `SQL` statement!

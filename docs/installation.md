@@ -5,9 +5,9 @@ There are two ways to run it:
 
 - Single all-inclusive container
 - Multiple containers spin-up with `docker-compose`. It includes the following services:
-  * Datero database engine
-  * API
-  * Web application
+    - Datero database engine
+    - API
+    - Web application
 
 ## Single container
 All inclusive image is a good choice for _try it out_ purposes. It encapsulates within itself all three components listed above.
