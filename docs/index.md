@@ -36,9 +36,10 @@ Connector|Connection Form
 ![Connectors](./images/connectors.jpg){ loading=lazy }|![Connection form](./images/connection_form.jpg){ loading=lazy }
 
 
-Connection form itself is a multi step wizard. After specifying connection parameters, next step is to scan datasource.
+Connection form itself is a multi step wizard.
+After specifying connection parameters, next step is to scan datasource.
 Depending on a connector, it may or may not support schema import out of a box.
-`Datero` makes an extra step here and attempts to scan datasource and generate list of schemas available for import automatically.
+In any case, `Datero` tries to get list of remote schemas available for import automatically.
 
 
 If schema import is not supported by connector, `Datero` will try to fetch a list of individual objects for each schema.
@@ -47,7 +48,7 @@ By selecting specific object, `Datero` will try to fetch its definition automati
 And finally, if all the above fails, you will have to specify table definition manually.
 
 
-### Import schema
+### Import Schema
 After pressing `Save` button, `Datero` will create logical `server` entry in the navigation pane and activate either `Import Schema` or `Import Table` tabs.
 Activated tab will be dictated by the connector capabilities.
 Whether or not it supports schema scanning.
