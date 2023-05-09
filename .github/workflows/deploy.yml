@@ -48,7 +48,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: docs
-        path: $ARTIFACT
+        path: ${{ env.ARTIFACT }}
 
     - name: Clean up the build
       if: always()
