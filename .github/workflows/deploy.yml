@@ -79,7 +79,7 @@ jobs:
     - name: Deploy remote server
       uses: appleboy/ssh-action@v0.1.10
       env:
-        DIST_TAR: $ARTIFACT
+        DIST_TAR: ${{ env.ARTIFACT }}
         BASE_PATH: /home/toleg/team/datero
         SERVER_PATH: ${BASE_PATH}/docs
         SERVER_OLD_PATH: ${BASE_PATH}/docs_old
@@ -96,9 +96,9 @@ jobs:
           mkdir -p $SERVER_TMP_PATH
 
           rsync -a --delete $SERVER_PATH/ $SERVER_OLD_PATH/
-          tar -xzf $BASE_PATH/$DIST_TAR --strip-components=2 -C $SERVER_TMP_PATH
+          tar -xzf $BASE_PATH/$DIST_TAR --strip-components=1 -C $SERVER_TMP_PATH
           rsync -a --delete $SERVER_TMP_PATH/ $SERVER_PATH/
 
           rm -rf $SERVER_TMP_PATH
-          rm -f $BASE_PATH/$DIST_TAR"
+          rm -f $BASE_PATH/$DIST_TAR
 
