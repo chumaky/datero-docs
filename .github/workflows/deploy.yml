@@ -95,6 +95,9 @@ jobs:
           mkdir -p $SERVER_OLD_PATH
           mkdir -p $SERVER_TMP_PATH
 
+          echo $DIST_TAR - $BASE_PATH - $SERVER_PATH - $SERVER_OLD_PATH - $SERVER_TMP_PATH
+          ls -l $BASE_PATH
+
           rsync -a --delete $SERVER_PATH/ $SERVER_OLD_PATH/
           tar -xzf $BASE_PATH/$DIST_TAR --strip-components=1 -C $SERVER_TMP_PATH
           rsync -a --delete $SERVER_TMP_PATH/ $SERVER_PATH/
