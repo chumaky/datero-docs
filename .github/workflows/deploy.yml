@@ -81,9 +81,6 @@ jobs:
       env:
         DIST_TAR: ${{ env.ARTIFACT }}
         BASE_PATH: /home/toleg/team/datero
-        SERVER_PATH: ${{ env.BASE_PATH }}/docs
-        SERVER_OLD_PATH: ${{ env.BASE_PATH }}/docs_old
-        SERVER_TMP_PATH: ${{ env.BASE_PATH }}/docs_tmp
       with:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
@@ -91,6 +88,10 @@ jobs:
         port: ${{ secrets.REMOTE_PORT }}
         envs: DIST_TAR,BASE_PATH,SERVER_PATH,SERVER_OLD_PATH,SERVER_TMP_PATH
         script: |
+          SERVER_PATH=${BASE_PATH}/docs
+          SERVER_OLD_PATH=${BASE_PATH}/docs_old
+          SERVER_TMP_PATH=${BASE_PATH}/docs_tmp
+
           mkdir -p $SERVER_PATH
           mkdir -p $SERVER_OLD_PATH
           mkdir -p $SERVER_TMP_PATH
