@@ -32,8 +32,8 @@ All-inclusive container contains all three services, so it exposes a couple of p
 One for the web application and one for the database.
 
 You could run `datero` completely in CLI mode, but it's not handy.
-As a minimum, you will want to have an access for the web UI.
-Internally, the web application is running on port 80, so you can map it to any port you want.
+As a minimum, you probably will want to have an access for the web UI.
+Internally, the web application is running on port 80.
 If you want to use the database, you will need to map also internal 5432 port for the database.
 
 API is accessible through the web application under the `/api` path, so you don't need to expose it separately.
@@ -43,7 +43,7 @@ Alternatively, you could use [datero](https://pypi.org/project/datero/) python p
 ### Running the container
 The only mandator parameter to specify during container run is `POSTGRES_PASSWORD`.
 It's dictated by the official image of `Postgres` database.
-But as mentioned above, you also want to have an access the web application and the database.
+But as mentioned above, you probably will want to have an access to the web application and database.
 Hence we also exposure ports 8080 and 5432.
 Flag `-d` will run the container in the background.
 We also name the container `datero` to be able to refer to it later.G
@@ -64,7 +64,7 @@ We also name the container `datero` to be able to refer to it later.G
         docker.io/chumaky/datero
     ```
 
-Now you can access the web application on [http://localhost:8000](http://localhost:8000) and the database on `localhost:5432`.
+Now you can access the web application on [http://localhost:8080](http://localhost:8080) and the database on `localhost:5432`.
 
 By default, `datero` contains compiled and installed connectors for the following databases:
 
