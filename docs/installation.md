@@ -32,8 +32,11 @@ All-inclusive container contains all three services, so it exposes a couple of p
 One for the web application and one for the database.
 
 You could run `datero` completely in CLI mode, but it's not handy.
-As a minimum, you probably will want to have an access for the web UI.
+As a minimum, you will probably want to have an access for the web UI.
 Internally, the web application is running on port 80.
+You could map it to any port you want but in examples below we will use port 8080.
+This is to make sure it could be run under non-root user on SE Linux enabled systems.
+
 If you want to use the database, you will need to map also internal 5432 port for the database.
 
 API is accessible through the web application under the `/api` path, so you don't need to expose it separately.
@@ -42,11 +45,11 @@ Alternatively, you could use [datero](https://pypi.org/project/datero/) python p
 
 ### Running the container
 The only mandator parameter to specify during container run is `POSTGRES_PASSWORD`.
-It's dictated by the official image of `Postgres` database.
-But as mentioned above, you probably will want to have an access to the web application and database.
+It's dictated by the official image of `postgres` database.
+But as mentioned above, you will probably want to have an access to the web application and database.
 Hence we also exposure ports 8080 and 5432.
 Flag `-d` will run the container in the background.
-We also name the container `datero` to be able to refer to it later.G
+We also name the container `datero` to be able to refer to it later.
 
 === "docker"
     ``` sh
@@ -85,7 +88,7 @@ You could check them by executing the following query in the SQL Editor that is 
 select * from pg_available_extensions where name like '%fdw%' order by name;
 ```
 
-As mentioned earlier, `datero` is a fully functional `Postgres` database. To confirm this, just execute the following query:
+As mentioned earlier, `Datero` is a fully functional `Postgres` database. To confirm this, just execute the following query:
 ``` sql
 select version();
 ```
@@ -126,6 +129,7 @@ As stated in [official documentation](https://hub.docker.com/_/postgres):
 - `POSTGRES_PASSWORD`
     - The only _required_ variable.
       It must not be empty or undefined.
+      This environment variable sets the superuser password for PostgreSQL.
       The default superuser name is defined by the `POSTGRES_USER` environment variable listed above.
 - `POSTGRES_DB`
     - This optional environment variable can be used to define a different name
