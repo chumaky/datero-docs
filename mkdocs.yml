@@ -5,8 +5,9 @@ theme:
   features:
   #- navigation.tabs
   - navigation.instant
-  - navigation.sections
+  #- navigation.sections
   - navigation.tracking
+  - navigation.indexes
   - navigation.top
   - navigation.path
   - navigation.footer
@@ -79,3 +80,10 @@ markdown_extensions:
 plugins:
 - search
 - glightbox
+
+nav:
+- Home: index.md
+- Installation: installation.md
+- Connectors:
+  - connectors/index.md
+  - MySQL: connectors/mysql.md

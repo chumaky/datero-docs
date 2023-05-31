@@ -1,4 +1,4 @@
-# Introduction
+# About
 
 `Datero` is an open-source data platform which allows to query heterogeneous datasources via plain `SQL`.
 
@@ -45,13 +45,15 @@ In any case, `Datero` tries to get list of remote schemas available for import a
 If schema import is not supported by connector, `Datero` will try to fetch a list of individual objects for each schema.
 By selecting specific object, `Datero` will try to fetch its definition automatically.
 
+!!! info
+    Fetching individual object definition is under development.
+
 And finally, if all the above fails, you will have to specify table definition manually.
 
 
 ### Import Schema
 After pressing `Save` button, `Datero` will create logical `server` entry in the navigation pane and activate either `Import Schema` or `Import Table` tabs.
-Activated tab will be dictated by the connector capabilities.
-Whether or not it supports schema scanning.
+Activated tab will be dictated by the connector capabilities: whether or not it supports schema scanning.
 
 <figure markdown>
   ![Import schema](./images/import_schema.jpg){ loading=lazy }
@@ -68,7 +70,7 @@ And that's it. You are ready to query and join your data.
 ### Import Table
 Suppose you don't want to import the whole schema, but only a specific table.
 In this case, you could use `Import Table` tab in the connection form.
-It is very similar to `Import Schema` tab, but instead of selecting schema, you should select a table in a specific schema.
+It is very similar to `Import Schema` tab, but instead of selecting schema, you should select a table or view in a specific schema.
 
 !!! info
     `Import Table` tab functionality is under development.
