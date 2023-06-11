@@ -1,8 +1,12 @@
 site_name: Datero Docs
 site_url: https://datero.tech/docs/
+repo_url: https://github.com/chumaky/datero-docs
+site_description: Datero data platform documentation
+site_author: Chumaky IT
 theme:
   name: material
   features:
+  #- header.autohide
   #- navigation.tabs
   - navigation.instant
   #- navigation.sections
@@ -87,3 +91,7 @@ nav:
 - Connectors:
   - connectors/index.md
   - MySQL: connectors/mysql.md
+  - Postgres: connectors/postgres.md
+  - Mongo: connectors/mongo.md
+  - Oracle: connectors/oracle.md
+  - MSSQL: connectors/mssql.md

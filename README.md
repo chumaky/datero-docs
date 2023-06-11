@@ -1,2 +1,2 @@
 # datero-docs
-Documentation for the Datero data platform
+Documentation for the [Datero](https://datero.tech) data platform

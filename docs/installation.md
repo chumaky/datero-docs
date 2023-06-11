@@ -1,3 +1,7 @@
+---
+description: Datero data platform installation guide. 
+---
+
 # Installation
 
 `Datero` is available in containerized format.
@@ -19,13 +23,27 @@ Image is available on [Docker Hub](https://hub.docker.com/r/chumaky/datero).
 ### Getting the image
 To get the image, run the following command:
 
+!!! note "podman users"
+    Some linux distributions use `podman` instead of `docker`.
+    In addition, in case your are on SE Linux system like `Fedora` usage of ports less than 1024 requries superuser privileges.
+    To get one-to-one experience, instead of `docker` command you will need to run `sudo podman`.
+    This will execute command in a rootfull mode, allowing to use ports less than 1024.
+
+    Another thing is that `podman` considers mutliple container registries by default, 
+    so you will need to specify the registry explicitly when you do the `pull`.
+    If you don't specify it explicitly, `podman` will ask you to select the registry from the list.
+
+    In all other aspects, `podman` is a drop-in replacement for `docker`.
+    So most probably, `docker` => `sudo podman` is the only change that you will need to make commands below work for you.
+
+
 === "docker"
     ``` sh
     docker pull chumaky/datero
     ```
 === "podman"
     ``` sh
-    podman pull docker.io/chumaky/datero
+    sudo podman pull docker.io/chumaky/datero
     ```
 
 All-inclusive container contains all three services, so it exposes a couple of ports.
@@ -33,10 +51,7 @@ One for the web application and one for the database.
 
 You could run `datero` completely in CLI mode, but it's not handy.
 As a minimum, you will probably want to have an access for the web UI.
-Internally, the web application is running on port 80.
-You could map it to any port you want but in examples below we will use port 8080.
-This is to make sure it could be run under non-root user on SE Linux enabled systems.
-
+Internally, the web application is running on standard http port 80.
 If you want to use the database, you will need to map also internal 5432 port for the database.
 
 API is accessible through the web application under the `/api` path, so you don't need to expose it separately.
@@ -47,27 +62,18 @@ Alternatively, you could use [datero](https://pypi.org/project/datero/) python p
 The only mandator parameter to specify during container run is `POSTGRES_PASSWORD`.
 It's dictated by the official image of `postgres` database.
 But as mentioned above, you will probably want to have an access to the web application and database.
-Hence we also exposure ports 8080 and 5432.
+Hence we also exposure ports 80 and 5432.
 Flag `-d` will run the container in the background.
 We also name the container `datero` to be able to refer to it later.
 
-=== "docker"
-    ``` sh
-    docker run -d --name datero \
-        -p 8080:80 -p 5432:5432 \
-        -e POSTGRES_PASSWORD=postgres \
-        chumaky/datero
-    ```
+``` sh
+docker run -d --name datero \
+    -p 80:80 -p 5432:5432 \
+    -e POSTGRES_PASSWORD=postgres \
+    chumaky/datero
+```
 
-=== "podman"
-    ``` sh
-    podman run -d --name datero \
-        -p 8080:80 -p 5432:5432 \
-        -e POSTGRES_PASSWORD=postgres \
-        docker.io/chumaky/datero
-    ```
-
-Now you can access the web application on [http://localhost:8080](http://localhost:8080) and the database on `localhost:5432`.
+Now you can access the web application on [http://localhost](http://localhost) and the database on `localhost:5432`.
 
 By default, `datero` contains compiled and installed connectors for the following databases:
 
@@ -83,7 +89,7 @@ By default, `datero` contains compiled and installed connectors for the followin
 - MariaDB (not tested yet, but should work)
 - Sybase (not tested yet, but should work)
 
-You could check them by executing the following query in the SQL Editor that is available at [http://localhost:8080/editor](http://localhost:8080/editor):
+You could check them by executing the following query in the SQL Editor that is available at [http://localhost/editor](http://localhost/editor):
 ``` sql
 select * from pg_available_extensions where name like '%fdw%' order by name;
 ```
@@ -94,17 +100,9 @@ select version();
 ```
 
 Alternatively, you could leverage the `psql` utility to connect to the database:
-
-
-=== "docker"
-    ``` sh
-    $ docker exec -it datero psql postgres postgres
-    ```
-
-=== "podman"
-    ``` sh
-    $ podman exec -it datero psql postgres postgres
-    ```
+``` sh
+$ docker exec -it datero psql postgres postgres
+```
 
 You will log in as a `postgres` user and connect to the `postgres` database.
 ```

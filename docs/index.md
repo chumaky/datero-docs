@@ -1,3 +1,7 @@
+---
+description: Datero data platform documentation. 
+---
+
 # About
 
 `Datero` is an open-source data platform which allows to query heterogeneous datasources via plain `SQL`.
