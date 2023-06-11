@@ -18,92 +18,106 @@ We couldn't use `datero` container created in the [installation](../installation
 Let's spin up a new `datero_mount` container but this time specify a mount folder for the `sqlite` database file.
 We mount current folder `$(pwd)` to the `/data` folder inside the container.
 
-!!! note
-    If you are on Windows, you need to specify absolute path to the current folder.
-    For example, `c:/Users/user/some/path` if you are running the command from GitBash.
+!!! warning "GitBash on Windows"
+    If you are on Windows, you must specify absolute path to the current folder.
+    For example, `c:/Users/user/some/path`.
+    Or expand current directory with `%cd%` if you are running the command from `cmd`.
 
-``` sh
-# stopping currently running container, if any, to free up ports
-docker stop datero
-# starting new container with current folder mounted to /data folder inside the container
-docker run -d --name datero_mount \
-    -p 80:80 -p 5432:5432 \
-    -e POSTGRES_PASSWORD=postgres \
-    -v "$(pwd):/data" \
-    chumaky/datero
-```
+    **Do not** run docker commands with folder mounts specified from GitBash.
+    Because GitBash is a Linux emulator for Windows, it will translate Windows paths to Linux paths.
+    And `docker` will not be able to find the folder.
 
-<!--
+=== "Linux"
+    ``` sh
+    # stopping currently running container, if any, to free up ports
+    docker stop datero
+    # starting new container with current folder mounted to /data folder inside the container
+    docker run -d --name datero_mount \
+        -p 80:80 -p 5432:5432 \
+        -e POSTGRES_PASSWORD=postgres \
+        -v "$(pwd):/data" \
+        chumaky/datero
+    ```
+
+=== "Windows (cmd.exe)"
+    ``` sh
+    # stopping currently running container, if any, to free up ports
+    docker stop datero
+    # starting new container with current folder mounted to /data folder inside the container
+    docker run -d --name datero_mount ^
+        -p 80:80 -p 5432:5432 ^
+        -e POSTGRES_PASSWORD=postgres ^
+        -v "%cd%:/data" ^
+        chumaky/datero
+    ```
+
 ## SQLite database
-Having `mysql` container running, we can connect to it and create some test database.
+Now we need to create a `sqlite` database file.
+To do so, we have to install `sqlite` command line utility.
+It's available for all major operating systems. 
+You can find installation instructions [here](https://www.sqlite.org/download.html).
+
+Once installed, make sure it's added to your `PATH`. It must be callable from command line.
 ``` sh
-docker exec -it mysql mysql -hlocalhost -uroot -proot
+sqlite3 --version
+3.42.0 2023-05-16 12:36:15 831d0fb2836b71c9bc51067c49fee4b8f18047814f2ff22d817d25195cf350b0
 ```
 
+Now we can create a new database file `calendar.db` and create some test table in it.
+``` sh
+sqlite3 calendar.db
+```
 ``` sql
-mysql> create database finance;
-Query OK, 1 row affected (0.02 sec)
-
-mysql> use finance;
-Database changed
-
-mysql> create table users(id int, name text);
-Query OK, 0 rows affected (0.05 sec)
-
-mysql> insert into users values (1, 'John'), (2, 'Mary'), (3, 'Kyle');
-Query OK, 3 rows affected (0.02 sec)
-Records: 3  Duplicates: 0  Warnings: 0
-
-mysql> commit;
-Query OK, 0 rows affected (0.00 sec)
-
-mysql> select * from users;
-+------+------+
-| id   | name |
-+------+------+
-|    1 | John |
-|    2 | Mary |
-|    3 | Kyle |
-+------+------+
-3 rows in set (0.00 sec)
+sqlite> create table months(id int, name text);
+sqlite> insert into months values (1, 'January'), (2, 'February'), (3, 'March');
+sqlite> .headers on
+sqlite> select * from months;
+id|name
+1|January
+2|February
+3|March
+sqlite> .quit
 ```
 
-Now we are ready to connect to the `mysql` database from `datero`.
+Now we are ready to connect to the `sqlite` database from `datero`.
+
+### Docker image
+Unfortunately, there is no official SQLite docker image is available.
+But if you still prefer to use docker image instead of installing `sqlite` utility on your machine, you can use [this](https://hub.docker.com/r/keinos/sqlite3) image.
+
+Its usage is pretty straightforward and well described in a project's readme file.
+You have to mount the local folder to some folder inside the container.
+Then by executing `sqlite3` command from the container you will be able to create a database file in the mounted folder.
 
 
 ## Datero connection
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `SQLite` entry in the the `Connectors` navigation section on the left.
 
-Enter `mysql_db` as the `Host` value. 
-This is that custom hostname that we specified when were launching `mysql` container in the `dm` network.
-This emulates external host connectivity. 
-
-In a real-world case, the situation would be similar.
-If you have, for example, SQLite running on `mysql-host.my-company.com` hostname and 
-it's resolvable from the machine where `datero` container is running, you can use that hostname instead.
-
-Specify `root` as the `User` value. 
-For the password use `root` as well. Because this is a value we set when were launching `mysql` container.
+Enter `/data/calendar.db` as the `Database` value. 
+The `/data` folder is the folder within the container into which we mounted our current directory.
+And `calendar.db` is the database file we created earlier within current directory via `sqlite3 calendar.db` command.
 
 Click `Save` to create the Server logical object.
 
 Connector|Connection Form
 :---:|:---:
-![Connectors](../images/connectors.jpg){ loading=lazy }|![Create Server](../images/connectors/mysql/create_server.png){ loading=lazy }
+![Connectors](../images/connectors/sqlite/connector.png){ loading=lazy }|![Create Server](../images/connectors/sqlite/create_server.png){ loading=lazy }
 
 
 ## Schema import
 After the Server is created, we can import database schema from it.
 Connection wizard will switch the tab and open `Import Schema` form.
-In the `Remote Schema` drop down select you will be able to pick-up `finance` database, 
-that we created earlier in source `mysql` database.
+SQLite doesn't have notations of databases or schemas.
+Database file is a single database/schema which is referred to as `public` by SQLite connector.
+
+In the `Remote Schema` select `public` schema.
 
 Server Object|Import Schema
 :---:|:---:
-![Server Object](../images/connectors/mysql/server_entry.png){ loading=lazy }|![Import Schema](../images/connectors/mysql/import_schema.png){ loading=lazy }
+![Server Object](../images/connectors/sqlite/server_entry.png){ loading=lazy }|![Import Schema](../images/connectors/sqlite/import_schema.png){ loading=lazy }
 
-For example, we want to import  `finance` database into the `mysql` local schema.
-To do that, type `mysql` into the `Local Schema` input field and click `Import Schema` button.
+For example, we want to import our SQLite database into the `calendar` local schema.
+To do that, type `calendar` into the `Local Schema` input field and click `Import Schema` button.
 
 !!! note "Important"
     Schema import doesn't physically copy any data.
@@ -120,7 +134,7 @@ To do that, type `mysql` into the `Local Schema` input field and click `Import S
 
 If everything is correct, you will see the success notification message.
 <figure markdown>
-  ![Import schema completed](../images/connectors/mysql/import_schema_completed.png){ loading=lazy }
+  ![Import schema completed](../images/connectors/sqlite/import_schema_completed.png){ loading=lazy }
   <figcaption>Completed Schema Import</figcaption>
 </figure>
 
@@ -128,14 +142,14 @@ We are ready now to query our SQLite database from Datero.
 
 ## Data Querying
 Click on the `Query Editor` icon in the left navigation panel.
-You will see `mysql` schema in the `Datero` object tree.
-If you expand it, you will see `users` table from original `mysql` database.
+You will see `calendar` schema in the `Datero` object tree.
+If you expand it, you will see `months` table from original `sqlite` database.
 Its definition was automatically imported.
 
 To query data just write a query in the editor and press `Ctrl+Enter` or click green `Run` button above.
 
 <figure markdown>
-  ![Query Data](../images/connectors/mysql/query_data.png){ loading=lazy }
+  ![Query Data](../images/connectors/sqlite/query_data.png){ loading=lazy }
   <figcaption>Query Data</figcaption>
 </figure>
 
@@ -148,4 +162,3 @@ But the real power of Datero is in its ability to connect to multiple datasource
 
 This is what is not possible via the "direct connection" tools.
 Even if they support connecting to multiple datasources, they don't support joining the data from them.
--->
