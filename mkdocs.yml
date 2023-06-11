@@ -95,3 +95,4 @@ nav:
   - Mongo: connectors/mongo.md
   - Oracle: connectors/oracle.md
   - MSSQL: connectors/mssql.md
+  - SQLite: connectors/sqlite.md
