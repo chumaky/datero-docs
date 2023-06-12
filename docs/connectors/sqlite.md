@@ -93,6 +93,7 @@ Then by executing `sqlite3` command from the container you will be able to creat
 ## Datero connection
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `SQLite` entry in the the `Connectors` navigation section on the left.
 
+Enter any descriptive name in the `Description` field. For example, `SQLite Server`.
 Enter `/data/calendar.db` as the `Database` value. 
 The `/data` folder is the folder within the container into which we mounted our current directory.
 And `calendar.db` is the database file we created earlier within current directory via `sqlite3 calendar.db` command.

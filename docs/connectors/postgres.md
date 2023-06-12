@@ -71,6 +71,7 @@ Now we are ready to connect to the `postgres` database from `datero`.
 ## Datero connection
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `Postgres` entry in the the `Connectors` navigation section on the left.
 
+Enter any descriptive name in the `Description` field. For example, `Postgres Server`.
 Enter `postgres_db` as the `Host` value. 
 This is that custom hostname that we specified when were launching `postgres` container in the `dp` network.
 This emulates external host connectivity. 

@@ -103,6 +103,7 @@ Now we are ready to connect to the `oracle` database from `datero`.
 ## Datero connection
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `Oracle` entry in the the `Connectors` navigation section on the left.
 
+Enter any descriptive name in the `Description` field. For example, `Oracle Server`.
 Enter `//oracle_db:1521/freepdb1` as the `Dbserver` value. 
 Where `oracle_db` is that custom hostname that we specified when were launching `oracle` container in the `do` network.
 And `freepdb1` is the name of the pluggable database service that we want to connect to.

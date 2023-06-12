@@ -78,6 +78,7 @@ Now we are ready to connect to the `mongo` database from `datero`.
 ## Datero connection
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `Mongo` entry in the the `Connectors` navigation section on the left.
 
+Enter any descriptive name in the `Description` field. For example, `Mongo Server`.
 Enter `mongo_db` as the `Host` value.
 This is that custom hostname that we specified when were launching `mongo` container in the `dm` network.
 This emulates external host connectivity.
@@ -100,7 +101,7 @@ Connector|Connection Form
 After the Server is created, connection wizard will switch the tab and open `Import Table` form.
 
 !!! note "Import Table"
-    Automatic fetching of the collections list is under development.
+    Automatic fetch of the collections list is under development.
     Corresponding form is empty for now.
     User needs to define foreign table manually in the `Query Editor`.
 
@@ -116,7 +117,6 @@ Get the names of already created server objects via the query.
 ``` sql
 select srvname from pg_foreign_server;
 ```
-
 
 `mongo_fdw_1` is the internal name of the `Mongo Server` object that we created in the previous step.
 We should use it in the `CREATE FOREIGN TABLE` statement.

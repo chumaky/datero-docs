@@ -73,6 +73,7 @@ Now we are ready to connect to the `mssql` database from `datero`.
 ## Datero connection
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `MSSQL` entry in the the `Connectors` navigation section on the left.
 
+Enter any descriptive name in the `Description` field. For example, `MSSQL Server`.
 Enter `mssql_db` as the `Servername` value. 
 This is that custom hostname that we specified when were launching `mssql` container in the `dm` network.
 This emulates external host connectivity. 
