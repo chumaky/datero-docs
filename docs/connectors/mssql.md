@@ -87,36 +87,23 @@ We specified this password when were launching `mssql` container.
 
 Click `Save` to create the Server logical object.
 
-!!! warning "Work in progress"
-    Datero UI for the MSSQL connector is under development.
-    Provided "Connection Form" screenshot is obsolete and will be updated soon.
-
 Connector|Connection Form
 :---:|:---:
 ![Connectors](../images/connectors/mssql/connector.png){ loading=lazy }|![Create Server](../images/connectors/mssql/create_server.png){ loading=lazy }
 
 
-!!! info "Work in progress"
-    Documentation for the MSSQL connector is under development.
-    Schema import and query examples will be added soon.
-
-<!--
 ## Schema import
 After the Server is created, we can import database schema from it.
 Connection wizard will switch the tab and open `Import Schema` form.
-In the `Remote Schema` drop down select you will be able to pick-up `pets` schema, 
-that we created earlier in source `mssql` database.
-
-!!! info "User vs Schema"
-    In MSSQL, user and schema are the same thing.
-    So, when we created `pets` user, we also created `pets` schema.
+In the `Remote Schema` drop down select you will be able to pick-up default `dbo` schema, 
+that was created as part of created earlier `cosmo` database.
 
 Server Object|Import Schema
 :---:|:---:
 ![Server Object](../images/connectors/mssql/server_entry.png){ loading=lazy }|![Import Schema](../images/connectors/mssql/import_schema.png){ loading=lazy }
 
-For example, we want to import  `pets` schema into the same `pets` local schema.
-To do that, type `pets` into the `Local Schema` input field and click `Import Schema` button.
+For example, we want to import  `dbo` schema into the `cosmo` local schema.
+To do that, type `cosmo` into the `Local Schema` input field and click `Import Schema` button.
 
 !!! note "Important"
     Schema import doesn't physically copy any data.
@@ -141,8 +128,8 @@ We are ready now to query our MSSQL database from Datero.
 
 ## Data Querying
 Click on the `Query Editor` icon in the left navigation panel.
-You will see `pets` schema in the `Datero` object tree.
-If you expand it, you will see `animals` table from original `mssql` database.
+You will see `cosmo` schema in the `Datero` object tree.
+If you expand it, you will see `planets` table from original `mssql` database.
 Its definition was automatically imported.
 
 To query data just write a query in the editor and press `Ctrl+Enter` or click green `Run` button above.
@@ -161,4 +148,3 @@ But the real power of Datero is in its ability to connect to multiple datasource
 
 This is what is not possible via the "direct connection" tools.
 Even if they support connecting to multiple datasources, they don't support joining the data from them.
--->

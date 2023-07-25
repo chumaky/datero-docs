@@ -25,7 +25,7 @@ To get the image, run the following command:
 
 !!! note "podman users"
     Some linux distributions use `podman` instead of `docker`.
-    In addition, in case your are on SE Linux system like `Fedora` usage of ports less than 1024 requries superuser privileges.
+    In addition, in case your are on SE Linux system like `Fedora`, usage of ports less than 1024 requries superuser privileges.
     To get one-to-one experience, instead of `docker` command you will need to run `sudo podman`.
     This will execute command in a rootfull mode, allowing to use ports less than 1024.
 
