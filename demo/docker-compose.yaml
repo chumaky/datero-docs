@@ -1,0 +1,75 @@
+services:
+  #oracle:
+  #  image: container-registry.oracle.com/database/express:21.3.0-xe
+  #  container_name: datero_oracle
+  #  environment:
+  #    ORACLE_PWD: admin   # password for SYS, SYSTEM and PDBADMIN
+  #  ports:
+  #    - 1521:1521   # JDBC
+  #    - 5500:5500   # Enterprise Manager GUI
+  #  volumes:
+  #    - ./oracle_setup.sql:/docker-entrypoint-initdb.d/startup/oracle_setup.sql
+
+  mysql:
+    image: docker.io/library/mysql:latest
+    container_name: datero_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dev
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql_setup.sql:/docker-entrypoint-initdb.d/mysql_setup.sql
+
+  postgres:
+    image: docker.io/library/postgres:alpine
+    container_name: datero_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres_setup.sql:/docker-entrypoint-initdb.d/postgres_setup.sql
+
+  mongo:
+    image: docker.io/library/mongo:latest
+    container_name: datero_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: test
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo_setup.js:/docker-entrypoint-initdb.d/mongo_setup.js
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: datero_mssql
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: mssql_2019
+    ports:
+      - 1433:1433
+    entrypoint:
+      - /usr/config/entrypoint.sh
+    volumes:
+      - ./mssql_entrypoint.sh:/usr/config/entrypoint.sh
+      - ./mssql_configure_db.sh:/usr/config/configure-db.sh
+      - ./mssql_setup.sql:/usr/config/setup.sql
+
+  datero:
+    image: docker.io/chumaky/datero_engine:latest
+    container_name: datero_main
+    environment:
+      POSTGRES_USER: datero
+      POSTGRES_PASSWORD: datero
+    ports:
+      - 4444:5432
+    volumes:
+      - /home/toleg/tmp/1.sql:/home/1.sql
+      - ./sqlite.db:/home/sqlite.db
+

@@ -1,8 +1,6 @@
 ---
-description: Datero data platform installation guide. 
+description: Datero data platform installation guide.
 ---
-
-# Installation
 
 `Datero` is available in containerized format.
 There are two ways to run it:
@@ -29,7 +27,7 @@ To get the image, run the following command:
     To get one-to-one experience, instead of `docker` command you will need to run `sudo podman`.
     This will execute command in a rootfull mode, allowing to use ports less than 1024.
 
-    Another thing is that `podman` considers mutliple container registries by default, 
+    Another thing is that `podman` considers mutliple container registries by default,
     so you will need to specify the registry explicitly when you do the `pull`.
     If you don't specify it explicitly, `podman` will ask you to select the registry from the list.
 

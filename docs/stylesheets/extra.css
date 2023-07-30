@@ -38,3 +38,9 @@
   z-index: 1000;
   cursor: zoom-out;
 }
+
+.mermaid {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}

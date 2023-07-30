@@ -1,5 +1,5 @@
 ---
-description: Datero data platform MySQL connector. 
+description: Datero data platform MySQL connector.
 ---
 
 # MySQL
@@ -24,7 +24,7 @@ docker network connect --alias datero dm datero
 ```
 
 To get MySQL database we can use official [mysql](https://hub.docker.com/_/mysql) docker image.
-Let's pull the image first. 
+Let's pull the image first.
 ``` sh
 docker pull mysql
 ```
@@ -80,15 +80,15 @@ Now we are ready to connect to the `mysql` database from `datero`.
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `MySQL` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `MySQL Server`.
-Enter `mysql_db` as the `Host` value. 
+Enter `mysql_db` as the `Host` value.
 This is that custom hostname that we specified when were launching `mysql` container in the `dm` network.
-This emulates external host connectivity. 
+This emulates external host connectivity.
 
 In a real-world case, the situation would be similar.
-If you have, for example, MySQL running on `mysql-host.my-company.com` hostname and 
+If you have, for example, MySQL running on `mysql-host.my-company.com` hostname and
 it's resolvable from the machine where `datero` container is running, you can use that hostname instead.
 
-Specify `root` as the `User` value. 
+Specify `root` as the `User` value.
 For the password use `root` as well. Because this is a value we set when were launching `mysql` container.
 
 Click `Save` to create the Server logical object.
@@ -101,7 +101,7 @@ Connector|Connection Form
 ## Schema import
 After the Server is created, we can import database schema from it.
 Connection wizard will switch the tab and open `Import Schema` form.
-In the `Remote Schema` drop down select you will be able to pick-up `finance` database, 
+In the `Remote Schema` drop down select you will be able to pick-up `finance` database,
 that we created earlier in source `mysql` database.
 
 Server Object|Import Schema
@@ -120,7 +120,7 @@ To do that, type `mysql` into the `Local Schema` input field and click `Import S
     Querying foreign table will automatically fetch data from the source database.
     If supported by connector, any filtering, sorting, grouping, etc. will be pushed down to the source database.
     This means that only the data that is needed will be fetched.
-    
+
     If you change the schema in the source database, you will need to re-import it in `Datero` to reflect the changes.
     Thus, schema evolution is handled automatically just by re-importing the schema.
 
