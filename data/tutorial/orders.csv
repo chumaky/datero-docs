@@ -1,0 +1,7 @@
+id,customer_id,product_id,employee_id,quantity
+1,1,1,1,10
+2,1,2,2,2
+3,1,3,3,5
+4,2,1,3,5
+5,2,3,2,3
+6,3,1,3,8

@@ -88,9 +88,12 @@ markdown_extensions:
 plugins:
 - search
 - glightbox
+- table-reader
+
 
 nav:
 - Home: index.md
+- Overview: overview.md
 - Installation: installation.md
 - Tutorial: tutorial.md
 - Connectors:

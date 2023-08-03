@@ -2,9 +2,11 @@
 description: Datero data platform tutorial.
 ---
 
-# Introduction
 Major feature of a Datero data platform is its ability to join data from different sources within a single query.
-Let's see how it works on an example of imaginary `Enterprise` company.
+In this tutorial we will demonstrate how Datero could empower your data analytics without any ETL development.
+
+## Scenario
+Let's assume we work for an imaginary `Enterprise` company.
 
 As a usual company, it has multiple departments, like `Production`, `Sales`, `Finance`, etc.
 Each department has its own data sources, like databases, spreadsheets, etc.
@@ -23,7 +25,7 @@ And we need to figure out in sales data who sold what product to which customer.
 As well as what job role and department this employee belongs to.
 
 !!! info "source files"
-    All the sources used in this tutorial are available in the [demo]() folder of this documentation repository.
+    All the sources used in this tutorial are available in the [demo](https://github.com/chumaky/datero-docs/tree/master/demo) folder of this documentation repository.
 
 ## Logical Data Model
 Below is a logical structure of data sources and their relations.
@@ -57,3 +59,20 @@ flowchart BT
   job_roles --> employees
   departments --> job_roles
 ```
+
+## Test Data
+The data that are stored in each data source are as follow
+
+
+=== "customers"
+    {{ read_csv('./data/tutorial/customers.csv') }}
+=== "products"
+    {{ read_csv('./data/tutorial/products.csv') }}
+=== "orders"
+    {{ read_csv('./data/tutorial/orders.csv') }}
+=== "employees"
+    {{ read_csv('./data/tutorial/employees.csv') }}
+=== "job_roles"
+    {{ read_csv('./data/tutorial/job_roles.csv') }}
+=== "departments"
+    {{ read_csv('./data/tutorial/departments.csv') }}
