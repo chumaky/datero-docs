@@ -1,15 +1,19 @@
 services:
-  #oracle:
-  #  image: container-registry.oracle.com/database/express:21.3.0-xe
-  #  container_name: datero_oracle
-  #  environment:
-  #    ORACLE_PWD: admin   # password for SYS, SYSTEM and PDBADMIN
-  #  ports:
-  #    - 1521:1521   # JDBC
-  #    - 5500:5500   # Enterprise Manager GUI
-  #  volumes:
-  #    - ./oracle_setup.sql:/docker-entrypoint-initdb.d/startup/oracle_setup.sql
+  # --8<-- [start:datero]
+  datero:
+    image: docker.io/chumaky/datero_engine:latest
+    container_name: datero_main
+    environment:
+      POSTGRES_USER: datero
+      POSTGRES_PASSWORD: datero
+    ports:
+      - 4444:5432
+    volumes:
+      - ./sqlite.db:/home/job_roles.db
+      - /../data/tutorial/departments.csv:/home/departments.csv
+  # --8<-- [end:datero]
 
+  # --8<-- [start:mysql]
   mysql:
     image: docker.io/library/mysql:latest
     container_name: datero_mysql
@@ -22,7 +26,9 @@ services:
       - 3306:3306
     volumes:
       - ./mysql_setup.sql:/docker-entrypoint-initdb.d/mysql_setup.sql
+  # --8<-- [end:mysql]
 
+  # --8<-- [start:postgres]
   postgres:
     image: docker.io/library/postgres:alpine
     container_name: datero_postgres
@@ -33,7 +39,9 @@ services:
       - 5432:5432
     volumes:
       - ./postgres_setup.sql:/docker-entrypoint-initdb.d/postgres_setup.sql
+  # --8<-- [end:postgres]
 
+  # --8<-- [start:mongo]
   mongo:
     image: docker.io/library/mongo:latest
     container_name: datero_mongo
@@ -45,7 +53,9 @@ services:
       - 27017:27017
     volumes:
       - ./mongo_setup.js:/docker-entrypoint-initdb.d/mongo_setup.js
+  # --8<-- [end:mongo]
 
+  # --8<-- [start:mssql]
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: datero_mssql
@@ -60,16 +70,5 @@ services:
       - ./mssql_entrypoint.sh:/usr/config/entrypoint.sh
       - ./mssql_configure_db.sh:/usr/config/configure-db.sh
       - ./mssql_setup.sql:/usr/config/setup.sql
-
-  datero:
-    image: docker.io/chumaky/datero_engine:latest
-    container_name: datero_main
-    environment:
-      POSTGRES_USER: datero
-      POSTGRES_PASSWORD: datero
-    ports:
-      - 4444:5432
-    volumes:
-      - /home/toleg/tmp/1.sql:/home/1.sql
-      - ./sqlite.db:/home/sqlite.db
+  # --8<-- [end:mssql]
 

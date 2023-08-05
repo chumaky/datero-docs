@@ -24,8 +24,6 @@ This company has the following datasources:
 And we need to figure out in sales data who sold what product to which customer.
 As well as what job role and department this employee belongs to.
 
-!!! info "source files"
-    All the sources used in this tutorial are available in the [demo](https://github.com/chumaky/datero-docs/tree/master/demo) folder of this documentation repository.
 
 ## Logical Data Model
 Below is a logical structure of data sources and their relations.
@@ -61,8 +59,7 @@ flowchart BT
 ```
 
 ## Test Data
-The data that are stored in each data source are as follow
-
+The data that are stored in each data source are as follow.
 
 === "customers"
     {{ read_csv('./data/tutorial/customers.csv') }}
@@ -76,3 +73,55 @@ The data that are stored in each data source are as follow
     {{ read_csv('./data/tutorial/job_roles.csv') }}
 === "departments"
     {{ read_csv('./data/tutorial/departments.csv') }}
+
+
+## Infrastructure Setup
+!!! info "source files"
+    All the sources used in this tutorial are available in the [demo](https://github.com/chumaky/datero-docs/tree/master/demo) folder of this documentation repository.
+
+To emulate multiple data sources, we will use docker containers orchestrated by `docker-compose`.
+It will spin up `datero` container and several other containers for relevant datasources.
+
+??? abstract "docker-compose"
+    ```yaml linenums="1"
+    --8<-- "demo/docker-compose.yml"
+    ```
+
+Here is per-service breakdown of a compose file.
+=== "datero"
+    ```yaml linenums="1"
+    --8<-- "demo/docker-compose.yml:datero"
+    ```
+=== "mysql"
+    ```yaml linenums="1"
+    --8<-- "demo/docker-compose.yml:mysql"
+    ```
+=== "postgres"
+    ```yaml linenums="1"
+    --8<-- "demo/docker-compose.yml:postgres"
+    ```
+=== "mongo"
+    ```yaml linenums="1"
+    --8<-- "demo/docker-compose.yml:mongo"
+    ```
+=== "mssql"
+    ```yaml linenums="1"
+    --8<-- "demo/docker-compose.yml:mssql"
+    ```
+=== "sqlite"
+    ```yaml linenums="1" hl_lines="10"
+    --8<-- "demo/docker-compose.yml:datero"
+    ```
+
+    !!! info "file based data source"
+        SQLite database is single file based.
+        It doesn't have any listener over some port to connect to.
+        Hence, we must mount it into the `datero` container to enable access to it through file system.
+
+=== "csv"
+    ```yaml linenums="1" hl_lines="11"
+    --8<-- "demo/docker-compose.yml:datero"
+    ```
+
+    !!! info "file based data source"
+        To enable access to a file it must be accessible from local file system of the `datero` container.

@@ -25,4 +25,4 @@ If you are already convinced, you can go straight to [Installation](./installati
 
 For use-case example, please go to [Tutorial](./tutorial.md) section.
 
-For individual datasources configuration, please refer to [Connectors](./connectors.md) section.
+For individual datasources configuration, please refer to [Connectors](./connectors/index.md) section.

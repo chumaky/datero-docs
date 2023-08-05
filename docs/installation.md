@@ -21,7 +21,7 @@ Image is available on [Docker Hub](https://hub.docker.com/r/chumaky/datero).
 ### Getting the image
 To get the image, run the following command:
 
-!!! note "podman users"
+??? note "podman users"
     Some linux distributions use `podman` instead of `docker`.
     In addition, in case your are on SE Linux system like `Fedora`, usage of ports less than 1024 requries superuser privileges.
     To get one-to-one experience, instead of `docker` command you will need to run `sudo podman`.
