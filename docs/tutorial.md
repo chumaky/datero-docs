@@ -92,36 +92,97 @@ Here is per-service breakdown of a compose file.
     ```yaml linenums="1"
     --8<-- "demo/docker-compose.yml:datero"
     ```
+
+    !!! info "Main datero container"
+        To distinguish from `postgres` datasource we run it on port 4444.
+        For `sqlite` and `csv` datasources we must mount them into the file system of this `datero` container.
+        See corresponding service sections for detals.
+
 === "mysql"
     ```yaml linenums="1"
     --8<-- "demo/docker-compose.yml:mysql"
     ```
+
+    !!! info "Customers data source"
+        There is `finance` database is created.
+        It will contain `customers` table defined via `mysql_customers.sql` setup script.
+        Connection will be done over port `3306` under `mysql/mysql` user/password key pair.
+
 === "postgres"
     ```yaml linenums="1"
     --8<-- "demo/docker-compose.yml:postgres"
     ```
+
+    !!! info "Products data source"
+        There is `factory` database is created.
+        It will contain `products` table defined via `postgres_products.sql` setup script.
+        Connection will be done over port `5432` under `postgres/postgres` user/password key pair.
+
 === "mongo"
     ```yaml linenums="1"
     --8<-- "demo/docker-compose.yml:mongo"
     ```
+
+    !!! info "Orders data source"
+        There is `sales` database is created.
+        It will contain `orders` collection defined via `mongo_orders.js` setup script.
+        Connection will be done over port `27017` under `mongo/mongo` user/password key pair.
+
 === "mssql"
     ```yaml linenums="1"
     --8<-- "demo/docker-compose.yml:mssql"
     ```
+
+    !!! info "Employess data source"
+        There is `hr` database is created.
+        It will contain `employees` table defined via `mssql_employees.sql` setup script.
+        Connection will be done over port `1433` under `sa/Mssql_2019` user/password key pair.
+
+        SQL Server initialization takes some time.
+        To handle this gracefuly there are `mssql_entrypoint.sh` and `mssql_configure_db.sh` supplementary scripts are used.
+
 === "sqlite"
     ```yaml linenums="1" hl_lines="10"
     --8<-- "demo/docker-compose.yml:datero"
     ```
 
-    !!! info "file based data source"
+    !!! info "Job roles data source"
         SQLite database is single file based.
         It doesn't have any listener over some port to connect to.
-        Hence, we must mount it into the `datero` container to enable access to it through file system.
+        Hence, we must mount it inside the `datero` container to enable access to it through its file system.
+
+        Database `sqlite_job_roles.db` will be mounted to the `/home` folder of the container as a `job_roles.db` file.
+        It contains `job_roles` table defined via `sqlite_job_roles.sql` setup script from the `demo` folder.
 
 === "csv"
     ```yaml linenums="1" hl_lines="11"
     --8<-- "demo/docker-compose.yml:datero"
     ```
 
-    !!! info "file based data source"
-        To enable access to a file it must be accessible from local file system of the `datero` container.
+    !!! info "Departments data source"
+        This is a file based resource.
+        It doesn't have any listener over some port to connect to.
+        To read the file, it must be accessible from local file system of the `datero` container.
+
+        File `departments.csv` from sibling `data/tutorial` directory will be mounted to the `/home` folder of the container as `departments.csv` file.
+
+
+To spin-up all the containers, clone this [docs](https://github.com/chumaky/datero-docs) repository and run the following command.
+It will first fetch all the images if they are absent on your local registry and then start all the containers.
+
+``` bash
+docker-compose -f demo/docker-compose.yml up -d
+```
+
+After execution of this command, you should see output similar to below.
+``` bash
+$ docker ps
+CONTAINER ID  IMAGE                                       COMMAND     CREATED             STATUS             PORTS                     NAMES
+db495bdfe319  docker.io/chumaky/datero_engine:latest      postgres    About a minute ago  Up About a minute  0.0.0.0:4444->5432/tcp    datero_main
+590a6adbaa2c  docker.io/library/mysql:latest              mysqld      About a minute ago  Up About a minute  0.0.0.0:3306->3306/tcp    datero_mysql
+5c3cba74112b  docker.io/library/postgres:alpine           postgres    About a minute ago  Up About a minute  0.0.0.0:5432->5432/tcp    datero_postgres
+d92ba333ba28  docker.io/library/mongo:latest              mongod      About a minute ago  Up About a minute  0.0.0.0:27017->27017/tcp  datero_mongo
+a797fbb12392  mcr.microsoft.com/mssql/server:2019-latest              About a minute ago  Up About a minute  0.0.0.0:1433->1433/tcp    datero_mssql
+```
+
+### Checking data sources

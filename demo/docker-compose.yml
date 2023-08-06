@@ -9,8 +9,8 @@ services:
     ports:
       - 4444:5432
     volumes:
-      - ./sqlite.db:/home/job_roles.db
-      - /../data/tutorial/departments.csv:/home/departments.csv
+      - ./sqlite_job_roles.db:/home/job_roles.db
+      - ../data/tutorial/departments.csv:/home/departments.csv
   # --8<-- [end:datero]
 
   # --8<-- [start:mysql]
@@ -19,13 +19,13 @@ services:
     container_name: datero_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dev
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: finance
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
     ports:
       - 3306:3306
     volumes:
-      - ./mysql_setup.sql:/docker-entrypoint-initdb.d/mysql_setup.sql
+      - ./mysql_customers.sql:/docker-entrypoint-initdb.d/setup.sql
   # --8<-- [end:mysql]
 
   # --8<-- [start:postgres]
@@ -33,12 +33,13 @@ services:
     image: docker.io/library/postgres:alpine
     container_name: datero_postgres
     environment:
+      POSTGRES_DB: factory
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - 5432:5432
     volumes:
-      - ./postgres_setup.sql:/docker-entrypoint-initdb.d/postgres_setup.sql
+      - ./postgres_products.sql:/docker-entrypoint-initdb.d/setup.sql
   # --8<-- [end:postgres]
 
   # --8<-- [start:mongo]
@@ -46,13 +47,13 @@ services:
     image: docker.io/library/mongo:latest
     container_name: datero_mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-      MONGO_INITDB_DATABASE: test
+      MONGO_INITDB_DATABASE: sales
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
     ports:
       - 27017:27017
     volumes:
-      - ./mongo_setup.js:/docker-entrypoint-initdb.d/mongo_setup.js
+      - ./mongo_orders.js:/docker-entrypoint-initdb.d/setup.js
   # --8<-- [end:mongo]
 
   # --8<-- [start:mssql]
@@ -61,7 +62,7 @@ services:
     container_name: datero_mssql
     environment:
       ACCEPT_EULA: Y
-      MSSQL_SA_PASSWORD: mssql_2019
+      MSSQL_SA_PASSWORD: Mssql_2019
     ports:
       - 1433:1433
     entrypoint:
@@ -69,6 +70,6 @@ services:
     volumes:
       - ./mssql_entrypoint.sh:/usr/config/entrypoint.sh
       - ./mssql_configure_db.sh:/usr/config/configure-db.sh
-      - ./mssql_setup.sql:/usr/config/setup.sql
+      - ./mssql_employees.sql:/usr/config/setup.sql
   # --8<-- [end:mssql]
 
