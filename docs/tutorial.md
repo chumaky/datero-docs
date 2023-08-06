@@ -94,7 +94,8 @@ Here is per-service breakdown of a compose file.
     ```
 
     !!! info "Main datero container"
-        To distinguish from `postgres` datasource we run it on port 4444.
+        Web ui is available on port `8080`.
+        To distinguish from `postgres` datasource we run it on port `4444`.
         For `sqlite` and `csv` datasources we must mount them into the file system of this `datero` container.
         See corresponding service sections for detals.
 
@@ -151,7 +152,7 @@ Here is per-service breakdown of a compose file.
         It doesn't have any listener over some port to connect to.
         Hence, we must mount it inside the `datero` container to enable access to it through its file system.
 
-        Database `sqlite_job_roles.db` will be mounted to the `/home` folder of the container as a `job_roles.db` file.
+        Database `sqlite_job_roles.db` will be mounted to the `/home/data` folder of the container as a `job_roles.db` file.
         It contains `job_roles` table defined via `sqlite_job_roles.sql` setup script from the `demo` folder.
 
 === "csv"
@@ -164,7 +165,7 @@ Here is per-service breakdown of a compose file.
         It doesn't have any listener over some port to connect to.
         To read the file, it must be accessible from local file system of the `datero` container.
 
-        File `departments.csv` from sibling `data/tutorial` directory will be mounted to the `/home` folder of the container as `departments.csv` file.
+        File `departments.csv` from sibling `data/tutorial` directory will be mounted to the `/home/data` folder of the container as `departments.csv` file.
 
 
 To spin-up all the containers, clone this [docs](https://github.com/chumaky/datero-docs) repository and run the following command.
@@ -177,12 +178,12 @@ docker-compose -f demo/docker-compose.yml up -d
 After execution of this command, you should see output similar to below.
 ``` bash
 $ docker ps
-CONTAINER ID  IMAGE                                       COMMAND     CREATED             STATUS             PORTS                     NAMES
-db495bdfe319  docker.io/chumaky/datero_engine:latest      postgres    About a minute ago  Up About a minute  0.0.0.0:4444->5432/tcp    datero_main
-590a6adbaa2c  docker.io/library/mysql:latest              mysqld      About a minute ago  Up About a minute  0.0.0.0:3306->3306/tcp    datero_mysql
-5c3cba74112b  docker.io/library/postgres:alpine           postgres    About a minute ago  Up About a minute  0.0.0.0:5432->5432/tcp    datero_postgres
-d92ba333ba28  docker.io/library/mongo:latest              mongod      About a minute ago  Up About a minute  0.0.0.0:27017->27017/tcp  datero_mongo
-a797fbb12392  mcr.microsoft.com/mssql/server:2019-latest              About a minute ago  Up About a minute  0.0.0.0:1433->1433/tcp    datero_mssql
+CONTAINER ID  IMAGE                                       COMMAND               CREATED             STATUS             PORTS                                         NAMES
+db495bdfe319  docker.io/chumaky/datero:latest             supervisord -c /e...  About a minute ago  Up About a minute  0.0.0.0:4444->5432/tcp, 0.0.0.0:8080->80/tcp  datero_main
+590a6adbaa2c  docker.io/library/mysql:latest              mysqld                About a minute ago  Up About a minute  0.0.0.0:3306->3306/tcp                        datero_mysql
+5c3cba74112b  docker.io/library/postgres:alpine           postgres              About a minute ago  Up About a minute  0.0.0.0:5432->5432/tcp                        datero_postgres
+d92ba333ba28  docker.io/library/mongo:latest              mongod                About a minute ago  Up About a minute  0.0.0.0:27017->27017/tcp                      datero_mongo
+a797fbb12392  mcr.microsoft.com/mssql/server:2019-latest                        About a minute ago  Up About a minute  0.0.0.0:1433->1433/tcp                        datero_mssql
 ```
 
 ### Checking data sources
@@ -251,3 +252,17 @@ Let's check all our datasources to make sure they are running and have expected 
     2,finance
     3,sales
     ```
+
+We successfully connected to all the data sources and all of them have expected data.
+
+
+## Datero setup
+Now, when all the data sources are up and running, we can configure them in Datero ui.
+Navigate to the [http://localhost:8080](http://localhost:8080) and you should see the following screen.
+
+<figure markdown>
+  ![Default Datero dashboard](./images/tutorial/datero_dashboard.jpg){ loading=lazy }
+  <figcaption>Datero dashboard</figcaption>
+</figure>
+
+As of now, we don't have any data sources defined yet. Let's add them one by one.

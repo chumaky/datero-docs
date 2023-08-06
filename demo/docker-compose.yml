@@ -1,16 +1,18 @@
 services:
   # --8<-- [start:datero]
   datero:
-    image: docker.io/chumaky/datero_engine:latest
+    image: docker.io/chumaky/datero:latest
     container_name: datero_main
     environment:
-      POSTGRES_USER: datero
-      POSTGRES_PASSWORD: datero
+      POSTGRES_USER: postgres       # if value is different from default `postgres` then it must be specified in Datero config.yaml
+      POSTGRES_PASSWORD: postgres   # if value is different from default `postgres` then it must be specified in Datero config.yaml
     ports:
+      - 8080:80
       - 4444:5432
     volumes:
-      - ./sqlite_job_roles.db:/home/job_roles.db
-      - ../data/tutorial/departments.csv:/home/departments.csv
+      - ./datero_config.yml:/home/instance/config.yaml              # Datero config. Must be specified if postgres image default values are changed
+      - ./sqlite_job_roles.db:/home/data/job_roles.db
+      - ../data/tutorial/departments.csv:/home/data/departments.csv
   # --8<-- [end:datero]
 
   # --8<-- [start:mysql]
