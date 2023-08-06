@@ -186,3 +186,68 @@ a797fbb12392  mcr.microsoft.com/mssql/server:2019-latest              About a mi
 ```
 
 ### Checking data sources
+Let's check all our datasources to make sure they are running and have expected seed data.
+
+=== "mysql"
+    ``` bash
+    $ docker exec datero_mysql mysql -umysql -pmysql -e "select * from finance.customers"
+    id      name
+    1       Tom
+    2       Kate
+    3       John
+    ```
+
+=== "postgres"
+    ``` bash
+    $ docker exec datero_postgres psql -d factory -U postgres -c "select * from products"
+    id |  name  | price
+    ----+--------+-------
+      1 | apple  |     1
+      2 | banana |   2.3
+      3 | orange |   3.5
+    (3 rows)
+    ```
+
+=== "mongo"
+    ``` bash
+    $ docker exec datero_mongo mongo -u mongo -pmongo --authenticationDatabase admin --eval "db.getSiblingDB('sales').orders.find()"
+    MongoDB shell version v5.0.10
+    connecting to: mongodb://127.0.0.1:27017/?authSource=admin&compressors=disabled&gssapiServiceName=mongodb
+    Implicit session: session { "id" : UUID("21c19e50-0a03-4e92-aa99-126da29607d8") }
+    MongoDB server version: 5.0.10
+    { "_id" : ObjectId("64cf8a76bee1f91da11ce665"), "id" : 1, "customer_id" : 1, "product_id" : 1, "employee_id" : 1, "quantity" : 10 }
+    { "_id" : ObjectId("64cf8a76bee1f91da11ce666"), "id" : 2, "customer_id" : 1, "product_id" : 2, "employee_id" : 2, "quantity" : 2 }
+    { "_id" : ObjectId("64cf8a76bee1f91da11ce667"), "id" : 3, "customer_id" : 1, "product_id" : 3, "employee_id" : 3, "quantity" : 5 }
+    { "_id" : ObjectId("64cf8a76bee1f91da11ce668"), "id" : 4, "customer_id" : 2, "product_id" : 1, "employee_id" : 3, "quantity" : 5 }
+    { "_id" : ObjectId("64cf8a76bee1f91da11ce669"), "id" : 5, "customer_id" : 2, "product_id" : 3, "employee_id" : 2, "quantity" : 3 }
+    { "_id" : ObjectId("64cf8a76bee1f91da11ce66a"), "id" : 6, "customer_id" : 3, "product_id" : 1, "employee_id" : 3, "quantity" : 8 }
+    ```
+
+=== "mssql"
+    ``` bash
+    $ docker exec datero_mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Mssql_2019 -d hr -Q "select * from employees"
+    id          name      job_id
+    ----------- --------- -----------
+              1 John                1
+              2 Bob                 2
+              3 Lisa                3
+    ```
+
+=== "sqlite"
+    ``` bash
+    $ sqlite3 -header -column demo/sqlite_job_roles.db "select * from job_roles"
+    id  name      department_id
+    --  --------  -------------
+    1   owner     1
+    2   manager   2
+    3   salesman  3
+    ```
+
+=== "csv"
+    ``` bash
+    $ cat data/tutorial/departments.csv
+    id,name
+    1,management
+    2,finance
+    3,sales
+    ```

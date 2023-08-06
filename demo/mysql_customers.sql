@@ -1,10 +1,10 @@
-create table users(id int, name text);
+create table customers(id int, name text);
 
 insert
-  into users
+  into customers
 values (1, 'Tom')
      , (2, 'Kate')
      , (3, 'John')
 ;
 
-alter table users add constraint primary key users_pk(id);
+alter table customers add constraint primary key customers_pk(id);
