@@ -143,7 +143,7 @@ Here is per-service breakdown of a compose file.
         To handle this gracefuly there are `mssql_entrypoint.sh` and `mssql_configure_db.sh` supplementary scripts are used.
 
 === "sqlite"
-    ```yaml linenums="1" hl_lines="10"
+    ```yaml linenums="1" hl_lines="12"
     --8<-- "demo/docker-compose.yml:datero"
     ```
 
@@ -156,7 +156,7 @@ Here is per-service breakdown of a compose file.
         It contains `job_roles` table defined via `sqlite_job_roles.sql` setup script from the `demo` folder.
 
 === "csv"
-    ```yaml linenums="1" hl_lines="11"
+    ```yaml linenums="1" hl_lines="13"
     --8<-- "demo/docker-compose.yml:datero"
     ```
 
@@ -258,7 +258,8 @@ We successfully connected to all the data sources and all of them have expected 
 
 ## Datero setup
 Now, when all the data sources are up and running, we can configure them in Datero ui.
-Navigate to the [http://localhost:8080](http://localhost:8080) and you should see the following screen.
+Navigate to the [http://localhost:8080](http://localhost:8080) and you should see default Datero dashboard.
+For more details about it, please refer to the [overview](overview.md) section.
 
 <figure markdown>
   ![Default Datero dashboard](./images/tutorial/datero_dashboard.jpg){ loading=lazy }
@@ -266,3 +267,63 @@ Navigate to the [http://localhost:8080](http://localhost:8080) and you should se
 </figure>
 
 As of now, we don't have any data sources defined yet. Let's add them one by one.
+
+Detailed instructions how to add data sources for each supported connector could be found in the [connectors](../connectors) section.
+We will not repeat them here, but instead will show how to add server and import schema whenever applicable for each of our datasources.
+
+### Servers creation
+In the left navigation pane of the dashboard in the Connectors section click on the corresponding connector and fill out connection details as per below.
+
+=== "mysql"
+    <figure markdown>
+      ![MySQL server creation](./images/tutorial/mysql_server.jpg){ loading=lazy }
+      <figcaption>MySQL server creation</figcaption>
+    </figure>
+
+=== "postgres"
+    <figure markdown>
+      ![Postgres server creation](./images/tutorial/postgres_server.jpg){ loading=lazy }
+      <figcaption>Postgres server creation</figcaption>
+    </figure>
+
+=== "mongo"
+    <figure markdown>
+      ![Mongo server creation](./images/tutorial/mongo_server.jpg){ loading=lazy }
+      <figcaption>Mongo server creation</figcaption>
+    </figure>
+
+### Import schemas
+Once all the servers are created, we can import schemas/databases from them.
+
+=== "mysql"
+    <figure markdown>
+      ![MySQL import schema](./images/tutorial/mysql_import_schema.jpg){ loading=lazy }
+      <figcaption>MySQL import schema</figcaption>
+    </figure>
+
+=== "postgres"
+    <figure markdown>
+      ![Postgres import schema](./images/tutorial/postgres_import_schema.jpg){ loading=lazy }
+      <figcaption>Postgres import schema</figcaption>
+    </figure>
+
+=== "mongo"
+    !!! info "Mongo collections import"
+        Mongo doesn't have schemas. It operates on terms databases and collections.
+        Automatic fetch of collections is under development.
+        For now, we need to manually create foreign table pointed to the collection.
+
+        To do this, open [Query Editor](overview.md#query-data) and execute the following query:
+
+    ``` sql title="Mongo foreign table creation"
+    --8<-- "demo/mongo_datero_setup.sql"
+    ```
+
+
+    <figure markdown>
+      ![Mongo import collection](./images/tutorial/mongo_import_collection.jpg){ loading=lazy }
+      <figcaption>Mongo import collection</figcaption>
+    </figure>
+
+
+--8<-- "include/schema_import.md"

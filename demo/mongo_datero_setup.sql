@@ -3,8 +3,13 @@ DROP SCHEMA IF EXISTS mongo CASCADE;
 CREATE SCHEMA IF NOT EXISTS mongo;
 
 CREATE FOREIGN TABLE mongo.orders
-( _id       name
-, id        int
-, user_id   int
-, amount    int
-) SERVER mongo;
+( _id          name
+, id           int
+, customer_id  int
+, product_id   int
+, employee_id  int
+, quantity     int
+)
+SERVER mongo_fdw_1
+OPTIONS (database 'sales', collection 'orders')
+;

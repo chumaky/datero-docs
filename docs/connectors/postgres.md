@@ -1,5 +1,5 @@
 ---
-description: Datero data platform Postgres connector. 
+description: Datero data platform Postgres connector.
 ---
 
 # Postgres
@@ -27,7 +27,7 @@ docker network connect --alias datero dp datero
 ```
 
 To get Postgres database we can use official [postgres](https://hub.docker.com/_/postgres) docker image.
-Let's pull the image first. 
+Let's pull the image first.
 ``` sh
 docker pull postgres
 ```
@@ -57,7 +57,7 @@ postgres=# insert into design.colors values (1, 'red'), (2, 'blue'), (3, 'green'
 INSERT 0 3
 
 postgres=# select * from design.colors;
- id | name  
+ id | name
 ----+-------
   1 | red
   2 | blue
@@ -72,15 +72,15 @@ Now we are ready to connect to the `postgres` database from `datero`.
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `Postgres` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `Postgres Server`.
-Enter `postgres_db` as the `Host` value. 
+Enter `postgres_db` as the `Host` value.
 This is that custom hostname that we specified when were launching `postgres` container in the `dp` network.
-This emulates external host connectivity. 
+This emulates external host connectivity.
 
 In a real-world case, the situation would be similar.
-If you have, for example, Postgres running on `postgres-host.my-company.com` hostname and 
+If you have, for example, Postgres running on `postgres-host.my-company.com` hostname and
 it's resolvable from the machine where `datero` container is running, you can use that hostname instead.
 
-Specify `postgres` as the `User` value. 
+Specify `postgres` as the `User` value.
 For the password use `postgres` as well. Because this is a value we set when were launching `postgres` container.
 
 Click `Save` to create the Server logical object.
@@ -93,7 +93,7 @@ Connector|Connection Form
 ## Schema import
 After the Server is created, we can import database schema from it.
 Connection wizard will switch the tab and open `Import Schema` form.
-In the `Remote Schema` drop down select you will be able to pick-up `design` schema, 
+In the `Remote Schema` drop down select you will be able to pick-up `design` schema,
 that we created earlier in source `postgres` database.
 
 Server Object|Import Schema
@@ -103,18 +103,7 @@ Server Object|Import Schema
 For example, we want to import  `design` schema into the same `design` local schema.
 To do that, type `design` into the `Local Schema` input field and click `Import Schema` button.
 
-!!! note "Important"
-    Schema import doesn't physically copy any data.
-    For every source table and view it creates an object of a special type in a local schema.
-    This object type is called foreign table.
-    It implements data virtualization pattern.
-
-    Querying foreign table will automatically fetch data from the source database.
-    If supported by connector, any filtering, sorting, grouping, etc. will be pushed down to the source database.
-    This means that only the data that is needed will be fetched.
-    
-    If you change the schema in the source database, you will need to re-import it in `Datero` to reflect the changes.
-    Thus, schema evolution is handled automatically just by re-importing the schema.
+--8<-- "include/schema_import.md"
 
 If everything is correct, you will see the success notification message.
 <figure markdown>

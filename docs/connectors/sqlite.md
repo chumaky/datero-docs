@@ -1,5 +1,5 @@
 ---
-description: Datero data platform SQLite connector. 
+description: Datero data platform SQLite connector.
 ---
 
 # SQLite
@@ -7,7 +7,7 @@ This section describes how to connect to SQLite database from Datero.
 
 ## Environment
 Environment setup for the SQLite connector is different from the other connectors like [MySQL](./mysql.md) or [Postgres](postgres.md).
-Main reason is that SQLite is a file-based database. 
+Main reason is that SQLite is a file-based database.
 It doesn't require any server to run. And hence, it doesn't have any network interface to connect to.
 
 Main requirement for the Datero sqlite connector is to have SQLite database file accessible on the file system.
@@ -54,7 +54,7 @@ We mount current folder `$(pwd)` to the `/data` folder inside the container.
 ## SQLite database
 Now we need to create a `sqlite` database file.
 To do so, we have to install `sqlite` command line utility.
-It's available for all major operating systems. 
+It's available for all major operating systems.
 You can find installation instructions [here](https://www.sqlite.org/download.html).
 
 Once installed, make sure it's added to your `PATH`. It must be callable from command line.
@@ -94,7 +94,7 @@ Then by executing `sqlite3` command from the container you will be able to creat
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `SQLite` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `SQLite Server`.
-Enter `/data/calendar.db` as the `Database` value. 
+Enter `/data/calendar.db` as the `Database` value.
 The `/data` folder is the folder within the container into which we mounted our current directory.
 And `calendar.db` is the database file we created earlier within current directory via `sqlite3 calendar.db` command.
 
@@ -120,18 +120,7 @@ Server Object|Import Schema
 For example, we want to import our SQLite database into the `calendar` local schema.
 To do that, type `calendar` into the `Local Schema` input field and click `Import Schema` button.
 
-!!! note "Important"
-    Schema import doesn't physically copy any data.
-    For every source table and view it creates an object of a special type in a local schema.
-    This object type is called foreign table.
-    It implements data virtualization pattern.
-
-    Querying foreign table will automatically fetch data from the source database.
-    If supported by connector, any filtering, sorting, grouping, etc. will be pushed down to the source database.
-    This means that only the data that is needed will be fetched.
-    
-    If you change the schema in the source database, you will need to re-import it in `Datero` to reflect the changes.
-    Thus, schema evolution is handled automatically just by re-importing the schema.
+--8<-- "include/schema_import.md"
 
 If everything is correct, you will see the success notification message.
 <figure markdown>

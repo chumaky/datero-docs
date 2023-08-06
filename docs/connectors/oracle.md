@@ -1,5 +1,5 @@
 ---
-description: Datero data platform Oracle connector. 
+description: Datero data platform Oracle connector.
 ---
 
 # Oracle
@@ -32,7 +32,7 @@ To get Oracle database we can use official [oracle][oracle_registry] container r
 On that page there is a `Database` product category tile.
 Inside this category there is a `Oracle Database Free` repository.
 
-As everything with Oracle, image is big. It's about 3Gb in compressed size. Let's pull the image first. 
+As everything with Oracle, image is big. It's about 3Gb in compressed size. Let's pull the image first.
 ``` sh
 docker pull container-registry.oracle.com/database/free:latest
 ```
@@ -50,7 +50,7 @@ Now we can access `oracle` container from the `datero` container by its hostname
 
 ## Oracle database
 Since version 12c, Oracle installation is already multitenant architecture with main Container (CDB) and Pluggable (PDB) databases.
-From architecture point of view it became similar to Postgres or MySQL. 
+From architecture point of view it became similar to Postgres or MySQL.
 Where single installation is a cluster which could have multiple databases.
 
 Inside Oracle Database Free installation CDB is served over `FREE` listener service. While PDB is served over `FREEPDB1` service.
@@ -70,8 +70,8 @@ Connected to:
 Oracle Database 23c Free, Release 23.0.0.0.0 - Developer-Release
 Version 23.2.0.0.0
 
-SQL> create user pets identified by pets 
-    default tablespace users temporary tablespace temp 
+SQL> create user pets identified by pets
+    default tablespace users temporary tablespace temp
     quota unlimited on users;
 User created.
 
@@ -104,16 +104,16 @@ Now we are ready to connect to the `oracle` database from `datero`.
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `Oracle` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `Oracle Server`.
-Enter `//oracle_db:1521/freepdb1` as the `Dbserver` value. 
+Enter `//oracle_db:1521/freepdb1` as the `Dbserver` value.
 Where `oracle_db` is that custom hostname that we specified when were launching `oracle` container in the `do` network.
 And `freepdb1` is the name of the pluggable database service that we want to connect to.
-This emulates external host connectivity. 
+This emulates external host connectivity.
 
 In a real-world case, the situation would be similar.
-If you have, for example, Oracle running on `oracle-host.my-company.com` hostname and 
+If you have, for example, Oracle running on `oracle-host.my-company.com` hostname and
 it's resolvable from the machine where `datero` container is running, you can use that hostname instead.
 
-Specify `pets` as the `User` value. For the password use `pets` as well. 
+Specify `pets` as the `User` value. For the password use `pets` as well.
 We created this user when connected under the `sys` user to the `freepdb1` database in the previous section.
 
 Click `Save` to create the Server logical object.
@@ -125,7 +125,7 @@ Connector|Connection Form
 ## Schema import
 After the Server is created, we can import database schema from it.
 Connection wizard will switch the tab and open `Import Schema` form.
-In the `Remote Schema` drop down select you will be able to pick-up `pets` schema, 
+In the `Remote Schema` drop down select you will be able to pick-up `pets` schema,
 that we created earlier in source `oracle` database.
 
 !!! info "User vs Schema"
@@ -139,18 +139,7 @@ Server Object|Import Schema
 For example, we want to import  `pets` schema into the same `pets` local schema.
 To do that, type `pets` into the `Local Schema` input field and click `Import Schema` button.
 
-!!! note "Important"
-    Schema import doesn't physically copy any data.
-    For every source table and view it creates an object of a special type in a local schema.
-    This object type is called foreign table.
-    It implements data virtualization pattern.
-
-    Querying foreign table will automatically fetch data from the source database.
-    If supported by connector, any filtering, sorting, grouping, etc. will be pushed down to the source database.
-    This means that only the data that is needed will be fetched.
-    
-    If you change the schema in the source database, you will need to re-import it in `Datero` to reflect the changes.
-    Thus, schema evolution is handled automatically just by re-importing the schema.
+--8<-- "include/schema_import.md"
 
 If everything is correct, you will see the success notification message.
 <figure markdown>

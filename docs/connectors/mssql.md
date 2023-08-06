@@ -1,5 +1,5 @@
 ---
-description: Datero data platform MSSQL connector. 
+description: Datero data platform MSSQL connector.
 ---
 
 # MSSQL
@@ -32,7 +32,7 @@ To get MSSQL database we can use official Microsoft [SQL Server][mssql_registry]
 One specific note about this image is that it requires at least 2GB of RAM.
 This check is done by the entrypoint script and container will fail to start if there is not enough memory.
 
-Let's pull the image first. 
+Let's pull the image first.
 ``` sh
 docker pull mcr.microsoft.com/mssql/server:2022-latest
 ```
@@ -74,15 +74,15 @@ Now we are ready to connect to the `mssql` database from `datero`.
 Open `Datero` web ui at [http://localhost](http://localhost) and click on the `MSSQL` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `MSSQL Server`.
-Enter `mssql_db` as the `Servername` value. 
+Enter `mssql_db` as the `Servername` value.
 This is that custom hostname that we specified when were launching `mssql` container in the `dm` network.
-This emulates external host connectivity. 
+This emulates external host connectivity.
 
 In a real-world case, the situation would be similar.
-If you have, for example, MSSQL running on `mssql-host.my-company.com` hostname and 
+If you have, for example, MSSQL running on `mssql-host.my-company.com` hostname and
 it's resolvable from the machine where `datero` container is running, you can use that hostname instead.
 
-Specify `sa` as the `User` value. For the password use `Mssql_22` value. 
+Specify `sa` as the `User` value. For the password use `Mssql_22` value.
 We specified this password when were launching `mssql` container.
 
 Click `Save` to create the Server logical object.
@@ -95,7 +95,7 @@ Connector|Connection Form
 ## Schema import
 After the Server is created, we can import database schema from it.
 Connection wizard will switch the tab and open `Import Schema` form.
-In the `Remote Schema` drop down select you will be able to pick-up default `dbo` schema, 
+In the `Remote Schema` drop down select you will be able to pick-up default `dbo` schema,
 that was created as part of created earlier `cosmo` database.
 
 Server Object|Import Schema
@@ -105,18 +105,7 @@ Server Object|Import Schema
 For example, we want to import  `dbo` schema into the `cosmo` local schema.
 To do that, type `cosmo` into the `Local Schema` input field and click `Import Schema` button.
 
-!!! note "Important"
-    Schema import doesn't physically copy any data.
-    For every source table and view it creates an object of a special type in a local schema.
-    This object type is called foreign table.
-    It implements data virtualization pattern.
-
-    Querying foreign table will automatically fetch data from the source database.
-    If supported by connector, any filtering, sorting, grouping, etc. will be pushed down to the source database.
-    This means that only the data that is needed will be fetched.
-    
-    If you change the schema in the source database, you will need to re-import it in `Datero` to reflect the changes.
-    Thus, schema evolution is handled automatically just by re-importing the schema.
+--8<-- "include/schema_import.md"
 
 If everything is correct, you will see the success notification message.
 <figure markdown>
