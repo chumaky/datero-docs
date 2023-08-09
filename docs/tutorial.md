@@ -292,6 +292,28 @@ In the left navigation pane of the dashboard in the Connectors section click on 
       <figcaption>Mongo server creation</figcaption>
     </figure>
 
+=== "mssql"
+    <figure markdown>
+      ![MSSQL server creation](./images/tutorial/mssql_server.jpg){ loading=lazy }
+      <figcaption>MSSQL server creation</figcaption>
+    </figure>
+
+=== "sqlite"
+    <figure markdown>
+      ![SQLite server creation](./images/tutorial/sqlite_server.jpg){ loading=lazy }
+      <figcaption>SQLite server creation</figcaption>
+    </figure>
+
+=== "csv"
+    !!! info "Zero config"
+        File connector is zero params connector, so the user friendly name is the only thing we need.
+
+    <figure markdown>
+      ![File based server](./images/tutorial/csv_server.jpg){ loading=lazy }
+      <figcaption>File based server</figcaption>
+    </figure>
+
+
 ### Import schemas
 Once all the servers are created, we can import schemas/databases from them.
 
@@ -319,10 +341,38 @@ Once all the servers are created, we can import schemas/databases from them.
     --8<-- "demo/mongo_datero_setup.sql"
     ```
 
-
     <figure markdown>
       ![Mongo import collection](./images/tutorial/mongo_import_collection.jpg){ loading=lazy }
       <figcaption>Mongo import collection</figcaption>
+    </figure>
+
+=== "mssql"
+    <figure markdown>
+      ![MSSQL import schema](./images/tutorial/mssql_import_schema.jpg){ loading=lazy }
+      <figcaption>MSSQL import schema</figcaption>
+    </figure>
+
+=== "sqlite"
+    <figure markdown>
+      ![SQLite import schema](./images/tutorial/sqlite_import_schema.jpg){ loading=lazy }
+      <figcaption>SQLite import schema</figcaption>
+    </figure>
+
+=== "csv"
+    !!! info "File based import"
+        File represents a single table.
+        Automatic fetch of the list of available files is under development.
+        For now, we need to manually create foreign table pointed to the file.
+
+        To do this, open [Query Editor](overview.md#query-data) and execute the following query:
+
+    ``` sql title="File based foreign table creation"
+    --8<-- "demo/csv_datero_setup.sql"
+    ```
+
+    <figure markdown>
+      ![File based foreign table](./images/tutorial/csv_import_table.jpg){ loading=lazy }
+      <figcaption>File based foreign table</figcaption>
     </figure>
 
 
