@@ -377,3 +377,23 @@ Once all the servers are created, we can import schemas/databases from them.
 
 
 --8<-- "include/schema_import.md"
+
+
+## Query Data
+Having all servers set up you should see such dashboard view.
+In the navigation pane on the left, in the Servers section on the top there are listed all our created servers.
+Dashboard graphs now show servers distribution by vendor.
+
+<figure markdown>
+  ![Datero dashboard with servers](./images/tutorial/datero_dashboard_with_servers.jpg){ loading=lazy }
+  <figcaption>Datero dashboard with servers</figcaption>
+</figure>
+
+
+Now open Query Editor by clicking on the corresponding icon on the left toolbar.
+You will see all our datasource imported to the schemas we specified during schema import.
+
+<figure markdown>
+  ![SQL Editor - Datasources](./images/tutorial/editor_datasources.jpg){ loading=lazy }
+  <figcaption>SQL Editor - Datasources</figcaption>
+</figure>
