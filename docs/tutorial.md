@@ -397,3 +397,92 @@ You will see all our datasource imported to the schemas we specified during sche
   ![SQL Editor - Datasources](./images/tutorial/editor_datasources.jpg){ loading=lazy }
   <figcaption>SQL Editor - Datasources</figcaption>
 </figure>
+
+Finally, we can run our query to join data from all the datasources.
+Let's get all the sales data with customer, product, employee, job role and department details.
+
+``` sql title="Sales data query"
+select c.name                          as customer_name
+     , p.name                          as product
+     , round(o.quantity * p.price, 2)  as total_amount
+     , e.name                          as employee_name
+     , j.name                          as employee_position
+     , d.name                          as employee_department
+  from mongo.orders      o
+  join mysql.customers   c on c.id = o.customer_id
+  join postgres.products p on p.id = o.product_id
+  join mssql.employees   e on e.id = o.employee_id
+  join sqlite.job_roles  j on j.id = e.job_id
+  join csv.departments   d on d.id = j.department_id
+;
+```
+
+And this is what we get as a result
+<figure markdown>
+  ![Sales data details](./images/tutorial/editor_query_data.jpg){ loading=lazy }
+  <figcaption>Sales data details</figcaption>
+</figure>
+
+Just stop for a second and think what we got.
+We joined data from 6 different datasources with a single query!
+There is a mix of relational and non-relational databases.
+Also, some of the datasources are even not databases, but files.
+And we didn't write a single line of ETL code to achieve this.
+
+Think about how much time it would take to develop such capability without Datero! :wink:
+
+
+## Reverse ETL
+But it's not all. Datero is not only about querying data.
+It also allows to write data back to the datasources.
+
+Assume, we want to add new `pineapple` product and update price for the `apple` product.
+Current `products` table looks like this.
+<figure markdown>
+  ![Current products table](./images/tutorial/dml_products_before.jpg){ loading=lazy }
+  <figcaption>Current products table</figcaption>
+</figure>
+
+Let's execute the following sql to add new product and update existing one.
+``` sql title="Add pineapple and update apple"
+insert into postgres.products values (4, 'pineapple', 6.4);
+update postgres.products set price = 1.2 where name = 'apple';
+
+select * from postgres.products order by id;
+```
+
+Checking table again
+<figure markdown>
+  ![Products table after update](./images/tutorial/dml_products_after.jpg){ loading=lazy }
+  <figcaption>Products table after update</figcaption>
+</figure>
+
+So, what just happened? We didn't just update a local table in a database.
+We updated a table in a remote source database!
+
+Let's check it. Connect to the `postgres` source database container and check the `products` table.
+``` bash
+$ docker exec datero_postgres psql -d factory -U postgres -c "select * from products"
+ id |   name    | price
+----+-----------+-------
+  2 | banana    |   2.3
+  3 | orange    |   3.5
+  4 | pineapple |   6.4
+  1 | apple     |   1.2
+(4 rows)
+```
+
+Isn't it cool? :sunglasses:
+
+## Summary
+Dealing with multiple datasources is a common situation in data analytics.
+Usual approach to combine the data is to develop ETL pipelines.
+Datero provides quick and easy way to join data from different datasources without any ETL development.
+
+Thanks to the containerized approach, it's easy to be plugged in into any existing infrastructure.
+It could even be used as a part of some processing pipeline.
+Instead of writing data processing in python or java, you could spin up Datero container and write data processing in SQL.
+
+Finally, Datero is not only about querying data.
+It also allows to write data back to the datasources.
+Which makes it a perfect tool for reverse ETL.
