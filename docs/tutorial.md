@@ -462,13 +462,13 @@ We updated a table in a remote source database!
 
 Let's check it. Connect to the `postgres` source database container and check the `products` table.
 ``` bash
-$ docker exec datero_postgres psql -d factory -U postgres -c "select * from products"
+$ docker exec datero_postgres psql -d factory -U postgres -c "select * from products order by id"
  id |   name    | price
 ----+-----------+-------
+  1 | apple     |   1.2
   2 | banana    |   2.3
   3 | orange    |   3.5
   4 | pineapple |   6.4
-  1 | apple     |   1.2
 (4 rows)
 ```
 
