@@ -170,4 +170,5 @@ It consist of the following services:
 
 Currently, only the database engine is available as a public image.
 You could get it from [Docker Hub](https://hub.docker.com/r/chumaky/datero_engine).
-Individual images for API and web application are part of the `Datero` managed service that is gonna be available soon in AWS cloud.
+Individual images for API and web application are part of the `Datero` managed service 
+that is gonna to be available soon in a clouds like AWS, GCP, Azure, etc.

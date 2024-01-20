@@ -108,4 +108,11 @@ nav:
   - MSSQL: connectors/mssql.md
   - SQLite: connectors/sqlite.md
   - File: connectors/file.md
-- GCP: clouds/gcp.md
+- Clouds:
+  - clouds/index.md
+  - GCP: 
+    - clouds/gcp/index.md
+  #- AWS: 
+  #  - clouds/aws/index.md
+  #- Azure: 
+  #  - clouds/azure/index.md  
