@@ -1,4 +1,4 @@
-## VM Instance
+## Create VM instance
 To run Datero on GCP VM instance, you need to create a VM instance first.
 Exact procedure to create a VM instance is out of scope of this guide.
 Please refer to the [official documentation](https://cloud.google.com/compute/docs/instances/create-start-instance) for that.
@@ -25,7 +25,7 @@ user@instance:~$
 ```
 
 
-### Docker installation
+## Docker installation
 Once VM instance is created, you need to install `docker` on it.
 Again, exact procedure is out of scope of this guide.
 You could install it from the Ubuntu itself by using `apt` or `snap` package managers.
@@ -42,7 +42,7 @@ This is to allow running docker commands without `sudo` prefix.
     ```
 
 
-### Datero installation
+## Datero installation
 Once you have `docker` installed, you can run Datero container.
 Firstly, download the image.
 ```sh
@@ -63,6 +63,7 @@ docker run -d --name datero \
     chumaky/datero
 ```
 
+## Access Datero UI
 Now just note down the external IP address of the VM instance and access web application on `http://<external_ip>`.
 Underlying postgres database is exposured on `5432` port.
 Because of firewall, it won't be accessible by default. 
@@ -73,3 +74,5 @@ That will make the database accessible over `<external_ip>:5432`.
 Of course, don't do it for production setup!
 
 Congatulations! You have successfully installed Datero on GCP VM instance.
+
+--8<-- "include/clouds_next_steps.md"

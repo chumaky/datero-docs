@@ -14,5 +14,4 @@ This includes cloud environments like AWS, GCP, Azure, etc.
     It's just not documented yet.
 
 ## Individual guides
-
 - [GCP](./gcp/index.md)
