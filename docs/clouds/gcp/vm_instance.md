@@ -73,6 +73,6 @@ While not recommended, you could also open 5432 port on your instance firewall.
 That will make the database accessible over `<external_ip>:5432`.
 Of course, don't do it for production setup!
 
-Congatulations! You have successfully installed Datero on GCP VM instance.
+Congratulations! You have successfully installed Datero on GCP VM instance.
 
 --8<-- "include/clouds_next_steps.md"

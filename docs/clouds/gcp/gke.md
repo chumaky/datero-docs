@@ -73,6 +73,6 @@ Once deployment is created, you can access Datero web application by clicking on
   <figcaption>Datero UI endpoint</figcaption>
 </figure>
 
-Congatulations! You have successfully installed Datero on GCP GKE cluster.
+Congratulations! You have successfully installed Datero on GCP GKE cluster.
 
 --8<-- "include/clouds_next_steps.md"

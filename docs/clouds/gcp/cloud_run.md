@@ -1,78 +1,63 @@
-## Google Kubernetes Engine
-To run Datero on GKE, you have to create a cluster first.
+Cloud Run is serverless platform which allows you to run your containers as a service.
+To run Datero on Cloud Run, it's required to create such service.
 Exact procedure to create it is out of scope of this guide.
-Please refer to the [official documentation](https://cloud.google.com/kubernetes-engine/docs/quickstarts/create-cluster) for that.
+Please refer to the [official documentation](https://cloud.google.com/run/docs/quickstarts/deploy-container) for that.
 
-
-![GKE cluster](../../images/clouds/gcp/gke_cluster.jpg){ loading=lazy; align=right }
-
-Once you have a cluster, you have to create a deployment.
-Deployment is a Kubernetes configuration object which specifies how specific application should be run on a cluster.
-Deployed application constitutes a Workload.
-
-## Create Deployment
-You can create a deployment in a various ways.
+## Create Service
+You can create a service in a various ways.
 In this guide we will use Google Cloud Console approach.
-Start creating deployment by pressing `Deploy` button on the cluster page.
+Start by pressing _Create service_ button on the main Cloud Run Services page.
 
 ### Specify container image
 First step is to specify container image(s) to run.
 In our case, we want to run single Datero container.
 All-inclusive Datero image is available on [Docker Hub](https://hub.docker.com/r/chumaky/datero).
-To do that, we have to select "Existing container image" and specify its address `chumaky/datero` in the `Image path` input box.
+To do that, we have to select _Deploy one revision from an existing container image_ option and specify `chumaky/datero` as a container image.
 
+<figure markdown>
+  ![Create service](../../images/clouds/gcp/cloud_run_create_service.jpg){ loading=lazy }
+  <figcaption>Create service</figcaption>
+</figure>
+
+For the demo purposes, we will make our service publicibly accessible.
+To do that, we have to accept all _Ingress_ traffic and select _Allow unauthenticated invocations_ checkbox.
+
+<figure markdown>
+  ![Public access](../../images/clouds/gcp/cloud_run_public_access.jpg){ loading=lazy }
+  <figcaption>Public access</figcaption>
+</figure>
+
+### Container configuration
+Next step is to configure container details.
 The only mandator parameter to specify during container launch is `POSTGRES_PASSWORD`.
 It's dictated by the official image of `postgres` database.
 
+Also, we want to access Datero web application over HTTP, so we have to expose port `80` of the container.
+
 <figure markdown>
-  ![Datero container](../../images/clouds/gcp/deployment_step1.jpg){ loading=lazy }
+  ![Datero container](../../images/clouds/gcp/cloud_run_container.jpg){ loading=lazy }
   <figcaption>Datero container</figcaption>
 </figure>
 
-After specifying the password, press `Done` button at the bottom.
-
-### Deployment configuration
-Next step is to configure resources.
-By default, GKE will create a single node pool with 3 nodes.
-You have possibility to specify labels for the nodes.
-For the demo purposes, we will leave single default `app` label which will be the same as the deployment name.
+Most probably, datasources that you want to access from Datero will be located in the VPC.
+To allow Datero to access them, you have to specify VPC connector.
+You can do that in the _Networking_ tab of the service page.
 
 <figure markdown>
-  ![Deployment configuration](../../images/clouds/gcp/deployment_step2.jpg){ loading=lazy }
-  <figcaption>Deployment configuration</figcaption>
+  ![Container networking](../../images/clouds/gcp/cloud_run_vpc_networking.jpg){ loading=lazy }
+  <figcaption>Container networking</figcaption>
 </figure>
 
-You should also pick-up a target cluster for the deployment.
-We will select the `datero` cluster we have created in the previous step.
-
-!!! note
-    Full control over configuration is available via YAML file that could be submitted from the command line.
-    But this is out of scope of this guide.
-
-Press `Continue` button to proceed to the final step.
-
-### Expose service
-To have a possibility to access Datero web application, we have to expose it as a service. 
-This is done by mapping the ports of the container to the ports of the cluster.
-In our case, we want to expose port `80` of the container to the port `80` of the cluster.
-
-For service type we will select `Load balancer`.
-By default, GKE creates 3 container instances and automatically handles traffic load balancing for them.
-
-
-<figure markdown>
-  ![Port mapping](../../images/clouds/gcp/deployment_step3.jpg){ loading=lazy }
-  <figcaption>Port mapping</figcaption>
-</figure>
+And finally, press _Create_ button to create the service.
 
 ## Access Datero UI
-Once deployment is created, you can access Datero web application by clicking on the `Endpoints` link in the `Exposing services` section of the cluster page.
+Once service is created, you can access Datero web application by clicking on the `URL` link in the service details page.
 
 <figure markdown>
-  ![Datero UI endpoint](../../images/clouds/gcp/gke_datero_ui.jpg){ loading=lazy }
+  ![Datero UI endpoint](../../images/clouds/gcp/cloud_run_deployment_success.jpg){ loading=lazy }
   <figcaption>Datero UI endpoint</figcaption>
 </figure>
 
-Congatulations! You have successfully installed Datero on GCP GKE cluster.
+Congratulations! You have successfully installed Datero on GCP Cloud Run.
 
 --8<-- "include/clouds_next_steps.md"
