@@ -268,7 +268,7 @@ For more details about it, please refer to the [overview](overview.md) section.
 
 As of now, we don't have any data sources defined yet. Let's add them one by one.
 
-Detailed instructions how to add data sources for each supported connector could be found in the [connectors](../connectors) section.
+Detailed instructions how to add data sources for each supported connector could be found in the [connectors](./connectors/index.md) section.
 We will not repeat them here, but instead will show how to add server and import schema whenever applicable for each of our datasources.
 
 ### Servers creation
