@@ -23,7 +23,7 @@ General recommendation for databases is to use private IP.
 Cloud SQL is a GCP managed service, that is run in a separate system VPC.
 To allow access to your instance by its private IP, you have to create a peering connection between your VPC and the one that is used by Cloud SQL.
 
-If you spin your instance via console, you have just to pick-up a subnet from your VPC where Cloud SQL, as a _service_, will be creating private connection to your VPC. Having done that, you will be able to connect to your instance by its private IP from VM launched in that subnet. This concept is similar to VPC _service endpoints_ in AWS.
+To make it happen, you have to pick-up a subnet from your VPC where Cloud SQL, as a service, will be creating private connection to your VPC. Having done that, you will be able to connect to your instance by its private IP from VM launched in that subnet of your VPC. This concept is similar to VPC _service endpoints_ in AWS.
 
 <figure markdown>
   ![VPC Networking](../../images/clouds/gcp/cloud_sql_vpc_networking.jpg){ loading=lazy }
@@ -39,7 +39,7 @@ For simplicity, we used `postgres` as a password.
 ![Postgres private IP](../../images/clouds/gcp/cloud_sql_postgres_ip.jpg){ loading=lazy; align=right }
 
 To connect to it we can leverage VM named `instance` that we created in the [previous section](./vm_instance.md).
-It is spin up in the same subnet that we picked up for private connection setup with Cloud SQL.
+It had been spun up in the same subnet that we picked up for private connection setup with Cloud SQL.
 This guarantees that we can connect to our Cloud SQL instance by its private IP.
 
 To connect to the instance, we have to leverage `psql` client on the VM.
@@ -65,11 +65,11 @@ psql (16.1, server 15.4)
 postgres=>
 ```
 
-We used latest `postgres:alpine` image which is `postgres` version `16.1`.
+We used latest `postgres:alpine` image which is of version `16.1`.
 It has `psql` client of the same version installed in it.
-In the same time our Cloud SQL instance is running `postgres` version `15.4`.
+In the same time our Cloud SQL instance is running postgres version `15.4`.
 And output `psql (16.1, server 15.4)` says it explicitly. 
-That we are using `psql` client version `16.1` connected to the `postgres` database server version `15.4`.
+That we are using `psql` client version `16.1` connected to the postgres database server version `15.4`.
 
 Once being connected, we create `finance` schema and `departments` table in it.
 ```sql
@@ -90,7 +90,7 @@ postgres=> select * from finance.departments;
 
 ### Datero 2 Postgres connection
 Now we can connect to the same instance from Datero.
-All we need to do is to create a Postgres server entry and specify private IP address of our Cloud SQL instance.
+All we need to do is create a Postgres server entry and specify private IP address of our Cloud SQL instance.
 
 !!! info
     Please see [Overview](../../overview.md#connectors) of how to create a server entry and import schema.
@@ -101,7 +101,7 @@ All we need to do is to create a Postgres server entry and specify private IP ad
   <figcaption>Postgres datasource</figcaption>
 </figure>
 
-Once server entry is created, we can import a `finance` schema.
+Once server entry is created, we can import `finance` schema.
 <figure markdown>
   ![Postgres import schema](../../images/clouds/gcp/cloud_sql_postgres_import_schema.jpg){ loading=lazy }
   <figcaption>Postgres import schema</figcaption>
@@ -150,9 +150,9 @@ Your MySQL connection id is 3255
 Server version: 8.0.31-google (Google)
 ```
 
-We used latest `mysql:latest` image which is `mysql` version `8.3.0`.
+We used latest `mysql:latest` image which is MySQL version `8.3.0`.
 It has `mysql` client of the same version installed in it.
-In the same time our Cloud SQL instance is running `mysql` version `8.0.31-google`.
+In the same time our Cloud SQL instance is running MySQL version `8.0.31-google`.
 
 
 Having connected to the instance, we create `hr` schema and `users` table in it.
@@ -184,7 +184,7 @@ mysql> select * from users;
 
 ### Datero 2 MySQL connection
 Now we can connect to the same instance from Datero.
-All we need to do is to create a MySQL server entry and specify private IP address of our Cloud SQL instance.
+All we need to do is create a MySQL server entry and specify private IP address of our Cloud SQL instance.
 
 !!! info
     Please see [Overview](../../overview.md#connectors) of how to create a server entry and import schema.
@@ -195,7 +195,7 @@ All we need to do is to create a MySQL server entry and specify private IP addre
   <figcaption>MySQL datasource</figcaption>
 </figure>
 
-Once server entry is created, we can import a `hr` schema.
+Once server entry is created, we can import `hr` schema.
 <figure markdown>
   ![MySQL import schema](../../images/clouds/gcp/cloud_sql_mysql_import_schema.jpg){ loading=lazy }
   <figcaption>MySQL import schema</figcaption>
@@ -204,7 +204,7 @@ Once server entry is created, we can import a `hr` schema.
 
 ## Join datasources
 Now it's time to use Datero for its intended purpose.
-Join tables from different datasources within single `SELECT` statement! 
+Join data from different datasources within single `SELECT` statement! 
 
 <figure markdown>
   ![Join datasources](../../images/clouds/gcp/cloud_sql_join_query.jpg){ loading=lazy }
@@ -217,24 +217,24 @@ Let's make a step aside and have a look what we got.
 We have a possibility to analyze data from two different databases of different vendors
 as if they were located in the same database.
 And we have _full flavoured SQL_ to do that.
-And it's not just a `SELECT` statement.
+Moreover, we are not limited just to a `SELECT` statement.
 Depending on connector, you can also change data in a source database.
 
-With Datero you are not locked just to the web application.
+With Datero you are not locked just to its web application.
 Under the hood you have fully functional Postgres database.
-This means that you can connect to Datero programmatically with a variety of drivers/SDKs that Postgres support.
+This means that you can connect to and query Datero programmatically with whole variety of drivers/SDKs that Postgres support.
 
 You have to setup your connections in Datero only once.
 Afterwards, just connect to Datero and query your distributed data.
 And you have no need to write any ETL for this!
 
 Datero architecture allows to use it as an entermediate ETL node.
-You don't have to connect to numerous datasource by using different drivers
+You don't have to connect to numerous datasources by using different drivers
 and, probably, even different programming languages.
 Write data receiving, syncrhonizration and processing logic.
 
 You just connect to Datero, write your logic in SQL and get the result.
 
-If you need to have multi-steps processing, you can store intermediate results in Datero itself.
-And then query them in the next step.
-Because, as mentioned earlier, it's a full-fledged Postgres database under the hood.
+If you need to have multi-steps processing, you can store intermediate results in the Datero itself.
+Then query them in the next step(s).
+Because, as mentioned earlier, there is a fully functional Postgres database under the hood.
