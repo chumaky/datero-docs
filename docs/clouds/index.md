@@ -15,3 +15,4 @@ This includes cloud environments like AWS, GCP, Azure, etc.
 
 ## Individual guides
 - [GCP](./gcp/index.md)
+- [AWS](./aws/index.md)

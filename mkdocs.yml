@@ -116,8 +116,9 @@ nav:
     - GKE: clouds/gcp/gke.md
     - Cloud Run: clouds/gcp/cloud_run.md
     - Cloud SQL: clouds/gcp/cloud_sql.md
-
-  #- AWS: 
-  #  - clouds/aws/index.md
+  - AWS: 
+    - clouds/aws/index.md
+    - EC2: clouds/aws/ec2.md
   #- Azure: 
   #  - clouds/azure/index.md  
+  #  - VM instance: clouds/azure/vm_instance.md
