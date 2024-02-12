@@ -51,9 +51,15 @@ Once you have `docker` installed, you can run Datero container.
 Firstly, download the image.
 
 If you subscribed to Datero on AWS Marketplace, you can download the image from the AWS ECR.
+
+!!! info "Available version"
+    The latest version of Datero at the time of writing is `1.0.2`.
+    To use other version, just replace `1.0.2` with the desired version number.
+    You can check the available versions on the [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-gmlxuzixyqtoq).
+
 ```sh
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 709825985650.dkr.ecr.us-east-1.amazonaws.com
-docker pull 709825985650.dkr.ecr.us-east-1.amazonaws.com/datero/datero:1.0.1
+docker pull 709825985650.dkr.ecr.us-east-1.amazonaws.com/datero/datero:1.0.2
 ```
 
 Alternatively, you could download the image from the Docker Hub.
@@ -80,7 +86,7 @@ We also name the container `datero` to be able to refer to it later.
 docker run -d --name datero \
     -p 80:80 -p 5432:5432 \
     -e POSTGRES_PASSWORD=postgres \
-    709825985650.dkr.ecr.us-east-1.amazonaws.com/datero/datero:1.0.1
+    709825985650.dkr.ecr.us-east-1.amazonaws.com/datero/datero:1.0.2
 ```
 
 ## Access Datero UI

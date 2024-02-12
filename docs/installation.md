@@ -12,11 +12,11 @@ There are two ways to run it:
     - Web application
 
 ## Single container
-All inclusive image is a good choice for _try it out_ purposes. It encapsulates within itself all three components listed above.
+All inclusive image encapsulates within itself all three components listed above.
 
 Each service writes its logs to the standard output, so standard `docker logs` command will contain a merged view of them.
 
-Image is available on [Docker Hub](https://hub.docker.com/r/chumaky/datero).
+Image is available on [Docker Hub :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero){: target="_blank" rel="noopener noreferrer" }.
 
 ### Getting the image
 To get the image, run the following command:
@@ -53,7 +53,7 @@ Internally, the web application is running on standard http port 80.
 If you want to use the database, you will need to map also internal 5432 port for the database.
 
 API is accessible through the web application under the `/api` path, so you don't need to expose it separately.
-Alternatively, you could use [datero](https://pypi.org/project/datero/) python package to access the API directly.
+Alternatively, you could use [datero :octicons-tab-external-16:](https://pypi.org/project/datero/){: target="_blank" rel="noopener noreferrer" } python package to access the API directly.
 
 
 ### Running the container
@@ -71,7 +71,7 @@ docker run -d --name datero \
     chumaky/datero
 ```
 
-Now you can access the web application on [http://localhost](http://localhost) and the database on `localhost:5432`.
+Now you can access the web application on [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and the database on `localhost:5432`.
 
 By default, `datero` contains compiled and installed connectors for the following databases:
 
@@ -87,7 +87,7 @@ By default, `datero` contains compiled and installed connectors for the followin
 - MariaDB (not tested yet, but should work)
 - Sybase (not tested yet, but should work)
 
-You could check them by executing the following query in the SQL Editor that is available at [http://localhost/editor](http://localhost/editor):
+You could check them by executing the following query in the SQL Editor that is available at [http://localhost/editor :octicons-tab-external-16:](http://localhost/editor){: target="_blank" rel="noopener noreferrer" }:
 ``` sql
 select * from pg_available_extensions where name like '%fdw%' order by name;
 ```
@@ -116,7 +116,7 @@ PostgreSQL 15.2 (Debian 15.2-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gc
 
 #### Configuration
 Official postgres image specifies a few environment variables that could be used to configure the superuser account and default database.
-As stated in [official documentation](https://hub.docker.com/_/postgres):
+As stated in [official documentation :octicons-tab-external-16:](https://hub.docker.com/_/postgres){: target="_blank" rel="noopener noreferrer" }:
 
 - `POSTGRES_USER`
     - This optional environment variable is used in conjunction with `POSTGRES_PASSWORD` to set a user and its password.
@@ -161,7 +161,7 @@ postgres=# \du
 
 
 ## Multiple containers
-This form of deployment adheres to the _service per container_ principle and is advised for production use.
+This form of deployment adheres to the _service per container_ principle and is better for more advanced use cases.
 It consist of the following services:
 
 - Datero database engine
@@ -169,6 +169,7 @@ It consist of the following services:
 - Web application
 
 Currently, only the database engine is available as a public image.
-You could get it from [Docker Hub](https://hub.docker.com/r/chumaky/datero_engine).
-Individual images for API and web application are part of the `Datero` managed service 
-that is gonna to be available soon in a clouds like AWS, GCP, Azure, etc.
+You could get it from [Docker Hub :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero_engine){: target="_blank" rel="noopener noreferrer" }.
+
+Individual images for API and web application are part of the Datero Enterprise offering and are not available publicly. 
+Datero free and enterprise options will be available soon in a clouds like AWS, GCP, Azure, etc.

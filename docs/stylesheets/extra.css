@@ -44,3 +44,10 @@
   justify-content: center;
   text-align: center;
 }
+
+.twemoji {
+  color: var(--md-typeset-a-color);
+}
+a:hover span.twemoji {
+  color: var(--md-accent-fg-color);
+}
