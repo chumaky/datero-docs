@@ -28,7 +28,7 @@ docker network connect --alias datero do datero
 
 [oracle_registry]: https://container-registry.oracle.com/ords/f?p=113:10:2179520783643:::RP::&cs=36sd3OxDgsDvwtMtbLqK4eGwYWQ0a5VMzYR4VB58w1ti_mmYd4h01sUd3vHD2pe68wKUyofdXr8PUixxFu755AA
 
-To get Oracle database we can use official [oracle][oracle_registry] container registry.
+To get Oracle database we can use official [oracle :octicons-tab-external-16:][oracle_registry]{: target="_blank" rel="noopener noreferrer" } container registry.
 On that page there is a `Database` product category tile.
 Inside this category there is a `Oracle Database Free` repository.
 
@@ -101,7 +101,7 @@ Commit complete.
 Now we are ready to connect to the `oracle` database from `datero`.
 
 ## Datero connection
-Open `Datero` web ui at [http://localhost](http://localhost) and click on the `Oracle` entry in the the `Connectors` navigation section on the left.
+Open `Datero` web ui at [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and click on the `Oracle` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `Oracle Server`.
 Enter `//oracle_db:1521/freepdb1` as the `Dbserver` value.

@@ -1,7 +1,7 @@
 Cloud Run is serverless platform which allows you to run your containers as a service.
 To run Datero on Cloud Run, it's required to create such service.
 Exact procedure to create it is out of scope of this guide.
-Please refer to the [official documentation](https://cloud.google.com/run/docs/quickstarts/deploy-container) for that.
+Please refer to the [official documentation :octicons-tab-external-16:](https://cloud.google.com/run/docs/quickstarts/deploy-container){: target="_blank" rel="noopener noreferrer" } for that.
 
 ## Create Service
 You can create a service in a various ways.
@@ -11,7 +11,8 @@ Start by pressing _Create service_ button on the main Cloud Run Services page.
 ### Specify container image
 First step is to specify container image(s) to run.
 In our case, we want to run single Datero container.
-All-inclusive Datero image is available on [Docker Hub](https://hub.docker.com/r/chumaky/datero).
+All-inclusive Datero image is available on [Docker Hub :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero){: target="_blank" rel="noopener noreferrer" }.
+
 To do that, we have to select _Deploy one revision from an existing container image_ option and specify `chumaky/datero` as a container image.
 
 <figure markdown>

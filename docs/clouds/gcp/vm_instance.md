@@ -1,7 +1,7 @@
 ## Create VM instance
 To run Datero on GCP VM instance, you need to create a VM instance first.
 Exact procedure to create a VM instance is out of scope of this guide.
-Please refer to the [official documentation](https://cloud.google.com/compute/docs/instances/create-start-instance) for that.
+Please refer to the [official documentation :octicons-tab-external-16:](https://cloud.google.com/compute/docs/instances/create-start-instance){: target="_blank" rel="noopener noreferrer" } for that.
 You can use any OS you want, but we will use Ubuntu 22.04 in this guide.
 
 ![Firewall settings](../../images/clouds/gcp/firewall.jpg){ loading=lazy; align=right }
@@ -29,7 +29,7 @@ user@instance:~$
 Once VM instance is created, you need to install `docker` on it.
 Again, exact procedure is out of scope of this guide.
 You could install it from the Ubuntu itself by using `apt` or `snap` package managers.
-Alternatively, you could use official [docker documentation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) for that.
+Alternatively, you could use official [docker documentation :octicons-tab-external-16:](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository){: target="_blank" rel="noopener noreferrer" } for that.
 
 We would advise to stick with Docker's official documentation.
 For your convenience, below is a compiled version which extends official guide a bit.

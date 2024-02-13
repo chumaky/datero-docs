@@ -168,7 +168,7 @@ Here is per-service breakdown of a compose file.
         File `departments.csv` from sibling `data/tutorial` directory will be mounted to the `/home/data` folder of the container as `departments.csv` file.
 
 
-To spin-up all the containers, clone this [docs](https://github.com/chumaky/datero-docs) repository and run the following command.
+To spin-up all the containers, clone this [docs :octicons-tab-external-16:](https://github.com/chumaky/datero-docs){: target="_blank" rel="noopener noreferrer" } repository and run the following command.
 It will first fetch all the images if they are absent on your local registry and then start all the containers.
 
 ``` bash
@@ -258,7 +258,7 @@ We successfully connected to all the data sources and all of them have expected 
 
 ## Datero setup
 Now, when all the data sources are up and running, we can configure them in Datero ui.
-Navigate to the [http://localhost:8080](http://localhost:8080) and you should see default Datero dashboard.
+Navigate to the [http://localhost:8080 :octicons-tab-external-16:](http://localhost:8080){: target="_blank" rel="noopener noreferrer" } and you should see default Datero dashboard.
 For more details about it, please refer to the [overview](overview.md) section.
 
 <figure markdown>

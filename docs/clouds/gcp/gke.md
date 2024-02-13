@@ -1,7 +1,7 @@
 ## Google Kubernetes Engine
 To run Datero on GKE, you have to create a cluster first.
 Exact procedure to create it is out of scope of this guide.
-Please refer to the [official documentation](https://cloud.google.com/kubernetes-engine/docs/quickstarts/create-cluster) for that.
+Please refer to the [official documentation :octicons-tab-external-16:](https://cloud.google.com/kubernetes-engine/docs/quickstarts/create-cluster){: target="_blank" rel="noopener noreferrer" } for that.
 
 
 ![GKE cluster](../../images/clouds/gcp/gke_cluster.jpg){ loading=lazy; align=right }
@@ -18,7 +18,7 @@ Start creating deployment by pressing `Deploy` button on the cluster page.
 ### Specify container image
 First step is to specify container image(s) to run.
 In our case, we want to run single Datero container.
-All-inclusive Datero image is available on [Docker Hub](https://hub.docker.com/r/chumaky/datero).
+All-inclusive Datero image is available on [Docker Hub :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero){: target="_blank" rel="noopener noreferrer" }.
 To do that, we have to select "Existing container image" and specify its address `chumaky/datero` in the `Image path` input box.
 
 The only mandator parameter to specify during container launch is `POSTGRES_PASSWORD`.

@@ -16,7 +16,7 @@ There are three possible scenarios when it comes to containers networking:
 
 Description of these scenarios is a bit out of scope of this documentation.
 But we will describe it shortly for the sake of clarity of the examples in next sections.
-You can find detailed information about the topic in the official [docker documentation](https://docs.docker.com/network/).
+You can find detailed information about the topic in the official [docker documentation :octicons-tab-external-16:](https://docs.docker.com/network/){: target="_blank" rel="noopener noreferrer" }.
 
 
 ## Container to container

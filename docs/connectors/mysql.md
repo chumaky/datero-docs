@@ -23,7 +23,7 @@ docker network create dm
 docker network connect --alias datero dm datero
 ```
 
-To get MySQL database we can use official [mysql](https://hub.docker.com/_/mysql) docker image.
+To get MySQL database we can use official [mysql :octicons-tab-external-16:](https://hub.docker.com/_/mysql){: target="_blank" rel="noopener noreferrer" } docker image.
 Let's pull the image first.
 ``` sh
 docker pull mysql
@@ -77,7 +77,7 @@ Now we are ready to connect to the `mysql` database from `datero`.
 
 
 ## Datero connection
-Open `Datero` web ui at [http://localhost](http://localhost) and click on the `MySQL` entry in the the `Connectors` navigation section on the left.
+Open `Datero` web ui at [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and click on the `MySQL` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `MySQL Server`.
 Enter `mysql_db` as the `Host` value.

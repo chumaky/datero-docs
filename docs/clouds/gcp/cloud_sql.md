@@ -16,7 +16,7 @@ Afterwards, we will connect and join tables from them in Datero.
 ## Cloud SQL instance
 Firstly, we have to create Cloud SQL instance.
 Exact procedure to create it is out of scope of this guide.
-But you can refer to the official documentation how to spin up [postgres](https://cloud.google.com/sql/docs/postgres/create-instance#create-2nd-gen) and [mysql](https://cloud.google.com/sql/docs/mysql/create-instance#create-2nd-gen) instances.
+But you can refer to the official documentation how to spin up [postgres :octicons-tab-external-16:](https://cloud.google.com/sql/docs/postgres/create-instance#create-2nd-gen){: target="_blank" rel="noopener noreferrer" } and [mysql :octicons-tab-external-16:](https://cloud.google.com/sql/docs/mysql/create-instance#create-2nd-gen){: target="_blank" rel="noopener noreferrer" } instances.
 
 During instance launch you could specify whether you want to have public IP or not.
 General recommendation for databases is to use private IP.

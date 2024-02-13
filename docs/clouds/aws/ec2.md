@@ -1,7 +1,7 @@
 # EC2 Instance
 To run Datero on ec2 instance, you need to create it first.
 Exact procedure to create an ec2 is out of scope of this guide.
-Please refer to the [official documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html#ec2-launch-instance) for that.
+Please refer to the [official documentation :octicons-tab-external-16:](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html#ec2-launch-instance){: target="_blank" rel="noopener noreferrer" } for that.
 You can use any OS you want, but we will use Ubuntu 22.04 in this guide.
 
 One thing to note is that you need to open some HTTP/HTTPS port for the ec2.
@@ -33,7 +33,7 @@ ubuntu@ip-172-31-19-185:~$
 Once ec2 instance is created, you need to install `docker` on it.
 Again, exact procedure is out of scope of this guide.
 You could install it from the Ubuntu itself by using `apt` or `snap` package managers.
-Alternatively, you could use official [docker documentation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) for that.
+Alternatively, you could use official [docker documentation :octicons-tab-external-16:](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository){: target="_blank" rel="noopener noreferrer" } for that.
 
 We would advise to stick with Docker's official documentation.
 For your convenience, below is a compiled version which extends official guide a bit.
@@ -55,7 +55,7 @@ If you subscribed to Datero on AWS Marketplace, you can download the image from 
 !!! info "Available version"
     The latest version of Datero at the time of writing is `1.0.2`.
     To use other version, just replace `1.0.2` with the desired version number.
-    You can check the available versions on the [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-gmlxuzixyqtoq).
+    You can check the available versions on the [AWS Marketplace :octicons-tab-external-16:](https://aws.amazon.com/marketplace/pp/prodview-gmlxuzixyqtoq){: target="_blank" rel="noopener noreferrer" }.
 
 ```sh
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 709825985650.dkr.ecr.us-east-1.amazonaws.com
@@ -70,7 +70,7 @@ docker pull chumaky/datero
 !!! info "Support modes"
     Datero product is free, but by default it comes with no support.
     Our team provides paid support plans. 
-    Details on available plans could be found on our [website](https://datero.tech).
+    Details on available plans could be found on our [website :octicons-tab-external-16:](https://datero.tech){: target="_blank" rel="noopener noreferrer" }.
 
     As a benefit, if you install Datero from AWS Marketplace, you get a free support for 30 days.
     This is a great way to test Datero and have a help from the team if needed.

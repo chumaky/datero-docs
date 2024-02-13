@@ -73,7 +73,7 @@ id,name
 
 
 ## Datero connection
-Open `Datero` web ui at [http://localhost](http://localhost) and click on the `File` entry in the the `Connectors` navigation section on the left.
+Open `Datero` web ui at [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and click on the `File` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `File Server`.
 File connector is zero params connector, so provided name is the only thing we need.

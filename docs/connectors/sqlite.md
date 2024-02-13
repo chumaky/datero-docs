@@ -55,7 +55,7 @@ We mount current folder `$(pwd)` to the `/data` folder inside the container.
 Now we need to create a `sqlite` database file.
 To do so, we have to install `sqlite` command line utility.
 It's available for all major operating systems.
-You can find installation instructions [here](https://www.sqlite.org/download.html).
+You can find installation instructions in the [official documentation :octicons-tab-external-16:](https://www.sqlite.org/download.html){: target="_blank" rel="noopener noreferrer" }.
 
 Once installed, make sure it's added to your `PATH`. It must be callable from command line.
 ``` sh
@@ -83,7 +83,7 @@ Now we are ready to connect to the `sqlite` database from `datero`.
 
 ### Docker image
 Unfortunately, there is no official SQLite docker image is available.
-But if you still prefer to use docker image instead of installing `sqlite` utility on your machine, you can use [this](https://hub.docker.com/r/keinos/sqlite3) image.
+But if you still prefer to use docker image instead of installing `sqlite` utility on your machine, you can use [sqlite3 :octicons-tab-external-16:](https://hub.docker.com/r/keinos/sqlite3){: target="_blank" rel="noopener noreferrer" } image.
 
 Its usage is pretty straightforward and well described in a project's readme file.
 You have to mount the local folder to some folder inside the container.
@@ -91,7 +91,7 @@ Then by executing `sqlite3` command from the container you will be able to creat
 
 
 ## Datero connection
-Open `Datero` web ui at [http://localhost](http://localhost) and click on the `SQLite` entry in the the `Connectors` navigation section on the left.
+Open `Datero` web ui at [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and click on the `SQLite` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `SQLite Server`.
 Enter `/data/calendar.db` as the `Database` value.

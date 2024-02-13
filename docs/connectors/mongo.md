@@ -26,7 +26,7 @@ docker network create dm
 docker network connect --alias datero dm datero
 ```
 
-To get Mongo database we can use official [mongo](https://hub.docker.com/_/mongo) docker image.
+To get Mongo database we can use official [mongo :octicons-tab-external-16:](https://hub.docker.com/_/mongo){: target="_blank" rel="noopener noreferrer" } docker image.
 Let's pull the image first.
 ``` sh
 docker pull mongo:jammy
@@ -76,7 +76,7 @@ Now we are ready to connect to the `mongo` database from `datero`.
 
 
 ## Datero connection
-Open `Datero` web ui at [http://localhost](http://localhost) and click on the `Mongo` entry in the the `Connectors` navigation section on the left.
+Open `Datero` web ui at [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and click on the `Mongo` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `Mongo Server`.
 Enter `mongo_db` as the `Host` value.

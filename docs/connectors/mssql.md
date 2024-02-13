@@ -28,7 +28,7 @@ docker network connect --alias datero dm datero
 
 [mssql_registry]: https://mcr.microsoft.com/en-us/product/mssql/server/about
 
-To get MSSQL database we can use official Microsoft [SQL Server][mssql_registry] Ubuntu based image.
+To get MSSQL database we can use official Microsoft [SQL Server :octicons-tab-external-16:][mssql_registry]{: target="_blank" rel="noopener noreferrer" } Ubuntu based image.
 One specific note about this image is that it requires at least 2GB of RAM.
 This check is done by the entrypoint script and container will fail to start if there is not enough memory.
 
@@ -71,7 +71,7 @@ Changed database context to 'cosmo'.
 Now we are ready to connect to the `mssql` database from `datero`.
 
 ## Datero connection
-Open `Datero` web ui at [http://localhost](http://localhost) and click on the `MSSQL` entry in the the `Connectors` navigation section on the left.
+Open `Datero` web ui at [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and click on the `MSSQL` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `MSSQL Server`.
 Enter `mssql_db` as the `Servername` value.

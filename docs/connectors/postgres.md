@@ -26,7 +26,7 @@ docker network create dp
 docker network connect --alias datero dp datero
 ```
 
-To get Postgres database we can use official [postgres](https://hub.docker.com/_/postgres) docker image.
+To get Postgres database we can use official [postgres :octicons-tab-external-16:](https://hub.docker.com/_/postgres){: target="_blank" rel="noopener noreferrer" } docker image.
 Let's pull the image first.
 ``` sh
 docker pull postgres
@@ -69,7 +69,7 @@ Now we are ready to connect to the `postgres` database from `datero`.
 
 
 ## Datero connection
-Open `Datero` web ui at [http://localhost](http://localhost) and click on the `Postgres` entry in the the `Connectors` navigation section on the left.
+Open `Datero` web ui at [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and click on the `Postgres` entry in the the `Connectors` navigation section on the left.
 
 Enter any descriptive name in the `Description` field. For example, `Postgres Server`.
 Enter `postgres_db` as the `Host` value.
