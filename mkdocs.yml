@@ -5,6 +5,8 @@ site_description: Datero data platform documentation
 site_author: Chumaky IT
 theme:
   name: material
+  favicon: images/favicon.ico
+  logo: images/datero_logo.svg
   features:
   #- header.autohide
   #- navigation.tabs
@@ -63,8 +65,8 @@ markdown_extensions:
 - pymdownx.caret
 - pymdownx.details
 - pymdownx.emoji:
-    emoji_index: !!python/name:materialx.emoji.twemoji
-    emoji_generator: !!python/name:materialx.emoji.to_svg
+    emoji_index: !!python/name:material.extensions.emoji.twemoji
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg
 - pymdownx.highlight:
     anchor_linenums: true
     line_spans: __span
@@ -110,15 +112,15 @@ nav:
   - File: connectors/file.md
 - Clouds:
   - clouds/index.md
+  - AWS: 
+    - clouds/aws/index.md
+    - EC2: clouds/aws/ec2.md
   - GCP: 
     - clouds/gcp/index.md
     - VM instance: clouds/gcp/vm_instance.md
     - GKE: clouds/gcp/gke.md
     - Cloud Run: clouds/gcp/cloud_run.md
     - Cloud SQL: clouds/gcp/cloud_sql.md
-  - AWS: 
-    - clouds/aws/index.md
-    - EC2: clouds/aws/ec2.md
-  #- Azure: 
-  #  - clouds/azure/index.md  
+  - Azure: 
+    - clouds/azure/index.md  
   #  - VM instance: clouds/azure/vm_instance.md

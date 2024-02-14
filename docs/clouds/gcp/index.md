@@ -1,5 +1,6 @@
 ---
 description: Datero on Google Cloud Platform (GCP).
+icon: material/google-cloud
 ---
 
 # GCP
