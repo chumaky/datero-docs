@@ -115,6 +115,7 @@ nav:
   - AWS: 
     - clouds/aws/index.md
     - EC2: clouds/aws/ec2.md
+    - ECS: clouds/aws/ecs.md
   - GCP: 
     - clouds/gcp/index.md
     - VM instance: clouds/gcp/vm_instance.md

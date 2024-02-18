@@ -1,14 +1,44 @@
-Cloud Run is serverless platform which allows you to run your containers as a service.
-To run Datero on Cloud Run, it's required to create such service.
-Exact procedure to create it is out of scope of this guide.
-Please refer to the [official documentation :octicons-tab-external-16:](https://cloud.google.com/run/docs/quickstarts/deploy-container){: target="_blank" rel="noopener noreferrer" } for that.
+Elastic Container Service is a managed service which allows you to run containers.
+You start to work with ECS by creating a logical entity called `cluster`.
+It's a place where you can run your containers.
+Then you can run `tasks` or `services` on the cluster.
 
-## Create Service
-You can create a service in a various ways.
-In this guide we will use Google Cloud Console approach.
-Start by pressing _Create service_ button on the main Cloud Run Services page.
+Exact procedure to create the cluster is out of scope of this guide.
+Please refer to the [official documentation :octicons-tab-external-16:](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/clusters.html){: target="_blank" rel="noopener noreferrer" } for that.
 
-### Specify container image
+
+## ECS basics
+Below is a _very condensed_ overview of ECS concepts.
+Just to introduce you to the terminology. 
+
+To run any container on a cluster you have first to create a `task definition`.
+This is a blueprint for your container(s) that you want to run.
+It includes information about the container image, CPU and memory requirements, networking and other parameters.
+
+Basing on the task definition, you can run `tasks` or `services` on the cluster.
+Task is more like a one-time job, while service is more suitable for a long-running task.
+Service also provides extra capabilities like load balancing and auto-scaling.
+
+Tasks and services are logical entities.
+But actual execution must be done by some resources.
+Two main resources that ECS can use are `Fargate` and `EC2`.
+Fargate is a serverless approach.
+EC2 is a more traditional way where you have to manage the underlying infrastructure yourself.
+
+Easiest way to run containers on ECS is to use Fargate. But it's also the most expensive.
+You pay an extra fee for the convenience of being serverless.
+
+To run on EC2 you have to register instances with ECS first.
+The most smooth way to do that is to create `capacity provider` and associate it with the cluster.
+`Capacity provider` is yet another logical entity.
+It defines EC2 resources that ECS tasks run on.
+As part of its definition, you specify an `auto scaling group` which manages instances creation and termination.
+
+!!! info "Demo infrastructure"
+    In this guide we will run `task` and use `ec2` based capacity provider.
+
+
+## Task Definition
 First step is to specify container image(s) to run.
 In our case, we want to run single Datero container.
 All-inclusive Datero image is available on [Docker Hub :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero){: target="_blank" rel="noopener noreferrer" }.
