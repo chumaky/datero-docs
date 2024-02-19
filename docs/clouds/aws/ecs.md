@@ -1,3 +1,7 @@
+---
+description: Running Datero on AWS Elastic Container Service (ECS).
+---
+
 Elastic Container Service is a managed service which allows you to run containers.
 You start to work with ECS by creating a logical entity called `cluster`.
 It's a place where you can run your containers.
@@ -39,56 +43,67 @@ As part of its definition, you specify an `auto scaling group` which manages ins
 
 
 ## Task Definition
-First step is to specify container image(s) to run.
-In our case, we want to run single Datero container.
-All-inclusive Datero image is available on [Docker Hub :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero){: target="_blank" rel="noopener noreferrer" }.
-
-To do that, we have to select _Deploy one revision from an existing container image_ option and specify `chumaky/datero` as a container image.
-
-<figure markdown>
-  ![Create service](../../images/clouds/gcp/cloud_run_create_service.jpg){ loading=lazy }
-  <figcaption>Create service</figcaption>
-</figure>
-
-For the demo purposes, we will make our service publicibly accessible.
-To do that, we have to accept all _Ingress_ traffic and select _Allow unauthenticated invocations_ checkbox.
+Our task definition will be very simple.
+We run single all-inclusive Datero container.
+What we need to specify in task defintion is image url, required CPU & RAM resources and port mapping.
+To have an access to the web application we exposure port `80`.
 
 <figure markdown>
-  ![Public access](../../images/clouds/gcp/cloud_run_public_access.jpg){ loading=lazy }
-  <figcaption>Public access</figcaption>
+  ![Task definition](../../images/clouds/aws/ecs_datero_container.jpg){ loading=lazy }
+  <figcaption>Task definition</figcaption>
 </figure>
 
-### Container configuration
-Next step is to configure container details.
-The only mandator parameter to specify during container launch is `POSTGRES_PASSWORD`.
-It's dictated by the official image of `postgres` database.
-
-Also, we want to access Datero web application over HTTP, so we have to expose port `80` of the container.
+There is also requirement to specify `POSTGRES_PASSWORD` environment variable.
+It's dictated by the official image of underlying `postgres` database.
+You could use whatever value you want, but for the demo purposes we will use `postgres` as a password.
 
 <figure markdown>
-  ![Datero container](../../images/clouds/gcp/cloud_run_container.jpg){ loading=lazy }
-  <figcaption>Datero container</figcaption>
+  ![Superuser password](../../images/clouds/aws/ecs_datero_env_variable.jpg){ loading=lazy }
+  <figcaption>Superuser password</figcaption>
 </figure>
 
-Most probably, datasources that you want to access from Datero will be located in the VPC.
-To allow Datero to access them, you have to specify VPC connector.
-You can do that in the _Networking_ tab of the service page.
+## Image URL
+Datero is gonna be available soon on AWS marketplace.
+To use it, you have to subscribe to the product and then you can use the image url from the AWS ECR.
+--8<-- "include/datero_marketplace.md:version"
 
-<figure markdown>
-  ![Container networking](../../images/clouds/gcp/cloud_run_vpc_networking.jpg){ loading=lazy }
-  <figcaption>Container networking</figcaption>
-</figure>
+Alternatively, Datero image is available on [Docker Hub :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero){: target="_blank" rel="noopener noreferrer" }.
 
-And finally, press _Create_ button to create the service.
+--8<-- "include/datero_marketplace.md:support"
+
+
+## Run Task
+![Run task](../../images/clouds/aws/ecs_run_task.jpg){ loading=lazy; align=right }
+Once task definition is created, you can run the task on the cluster.
+Open created task definition and click on the `Run Task` button.
+You will see a plenty of options to specify.
+As a minimum, you have to select the cluster and capacity provider strategy.
+Because we created `ec2` based capacity provider, we will use it.
+We also specify `1` as the number of tasks to run.
+
 
 ## Access Datero UI
-Once service is created, you can access Datero web application by clicking on the `URL` link in the service details page.
+ECS cluster will notify capacity provider to start new EC2 instance if there is not enough capacity.
+Once the instance is up and running, the task will be scheduled on it.
+If everything goes well, you will see the task in `Running` state.
 
 <figure markdown>
-  ![Datero UI endpoint](../../images/clouds/gcp/cloud_run_deployment_success.jpg){ loading=lazy }
-  <figcaption>Datero UI endpoint</figcaption>
+  ![Running task](../../images/clouds/aws/ecs_running_task.jpg){ loading=lazy }
+  <figcaption>Running task</figcaption>
 </figure>
 
-Congratulations! You have successfully installed Datero on GCP Cloud Run.
+You can access Datero web application by clicking on the `Public IP` link in the Configuration section.
+
+!!! note "Networking setup"
+    In the screenshot above task is running in `host` networking mode.
+    It's not the best practice for the production environment.
+    But for the demo purposes it's fine.
+
+    AWS advises to use `awsvpc` networking mode.
+    It results into absence of public IP address for the task and separate ENI for each task.
+    You have to access it over ec2 _private_ IP address from within your AWS environment.
+    Or by IPv6 address if you have enabled IPv6 connectivity on the VPC level.
+
+Congratulations! You have successfully installed Datero on AWS ECS.
 
 --8<-- "include/clouds_next_steps.md"

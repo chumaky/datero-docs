@@ -1,3 +1,7 @@
+---
+description: Running Datero on AWS EC2.
+---
+
 # EC2 Instance
 To run Datero on ec2 instance, you need to create it first.
 Exact procedure to create an ec2 is out of scope of this guide.
@@ -50,12 +54,9 @@ This is to allow running docker commands without `sudo` prefix.
 Once you have `docker` installed, you can run Datero container.
 Firstly, download the image.
 
-If you subscribed to Datero on AWS Marketplace, you can download the image from the AWS ECR.
+If you subscribed to Datero on AWS [marketplace :octicons-tab-external-16:](https://aws.amazon.com/marketplace/pp/prodview-gmlxuzixyqtoq){: target="_blank" rel="noopener noreferrer" }, you can download the image from the AWS ECR.
 
-!!! info "Available version"
-    The latest version of Datero at the time of writing is `1.0.2`.
-    To use other version, just replace `1.0.2` with the desired version number.
-    You can check the available versions on the [AWS Marketplace :octicons-tab-external-16:](https://aws.amazon.com/marketplace/pp/prodview-gmlxuzixyqtoq){: target="_blank" rel="noopener noreferrer" }.
+--8<-- "include/datero_marketplace.md:version"
 
 ```sh
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 709825985650.dkr.ecr.us-east-1.amazonaws.com
@@ -67,13 +68,7 @@ Alternatively, you could download the image from the Docker Hub.
 docker pull chumaky/datero
 ```
 
-!!! info "Support modes"
-    Datero product is free, but by default it comes with no support.
-    Our team provides paid support plans. 
-    Details on available plans could be found on our [website :octicons-tab-external-16:](https://datero.tech){: target="_blank" rel="noopener noreferrer" }.
-
-    As a benefit, if you install Datero from AWS Marketplace, you get a free support for 30 days.
-    This is a great way to test Datero and have a help from the team if needed.
+--8<-- "include/datero_marketplace.md:support"
 
 Having the image, you can run the container.
 The only mandator parameter to specify during container run is `POSTGRES_PASSWORD`.
