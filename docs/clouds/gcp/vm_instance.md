@@ -1,5 +1,5 @@
 ---
-description: Nullam urna elit, malesuada eget finibus ut, ac tortor
+description: Running Datero on GCP VM instance.
 ---
 
 ## Create VM instance

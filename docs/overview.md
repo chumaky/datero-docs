@@ -1,3 +1,6 @@
+---
+description: Datero data platform overview.
+---
 
 `Datero` has web based UI which allows to manage connections and query data.
 Default dashboard has navigation panel on the left with the list of available `connectors`.

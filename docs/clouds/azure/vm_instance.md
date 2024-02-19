@@ -1,3 +1,7 @@
+---
+description: Running Datero on Azure VM instance.
+---
+
 ## Create VM instance
 To run Datero on Azure VM instance, you need to create a VM instance first.
 Exact procedure to create a VM instance is out of scope of this guide.

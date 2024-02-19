@@ -1,5 +1,5 @@
 ---
-description: Datero data platform tutorial.
+description: Complete example of Datero data platform capabilities.
 ---
 
 Major feature of a Datero data platform is its ability to join data from different sources within a single query.

@@ -1,3 +1,7 @@
+---
+description: Using GCP Cloud SQL as a datasource for Datero.
+---
+
 In a previous sections we described services that can be used to _install_ Datero on GCP.
 You can do this on [VM instance](./vm_instance.md), [GKE](./gke.md), or [Cloud Run](./cloud_run.md).
 

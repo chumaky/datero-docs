@@ -1,3 +1,7 @@
+---
+description: Running Datero on GCP Cloud Run.
+---
+
 Cloud Run is serverless platform which allows you to run your containers as a service.
 To run Datero on Cloud Run, it's required to create such service.
 Exact procedure to create it is out of scope of this guide.
