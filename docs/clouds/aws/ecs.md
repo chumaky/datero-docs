@@ -45,15 +45,17 @@ As part of its definition, you specify an `auto scaling group` which manages ins
 ## Task Definition
 Our task definition will be very simple.
 We run single all-inclusive Datero container.
-What we need to specify in task defintion is image url, required CPU & RAM resources and port mapping.
-To have an access to the web application we exposure port `80`.
+What we need to specify is image url, required CPU & RAM resources and port mapping.
+To have an access to the web application we expose port `80`.
+For the database access, you have to expose port `5432` as well.
+Our main purpose is to show how to run Datero on ECS, so we will expose only web application port.
 
 <figure markdown>
   ![Task definition](../../images/clouds/aws/ecs_datero_container.jpg){ loading=lazy }
   <figcaption>Task definition</figcaption>
 </figure>
 
-There is also requirement to specify `POSTGRES_PASSWORD` environment variable.
+There is also a requirement to specify `POSTGRES_PASSWORD` environment variable.
 It's dictated by the official image of underlying `postgres` database.
 You could use whatever value you want, but for the demo purposes we will use `postgres` as a password.
 
