@@ -3,7 +3,6 @@ description: Datero data platform available connectors.
 ---
 
 # Connectors
-
 As described in [installation](../installation.md) section, `datero` is served in containerized format.
 To get data via some connector we will need to create a connection to the source.
 Hence, we need to establish a connection between `datero` container and the source.
