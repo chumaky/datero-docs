@@ -106,6 +106,10 @@ You can access Datero web application by clicking on the `Public IP` link in the
     You have to access it over ec2 _private_ IP address from within your AWS environment.
     Or by IPv6 address if you have enabled IPv6 connectivity on the VPC level.
 
+Datero is configured to listen on both IPv4 and IPv6 addresses.
+For an example of how to serve Datero over IPv6, see [IPv6 Support](../../administration/ipv6.md).
+
+
 Congratulations! You have successfully installed Datero on AWS ECS.
 
 --8<-- "include/clouds_next_steps.md"
