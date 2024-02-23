@@ -20,5 +20,5 @@ This includes cloud environments like AWS, GCP, Azure, etc.
 
 ## IPv6 support
 Datero web application is configured to listen on both IPv4 and IPv6 addresses.
-It's applicable for all cloud and on-premises installations.
+It's applicable for all clouds and on-premises installations.
 For an example of how to serve Datero over IPv6, see [IPv6 Support](../administration/ipv6.md).

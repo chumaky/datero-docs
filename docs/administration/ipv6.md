@@ -50,10 +50,10 @@ The last missing piece is to make sure that the security group, that is attached
   <figcaption>ENI Security Group with IPv6 support</figcaption>
 </figure>
 
-Now, you could access Datero web application by using the IPv6 address of the ECS task ENI.
+Now, you could access Datero web application by using the IPv6 address of the ECS task's ENI.
 Assuming you mapped the port `80` of the Datero container to the port `80` of the ECS task,
 just copy the IPv6 address from the ENI and paste it into the browser address bar in the square brackets `http://[ipv6_address]`.
-If you mapped to the different port, just append it to the address `http://[ipv6_address]:[port]`.
+If you mapped to the different port, just append it to the address `http://[ipv6_address]:port`.
 
 <figure markdown>
   ![Datero UI over IPv6](../images/clouds/aws/ecs_ipv6_datero_ui.jpg){ loading=lazy }
@@ -71,5 +71,5 @@ Pretty simple, isn't it?
     And if you need internet access, you should use NAT gateway or NAT instance.
     Or put your tasks behind an application load balancer with public IP address.
 
-    It might be completely unacceptable from security perspective to exposure any web application to the internet over IPv6.
-    While having it unavailable over IPv4.
+    It might be completely unacceptable from security perspective to exposure any web application to the internet over IPv6,
+    while not having it available over IPv4.
