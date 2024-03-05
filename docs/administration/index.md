@@ -12,3 +12,4 @@ However, if you want to run Datero in a more complex environment, like a cloud, 
 
 ## Contents
 - [IPv6 Support](./ipv6.md)
+- [Releases](../releases/index.md)

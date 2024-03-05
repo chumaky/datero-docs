@@ -128,3 +128,4 @@ nav:
 - Administration:
   - administration/index.md
   - IPv6 Support: administration/ipv6.md
+  - Releases: releases/index.md
