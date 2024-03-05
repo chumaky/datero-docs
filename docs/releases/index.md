@@ -10,7 +10,7 @@ It's just a Postgres database image with a set of installed third party FDW exte
 Because of that, its releases are kept in sync with the official Postgres releases.
 
 _Datero_ is a web application that uses Datero Engine through the backend REST API.
-It's released much more frequently than Datero Engine and follow the [SemVer](https://semver.org/) standard.
+It's released much more frequently than Datero Engine and follow the [SemVer :octicons-tab-external-16:](https://semver.org/){: target="_blank" rel="noopener noreferrer" } standard.
 
 
 ## Datero
