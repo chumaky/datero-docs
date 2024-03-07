@@ -14,7 +14,7 @@ The most traditional one is relational database service represented by Cloud SQL
 Sections below provide individual guides for the corresponding approaches.
 
 ## Individual guides
-- [VM Instance](vm_instance.md)
+- [VM instance](vm_instance.md)
 - [GKE](gke.md)
 - [Cloud Run](cloud_run.md)
 - [Cloud SQL](cloud_sql.md)

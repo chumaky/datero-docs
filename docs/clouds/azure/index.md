@@ -15,8 +15,8 @@ The most traditional one is relational database service represented by Azure Dat
 Sections below provide individual guides for the corresponding approaches.
 
 ## Individual guides
+- [VM instance](vm_instance.md)
 <!-- 
-- [VM Instance](vm_instance.md)
 - [GKE](gke.md)
 - [Cloud Run](cloud_run.md)
 - [Cloud SQL](cloud_sql.md)

@@ -2,17 +2,23 @@
 description: Running Datero on Azure VM instance.
 ---
 
+```sh
+$ ssh-add ~/.ssh/datero_azure.pem 
+$ ssh azure-user@20.218.144.27
+```
+
 ## Create VM instance
 To run Datero on Azure VM instance, you need to create a VM instance first.
 Exact procedure to create a VM instance is out of scope of this guide.
 Please refer to the [official documentation :octicons-tab-external-16:](https://learn.microsoft.com/en-us/azure/virtual-machines/){: target="_blank" rel="noopener noreferrer" } for that.
 You can use any OS you want, but we will use [Ubuntu 22.04 :octicons-tab-external-16:](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal?tabs=ubuntu){: target="_blank" rel="noopener noreferrer" } in this guide.
 
-![Firewall settings](../../images/clouds/gcp/firewall.jpg){ loading=lazy; align=right }
 
 One thing to note is that you need to open some HTTP/HTTPS port for the VM instance.
 Default `80` or `443` ports will work just fine.
-You can do that in the `Firewall` section of the VM instance settings.
+You can do that in the `Network` section of the VM instance settings.
+
+![Firewall settings](../../images/clouds/gcp/firewall.jpg){ loading=lazy; align=right }
 
 This is to allow access to the Datero web application from the outside world.
 Datero serves web application through `nginx` over HTTP on port `80`.
