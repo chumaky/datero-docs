@@ -2,7 +2,6 @@
 description: Running Datero on GCP VM instance.
 ---
 
-## Create VM instance
 To run Datero on GCP VM instance, you need to create a VM instance first.
 Exact procedure to create a VM instance is out of scope of this guide.
 Please refer to the [official documentation :octicons-tab-external-16:](https://cloud.google.com/compute/docs/instances/create-start-instance){: target="_blank" rel="noopener noreferrer" } for that.
