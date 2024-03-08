@@ -16,8 +16,8 @@ Sections below provide individual guides for the corresponding approaches.
 
 ## Individual guides
 - [VM instance](vm_instance.md)
+- [ACI](aci.md)
 <!-- 
-- [GKE](gke.md)
 - [Cloud Run](cloud_run.md)
 - [Cloud SQL](cloud_sql.md)
 -->

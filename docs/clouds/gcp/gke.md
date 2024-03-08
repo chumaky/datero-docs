@@ -2,7 +2,7 @@
 description: Running Datero on GCP Kubernetes Engine (GKE).
 ---
 
-## Google Kubernetes Engine
+# Google Kubernetes Engine
 To run Datero on GKE, you have to create a cluster first.
 Exact procedure to create it is out of scope of this guide.
 Please refer to the [official documentation :octicons-tab-external-16:](https://cloud.google.com/kubernetes-engine/docs/quickstarts/create-cluster){: target="_blank" rel="noopener noreferrer" } for that.

@@ -125,6 +125,7 @@ nav:
   - Azure: 
     - clouds/azure/index.md  
     - VM instance: clouds/azure/vm_instance.md
+    - ACI: clouds/azure/aci.md
 - Administration:
   - administration/index.md
   - IPv6 Support: administration/ipv6.md
