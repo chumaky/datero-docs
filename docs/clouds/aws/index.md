@@ -15,7 +15,7 @@ Sections below provide individual guides for the corresponding approaches.
 
 ## Individual guides
 - [EC2 Instance](ec2.md)
-- [Elastic Container Service (ECS)](ecs.md)
+- [Elastic Container Service](ecs.md)
 <!--
 - [Elastic Kuberneters Service (EKS)](eks.md)
 - [Relational Database Service (RDS)](rds.md)

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datero-deployment
+  labels:
+    app: datero
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: datero
+  template:
+    metadata:
+      labels:
+        app: datero
+    spec:
+      containers:
+      - name: datero
+        image: docker.io/chumaky/datero
+        ports:
+        - containerPort: 80
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: "250m"
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datero-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: datero
+
