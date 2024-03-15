@@ -48,9 +48,9 @@ All-inclusive container contains all three services, so it exposes a couple of p
 One for the web application and one for the database.
 
 You could run `datero` completely in CLI mode, but it's not handy.
-As a minimum, you will probably want to have an access for the web UI.
-Internally, the web application is running on standard http port 80.
-If you want to use the database, you will need to map also internal 5432 port for the database.
+As a minimum, you will probably want to have an access to the web UI.
+Internally, the web application is running on standard HTTP port `80`.
+If you want to use the database, you will also need to map internal `5432` port for the database.
 
 API is accessible through the web application under the `/api` path, so you don't need to expose it separately.
 Alternatively, you could use [datero :octicons-tab-external-16:](https://pypi.org/project/datero/){: target="_blank" rel="noopener noreferrer" } python package to access the API directly.
@@ -58,16 +58,33 @@ Alternatively, you could use [datero :octicons-tab-external-16:](https://pypi.or
 
 ### Running the container
 The only mandator parameter to specify during container run is `POSTGRES_PASSWORD`.
-It's dictated by the official image of `postgres` database.
-But as mentioned above, you will probably want to have an access to the web application and database.
-Hence we also exposure ports 80 and 5432.
+It's dictated by the underlying official image of `postgres` database.
+But you will probably want to have an access also to the web application and database.
+Hence we also exposure ports `80` and `5432`.
 Flag `-d` will run the container in the background.
-We also name the container `datero` to be able to refer to it later.
+We name the container `datero` to be able to refer to it later.
 
 ``` sh
 docker run -d --name datero \
     -p 80:80 -p 5432:5432 \
     -e POSTGRES_PASSWORD=postgres \
+    chumaky/datero
+```
+
+If you want to leverage functionality of the file based data sources, you will need to mount a volume to the container.
+Datero supports two types of file based connectors: `file_fdw` and `sqlite_fdw`.
+When using these connectors you will have to specify a path to the file that you want to access.
+You can mount a volume to whatever path you want, but it's recommended to use `/data` path within container.
+
+!!! info "Reserved path"
+    `/data` path is considered by Datero as a root path for all file based connectors.
+    It's not a requirement, but it's a good practice to use it.
+
+``` sh
+docker run -d --name datero \
+    -p 80:80 -p 5432:5432 \
+    -e POSTGRES_PASSWORD=postgres \
+    -v "$(pwd):/data" \
     chumaky/datero
 ```
 
@@ -114,7 +131,7 @@ PostgreSQL 15.2 (Debian 15.2-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gc
 (1 row)
 ```
 
-#### Configuration
+#### Database Configuration
 Official postgres image specifies a few environment variables that could be used to configure the superuser account and default database.
 As stated in [official documentation :octicons-tab-external-16:](https://hub.docker.com/_/postgres){: target="_blank" rel="noopener noreferrer" }:
 
