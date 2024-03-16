@@ -71,23 +71,6 @@ docker run -d --name datero \
     chumaky/datero
 ```
 
-If you want to leverage functionality of the file based data sources, you will need to mount a volume to the container.
-Datero supports two types of file based connectors: `file_fdw` and `sqlite_fdw`.
-When using these connectors you will have to specify a path to the file that you want to access.
-You can mount a volume to whatever path you want, but it's recommended to use `/data` path within container.
-
-!!! info "Reserved path"
-    `/data` path is considered by Datero as a root path for all file based connectors.
-    It's not a requirement, but it's a good practice to use it.
-
-``` sh
-docker run -d --name datero \
-    -p 80:80 -p 5432:5432 \
-    -e POSTGRES_PASSWORD=postgres \
-    -v "$(pwd):/data" \
-    chumaky/datero
-```
-
 Now you can access the web application on [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and the database on `localhost:5432`.
 
 By default, `datero` contains compiled and installed connectors for the following databases:
@@ -176,6 +159,45 @@ postgres=# \du
  postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
 ```
 
+#### File based data sources
+If you want to leverage functionality of the file based data sources, you will need to mount a volume to the container.
+Datero supports two types of file based connectors: `file_fdw` and `sqlite_fdw`.
+When using these connectors you will have to specify a path to the file that you want to access.
+You can mount a volume to whatever path you want, but it's recommended to use `/data` path within container.
+
+!!! info "Reserved path"
+    `/data` path is considered by Datero as a root path for all file based connectors.
+    It's not a requirement, but it's a best practice to use it.
+
+``` sh
+docker run -d --name datero \
+    -p 80:80 -p 5432:5432 \
+    -e POSTGRES_PASSWORD=postgres \
+    -v "$(pwd):/data" \
+    chumaky/datero
+```
+
+#### Logging
+By default, all logs are written to the standard output.
+This behavior allows access them with the `docker logs` command.
+All cloud services like AWS, GCP, Azure, etc. have a built-in support for this kind of logs.
+For example, in AWS if you enable `awslogs` log driver for your ECS task, all logs will be automatically sent to the AWS CloudWatch.
+
+Single container encapsulates all three services: database, API and web application.
+So, you will see a merged view of all logs in output stream.
+
+If you want to redirect them to a file, you could slightly modify the command above.
+Firstly, you disable the `-d` flag to run the container in the foreground.
+Then you redirect the output and error streams to a file.
+Finally, you append `&` to emulate the `-d` option back again and run the command in the background.
+``` sh
+docker run --name datero \
+    -p 80:80 -p 5432:5432 \
+    -e POSTGRES_PASSWORD=postgres \
+    -v "$(pwd):/data" \
+    chumaky/datero > datero.log 2>&1 &
+```
+
 
 ## Multiple containers
 This form of deployment adheres to the _service per container_ principle and is better for more advanced use cases.
@@ -188,5 +210,5 @@ It consist of the following services:
 Currently, only the database engine is available as a public image.
 You could get it from [Docker Hub :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero_engine){: target="_blank" rel="noopener noreferrer" }.
 
-Individual images for API and web application are part of the Datero Enterprise offering and are not available publicly. 
+Individual images for API and web application are part of the Datero Enterprise offering and are not available publicly.
 Datero free and enterprise options will be available soon in a clouds like AWS, GCP, Azure, etc.
