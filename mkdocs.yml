@@ -110,6 +110,7 @@ nav:
   - MSSQL: connectors/mssql.md
   - SQLite: connectors/sqlite.md
   - File: connectors/file.md
+  - Redis: connectors/redis.md
 - Clouds:
   - clouds/index.md
   - AWS: 
