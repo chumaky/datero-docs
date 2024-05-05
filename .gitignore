@@ -1,4 +1,5 @@
 site
+.cache
 docs.tar.gz
 
 scripts/artifact.sh

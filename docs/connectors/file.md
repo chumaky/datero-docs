@@ -1,5 +1,8 @@
 ---
-description: Datero data platform File connector. 
+description: Datero data platform File connector.
+social:
+  cards_layout_options:
+    background_image: ./images/connectors/file/connector.png
 ---
 
 # File

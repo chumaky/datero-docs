@@ -94,6 +94,7 @@ plugins:
 - search
 - glightbox
 - table-reader
+- social
 
 
 nav:
