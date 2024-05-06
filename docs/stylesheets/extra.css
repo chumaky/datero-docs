@@ -6,6 +6,12 @@
 }
 */
 
+/* decreasing the font size from 17.6px to 16 px for XL and onwards screens. 
+  LG and lower screens will have the default font of 16 px
+*/
+article p, article ul li {
+  font-size: 16px;
+}
 
 .inline-warn {
   background-color: #ffcc00;
