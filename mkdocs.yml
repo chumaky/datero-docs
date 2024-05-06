@@ -110,6 +110,7 @@ nav:
   - Oracle: connectors/oracle.md
   - MSSQL: connectors/mssql.md
   - SQLite: connectors/sqlite.md
+  - DuckDB: connectors/duckdb.md
   - File: connectors/file.md
   - Redis: connectors/redis.md
 - Clouds:

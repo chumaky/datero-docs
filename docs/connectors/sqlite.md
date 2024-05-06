@@ -18,7 +18,7 @@ We couldn't use `datero` container created in the [installation](../installation
 Let's spin up a new `datero_mount` container but this time specify a mount folder for the `sqlite` database file.
 We mount current folder `$(pwd)` to the `/data` folder inside the container.
 
-!!! warning "GitBash on Windows"
+??? warning "GitBash on Windows"
     If you are on Windows, you must specify absolute path to the current folder.
     For example, `c:/Users/user/some/path`.
     Or expand current directory with `%cd%` if you are running the command from `cmd`.

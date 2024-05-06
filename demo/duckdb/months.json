@@ -1,0 +1,15 @@
+[
+    {"id": 1, "name": "January", "season_id": 4},
+    {"id": 2, "name": "February", "season_id": 4},
+    {"id": 3, "name": "March", "season_id": 1},
+    {"id": 4, "name": "April", "season_id": 1},
+    {"id": 5, "name": "May", "season_id": 1},
+    {"id": 6, "name": "June", "season_id": 2},
+    {"id": 7, "name": "July", "season_id": 2},
+    {"id": 8, "name": "August", "season_id": 2},
+    {"id": 9, "name": "September", "season_id": 3},
+    {"id": 10, "name": "October", "season_id": 3},
+    {"id": 11, "name": "November", "season_id": 3},
+    {"id": 12, "name": "December", "season_id": 4}
+]
+  
