@@ -151,6 +151,7 @@ Data virtualization at its best.
 
 We can go further and create a view on top of a file.
 ``` sql
+D create or replace view months as select * from '/data/months.json';
 D create view months as select id, name, season_id from 'months.json'; 
 D select * from months;
 ┌───────┬───────────┬───────────┐
@@ -175,8 +176,9 @@ D select * from months;
 ```
 
 What this step does is it creates a data virtualization layer for files based data as a metadata object in the database.
-In turn, DuckDB connector in Datero will be able to work with this view as with an ordinary table already in Datero.
-At the end, Datero will read directly from the file, without any data copying.
+In turn, DuckDB connector in Datero will be able to work with this view as an ordinary table already in Datero.
+At the end, Datero will read directly from the file without any data copying.
+And the chain will be: `Datero -> duckdb_fdw -> DuckDB -> file`.
 
 But to make this approach work, we must mount into the `datero` container not only the database file but also the file we want to work with.
 Path to the file that we specify in `SELECT` statement must be either relative to the database file or an absolute path.
@@ -190,15 +192,58 @@ Having done that we have in a current directory, which is mounted to the contain
 ``` sh
 $ ls -l
 total 784
+drwxrwxr-x 2 some_user some_user   4096 тра  7 01:31 ./
+drwxrwxr-x 3 some_user some_user   4096 тра  6 22:50 ../
 -rw-rw-r-- 1 some_user some_user 798720 тра  7 01:31 calendar.duckdb
 -rw-rw-r-- 1 some_user some_user    598 тра  7 00:51 months.json
 ```
 
-Pay attention to the file permissions. 
+```sh
+$ touch calendar.duckdb.wal
+$ chmod o+w .
+$ chmod o+w calendar.duckdb*
+chmod o+w .
+$ ll
+drwxrwxrwx 2 toleg toleg   4096 тра  9 01:44 ./
+-rw-rw-rw- 1 toleg toleg 798720 тра  9 01:41 calendar.duckdb
+-rw-rw-r-- 1 toleg toleg    598 тра  7 00:51 months.json
+```
+
+Pay attention to the permissions for the files and current `./` working directory.
+Files are created by the user `some_user` on the host and the directory is owned by the same `some_user` user.
+By default, there are only read permissions are set for `other`.
+
+We have mounted the current directory to the `/data` folder inside the container.
+Files within the container are accessible by the `postgres` user.
+From the Datero GUI we will connect to the DuckDB database file and import its schema.
+That causes the `postgres` user to read the database file and the `months.json` file.
+
+`r-x` and `r--`
+
 They must be readable by the user under which the `datero` container is running.
-Currently, it has `read` permissions for `other`.
+This means that file is readable by any user on the system.
 This should be enough for our readonly scenario.
 
+??? warning "Write permissions on mounted files & folders"
+    If you want to apply changes to the DuckDB database from Datero, i.e. to write to the `*.duckdb` file, you must make it writable by the user under which Postgres database engine is running inside `datero` container.
+    By default it's `postgres` user. 
+    It has `999` value for the UID and GID inside the container in the `/etc/passwd` file.
+
+    In addition, if you write to the DuckDB database, there is an intermediate `*.wal` file is created alongside the main database file.
+    Because it's created on a fly by the `postgres` process, you must make mounted folder where your database file is located writable by the `postgres` user as well.
+
+    To add even more complexity, there is no such thing as `users` and `groups` by themselves in unix based systems.
+    It's just a text labels for the numeric values stored in the `/etc/passwd` file.
+    In reality, access is checked against the numeric values.
+    This means that if you will have different numeric values for the same user on the host and in the container, you will have a permission denied error.
+
+    So, on your host you have either explicitly grant read/write access to the numeric values of the `postgres` user in the container or make the file readable/writable by `any` user on the host.
+    And do the same for the directory containing the database file.
+
+    In such scenario, you don't have to worry about the `postgres` user inside the container.
+    And which numeric values it has for the UID and GID.
+    Because the file and the directory are accessible by any user on the host, they will also be accessible by any user inside the container as well.
+    This is what the last `other` group means in the file permissions.
 
 
 
