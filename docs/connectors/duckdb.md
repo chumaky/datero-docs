@@ -117,7 +117,7 @@ $ cat months.json
 ]
 ```
 
-To feel the greatness of DuckDB, all you have to do to read the file as a table is to open the database and execute from it the following command.
+To feel the greatness of DuckDB, all you have to do to read the file as a table is to open the database and execute from it the following query.
 ``` sh
 duckdb calendar.duckdb
 ```
@@ -194,7 +194,7 @@ D create or replace view months as select * from '/data/months.json';
 ```
 
 To make this command work on host, we must have the `months.json` file in the `/data` folder on the host.
-Takeaway from this is following. In your file based views you must specify the path under which corresponding source files will be mounted into the container.
+Takeaway from this is following: in your file based views you must specify the path under which corresponding source files will be mounted into the container.
 And you must put the files on your host into the same path to initially create a view on them.
 
 So, if your current directory is `/home/mydir` and you mount it to the `/data` folder in the container, you must:
@@ -208,13 +208,14 @@ So, if your current directory is `/home/mydir` and you mount it to the `/data` f
 
 ### Files mounting privileges
 Having done that we should have in a current directory the following files.
+We intentionally omit some non-needed columns in the output for brevity.
+
 ``` sh
 $ ls -l
-total 784
-drwxrwxr-x 2 some_user some_user   4096 тра  7 01:31 ./
-drwxrwxr-x 3 some_user some_user   4096 тра  6 22:50 ../
--rw-rw-r-- 1 some_user some_user 798720 тра  7 01:31 calendar.duckdb
--rw-rw-r-- 1 some_user some_user    598 тра  7 00:51 months.json
+drwxrwxr-x some_user some_user ./
+drwxrwxr-x some_user some_user ../
+-rw-rw-r-- some_user some_user calendar.duckdb
+-rw-rw-r-- some_user some_user months.json
 ```
 
 Pay attention to the permissions for the files and current `./` working directory.
@@ -245,10 +246,11 @@ $ chmod o+w .
 
 And at the end, you will have such permissions set.
 ```sh
-$ ll
-drwxrwxrwx 2 toleg toleg   4096 тра  9 01:44 ./
--rw-rw-rw- 1 toleg toleg 798720 тра  9 01:41 calendar.duckdb
--rw-rw-r-- 1 toleg toleg    598 тра  7 00:51 months.json
+$ ls -l
+drwxrwxrwx some_user some_user ./
+drwxrwxr-x some_user some_user ../
+-rw-rw-rw- some_user some_user calendar.duckdb
+-rw-rw-r-- some_user some_user months.json
 ```
 
 Now we have granted `w` permission to `other` group over current `./` directory and `calendar.duckdb` file.
@@ -270,7 +272,7 @@ With this setup you will be able to connect to the DuckDB database from Datero c
     In reality, access is checked against the numeric values.
     This means that if you will have different numeric values for the same user on the host and in the container, you will still have a permission denied error.
 
-    So, on your host you have either explicitly grant read/write access to the numeric values of the `postgres` user in the container or make the file readable/writable by _any_ user.
+    So, on your host you have either explicitly grant read/write access to the `999` numeric value of the `postgres` user in the container or make the file readable/writable by _any_ user.
     And do the same for the directory containing the database file.
     This is what is implemented via `other` group in file permissions.
 
@@ -285,7 +287,7 @@ Open `Datero` web ui at [http://localhost :octicons-tab-external-16:](http://loc
 Enter any descriptive name in the `Description` field. For example, `DuckDB`.
 Enter `/data/calendar.duckdb` as the `Database` value.
 The `/data` folder is the folder within the container into which we mounted our current directory.
-And `calendar.duckdb` is the database file we created earlier within current directory via `duckdb calendar.duckdb` command.
+And `calendar.duckdb` is the database file within it that we created earlier via `duckdb calendar.duckdb` command.
 
 Click `Save` to create the Server logical object.
 
@@ -331,14 +333,14 @@ And that's it! You have successfully connected to the DuckDB database from Dater
 But you not only queried the data from the database file itself, you also queried data directly from JSON file and joined them!
 The `seasons` table is a classic table, but the `months` table is a view on top of the JSON file.
 
-We were able to join data from the classic table in database and the JSON file from the file system.
+We were able to join data from the ordinary table in the database and the JSON file from the file system.
 And all this was done via single SQL query in Datero.
 Without any data copying or moving.
 
 
 ## Summary
-DuckDB stands aside from the other single database connectors.
-Apart from being classical relational database like SQLite, it is capable to work with files directly in a _very_ efficient way.
+DuckDB stands aside from other single database connectors.
+Apart from being classical relational database like SQLite, it is capable to work with files directly, and in a _very_ efficient way.
 Because of this, it could be used as a bridge between the file-based world and the relational database world.
 In conjunction with Datero and its sets of connectors, it enables a whole new set of use cases.
 
