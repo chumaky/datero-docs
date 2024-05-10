@@ -65,7 +65,7 @@ To do so, we have to install `duckdb` command line utility.
 It's available for all major operating systems.
 You can find installation instructions in the [official documentation :octicons-tab-external-16:](https://duckdb.org/docs/installation/?version=stable&environment=cli&platform=linux&download_method=direct){: target="_blank" rel="noopener noreferrer" }.
 
-Once installed, make sure it's added to your `PATH`. It must be callable from command line.
+Once installed, make sure it's added to your `PATH`. It must be callable from the command line.
 ``` sh
 duckdb --version
 v0.10.2 1601d94f94
@@ -100,7 +100,7 @@ And do this in a _very_ efficient way.
 ### Source JSON file
 Let's extend our example and introduce a JSON file _months.json_ which will contain list of months with the reference to the season.
 ``` sh
-$ cat months.json 
+$ cat months.json
 [
     {"id": 1, "name": "January", "season_id": 4},
     {"id": 2, "name": "February", "season_id": 4},
@@ -151,8 +151,7 @@ Data virtualization at its best.
 
 We can go further and create a view on top of a file.
 ``` sql
-D create or replace view months as select * from '/data/months.json';
-D create view months as select id, name, season_id from 'months.json'; 
+D create view months as select * from 'months.json';
 D select * from months;
 ┌───────┬───────────┬───────────┐
 │  id   │   name    │ season_id │
@@ -178,17 +177,37 @@ D select * from months;
 What this step does is it creates a data virtualization layer for files based data as a metadata object in the database.
 In turn, DuckDB connector in Datero will be able to work with this view as an ordinary table already in Datero.
 At the end, Datero will read directly from the file without any data copying.
-And the chain will be: `Datero -> duckdb_fdw -> DuckDB -> file`.
+And the chain will be: `Datero -> DuckDB -> file`.
 
 But to make this approach work, we must mount into the `datero` container not only the database file but also the file we want to work with.
-Path to the file that we specify in `SELECT` statement must be either relative to the database file or an absolute path.
-But in both cases, if mounted to the container, the path will be resolved against the container's file system.
+Path to the file that we specify in `CREATE VIEW` statement must be either relative to the current working directory or an absolute path.
+But in both cases, if mounted to the container, the path will be resolved against the _container's_ file system.
 
-This is a bit tricky moment. If you specified an absolute path to the file in the `SELECT` statement, _exactly the same path_ must be accessible from the container.
-Because of this, it's always better to leverage a relative path to the database file.
+And here comes a tricky part.
+We created a view referencing a file in the current working directory.
+Because file was present in it, we wrote just `select * from 'months.json'` and it worked.
+But when we mount the current directory to the container, the file will be accessible under the `/data` folder.
+And the path to the file in the view must be changed to `/data/months.json`.
 
-### Files mounting
-Having done that we have in a current directory, which is mounted to the containter, the following files.
+``` sql
+D create or replace view months as select * from '/data/months.json';
+```
+
+To make this command work on host, we must have the `months.json` file in the `/data` folder on the host.
+Takeaway from this is following. In your file based views you must specify the path under which corresponding source files will be mounted into the container.
+And you must put the files on your host into the same path to initially create a view on them.
+
+So, if your current directory is `/home/mydir` and you mount it to the `/data` folder in the container, you must:
+
+- copy `months.json` file located in `/home/mydir` into the `/data` folder on the host.
+    - this is to allow you to create a view with  `/data/months.json` file path specified.
+- open DuckDB database file and create a view that reads from the `/data/months.json` file.
+- mount current `/home/mydir` with the `months.json` file to the `/data` folder in the container.
+- from within the container, you will be able to query the view which will be correctly resolving to `/data/months.json` path already within _container's_ filesystem.
+
+
+### Files mounting privileges
+Having done that we should have in a current directory the following files.
 ``` sh
 $ ls -l
 total 784
@@ -198,68 +217,81 @@ drwxrwxr-x 3 some_user some_user   4096 тра  6 22:50 ../
 -rw-rw-r-- 1 some_user some_user    598 тра  7 00:51 months.json
 ```
 
+Pay attention to the permissions for the files and current `./` working directory.
+Files are created by the user `some_user` on the host and the directory is owned by the same `some_user` user.
+By default, only read permissions are set for `other` for both files and the directory.
+
+Thanks to the set `other` group read permissions `calendar.duckdb` file will be readable by the `postgres` user from inside the container.
+But it looks like DuckDB connector always tries to open the file in the write mode as well.
+If you will try to execute just `SELECT` query from the Datero, you will get the following error.
+``` sh
+ERROR:  failed to open SQLite DB. rc=1 path=/data/calendar.duckdb
+```
+
+So, to make it work you must make the `calendar.duckdb` file writable by the `postgres` user inside the container.
+From the host perspective it means that you must make the file writable by `other` group.
 ```sh
-$ touch calendar.duckdb.wal
+$ chmod o+w calendar.duckdb
+```
+
+Yet another thing. Under some circumstances, there is also temporary WAL file might be generated alongside the main database file.
+It's named as `calendar.duckdb.wal` and is being deleted after the connection is closed.
+This file is created by the `postgres` process from inside the container.
+To make it work, you must make the directory where the database file is located writable by the `postgres` user inside the container.
+So, you have to execute over the mapped directory the following command.
+```sh
 $ chmod o+w .
-$ chmod o+w calendar.duckdb*
-chmod o+w .
+```
+
+And at the end, you will have such permissions set.
+```sh
 $ ll
 drwxrwxrwx 2 toleg toleg   4096 тра  9 01:44 ./
 -rw-rw-rw- 1 toleg toleg 798720 тра  9 01:41 calendar.duckdb
 -rw-rw-r-- 1 toleg toleg    598 тра  7 00:51 months.json
 ```
 
-Pay attention to the permissions for the files and current `./` working directory.
-Files are created by the user `some_user` on the host and the directory is owned by the same `some_user` user.
-By default, there are only read permissions are set for `other`.
+Now we have granted `w` permission to `other` group over current `./` directory and `calendar.duckdb` file.
+What is interesting, source `months.json` file doesn't need to be writable by `other` group.
+It's not a database file and it's not being written by the `postgres` process as part of DuckDB connector operations.
 
-We have mounted the current directory to the `/data` folder inside the container.
-Files within the container are accessible by the `postgres` user.
-From the Datero GUI we will connect to the DuckDB database file and import its schema.
-That causes the `postgres` user to read the database file and the `months.json` file.
-
-`r-x` and `r--`
-
-They must be readable by the user under which the `datero` container is running.
-This means that file is readable by any user on the system.
-This should be enough for our readonly scenario.
+With this setup you will be able to connect to the DuckDB database from Datero container and access the data from the file based view without errors.
 
 ??? warning "Write permissions on mounted files & folders"
-    If you want to apply changes to the DuckDB database from Datero, i.e. to write to the `*.duckdb` file, you must make it writable by the user under which Postgres database engine is running inside `datero` container.
-    By default it's `postgres` user. 
+    Mounted files are accessed by the user under which Postgres database engine is running inside `datero` container.
+    By default it's `postgres` user.
     It has `999` value for the UID and GID inside the container in the `/etc/passwd` file.
 
-    In addition, if you write to the DuckDB database, there is an intermediate `*.wal` file is created alongside the main database file.
+    In addition, there is an intermediate `*.wal` file might be created alongside the main database file.
     Because it's created on a fly by the `postgres` process, you must make mounted folder where your database file is located writable by the `postgres` user as well.
 
     To add even more complexity, there is no such thing as `users` and `groups` by themselves in unix based systems.
     It's just a text labels for the numeric values stored in the `/etc/passwd` file.
     In reality, access is checked against the numeric values.
-    This means that if you will have different numeric values for the same user on the host and in the container, you will have a permission denied error.
+    This means that if you will have different numeric values for the same user on the host and in the container, you will still have a permission denied error.
 
-    So, on your host you have either explicitly grant read/write access to the numeric values of the `postgres` user in the container or make the file readable/writable by `any` user on the host.
+    So, on your host you have either explicitly grant read/write access to the numeric values of the `postgres` user in the container or make the file readable/writable by _any_ user.
     And do the same for the directory containing the database file.
+    This is what is implemented via `other` group in file permissions.
 
     In such scenario, you don't have to worry about the `postgres` user inside the container.
     And which numeric values it has for the UID and GID.
-    Because the file and the directory are accessible by any user on the host, they will also be accessible by any user inside the container as well.
-    This is what the last `other` group means in the file permissions.
-
+    Because the file and the directory are accessible by _any_ user on the host, they will also be accessible by _any_ user inside the container.
 
 
 ## Datero connection
 Open `Datero` web ui at [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and click on the `DuckDB` entry in the the `Connectors` navigation section on the left.
 
-Enter any descriptive name in the `Description` field. For example, `DuckDB Server`.
-Enter `/data/calendar.db` as the `Database` value.
+Enter any descriptive name in the `Description` field. For example, `DuckDB`.
+Enter `/data/calendar.duckdb` as the `Database` value.
 The `/data` folder is the folder within the container into which we mounted our current directory.
-And `calendar.db` is the database file we created earlier within current directory via `DuckDB3 calendar.db` command.
+And `calendar.duckdb` is the database file we created earlier within current directory via `duckdb calendar.duckdb` command.
 
 Click `Save` to create the Server logical object.
 
 Connector|Connection Form
 :---:|:---:
-![Connectors](../images/connectors/DuckDB/connector.png){ loading=lazy }|![Create Server](../images/connectors/DuckDB/create_server.png){ loading=lazy }
+![Connectors](../images/connectors/duckdb/connector.png){ loading=lazy }|![Create Server](../images/connectors/duckdb/create_server.png){ loading=lazy }
 
 
 ## Schema import
@@ -269,43 +301,57 @@ DuckDB doesn't have notations of databases or schemas.
 Database file is a single database/schema which is referred to as `public` by DuckDB connector.
 
 In the `Remote Schema` select `public` schema.
+For example, we want to import our DuckDB database into the `duckdb` local schema.
+To do that, type `duckdb` into the `Local Schema` input field and click `Import Schema` button.
+If everything is correct, you will see the success notification message.
 
 Server Object|Import Schema
 :---:|:---:
-![Server Object](../images/connectors/DuckDB/server_entry.png){ loading=lazy }|![Import Schema](../images/connectors/DuckDB/import_schema.png){ loading=lazy }
+![Server Object](../images/connectors/duckdb/server_entry.png){ loading=lazy }|![Import Schema](../images/connectors/duckdb/import_schema.png){ loading=lazy }
 
-For example, we want to import our DuckDB database into the `calendar` local schema.
-To do that, type `calendar` into the `Local Schema` input field and click `Import Schema` button.
 
 --8<-- "include/schema_import.md"
-
-If everything is correct, you will see the success notification message.
-<figure markdown>
-  ![Import schema completed](../images/connectors/DuckDB/import_schema_completed.png){ loading=lazy }
-  <figcaption>Completed Schema Import</figcaption>
-</figure>
 
 We are ready now to query our DuckDB database from Datero.
 
 ## Data Querying
 Click on the `Query Editor` icon in the left navigation panel.
-You will see `calendar` schema in the `Datero` object tree.
-If you expand it, you will see `months` table from original `DuckDB` database.
-Its definition was automatically imported.
+You will see `duckdb` schema in the `Datero` object tree.
+If you expand it, you will see `seasons` and `months` tables from the original `DuckDB` database.
+Their definitions were automatically imported.
 
-To query data just write a query in the editor and press `Ctrl+Enter` or click green `Run` button above.
+To query data, just write a query in the editor and press `Ctrl+Enter` or click green `Run` button above.
 
 <figure markdown>
-  ![Query Data](../images/connectors/DuckDB/query_data.png){ loading=lazy }
+  ![Query Data](../images/connectors/duckdb/query_data.png){ loading=lazy }
   <figcaption>Query Data</figcaption>
 </figure>
 
 And that's it! You have successfully connected to the DuckDB database from Datero and queried the data.
+But you not only queried the data from the database file itself, you also queried data directly from JSON file and joined them!
+The `seasons` table is a classic table, but the `months` table is a view on top of the JSON file.
+
+We were able to join data from the classic table in database and the JSON file from the file system.
+And all this was done via single SQL query in Datero.
+Without any data copying or moving.
+
 
 ## Summary
-Of course, having just a single datasource is not very interesting.
-It's non-distinguishable from the direct connection to DuckDB via any other tool, like DBeaver.
-But the real power of Datero is in its ability to connect to multiple datasources and join data from them.
+DuckDB stands aside from the other single database connectors.
+Apart from being classical relational database like SQLite, it is capable to work with files directly in a _very_ efficient way.
+Because of this, it could be used as a bridge between the file-based world and the relational database world.
+In conjunction with Datero and its sets of connectors, it enables a whole new set of use cases.
 
-This is what is not possible via the "direct connection" tools.
-Even if they support connecting to multiple datasources, they don't support joining the data from them.
+For example, you can join data from the Oracle database and the JSON file from the AWS S3 bucket.
+Or, join data from your Excel files and MongoDB collections.
+Or, join data from the Redis cache and the Parquet files from the Azure Blob Storage.
+
+Sounds crazy, isnt' it? :smile:
+But it's all possible with DuckDB and Datero!
+
+Currently, setting up corresponding views in DuckDB is a bit tricky.
+Datero team is working on the simplification of this process through the UI & YAML config file.
+It will be allowed to create views on files directly from the Datero UI.
+Or to specify the views in the YAML config file and mount it to the container.
+It will be read and executed by the Datero on the container start.
+But even now, with a bit of manual work, you can achieve a great results with DuckDB connector in Datero.
