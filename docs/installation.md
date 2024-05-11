@@ -58,7 +58,7 @@ Alternatively, you could use [datero :octicons-tab-external-16:](https://pypi.or
 
 ### Running the container
 The only mandator parameter to specify during container run is `POSTGRES_PASSWORD`.
-It's dictated by the underlying official image of `postgres` database.
+It's dictated by the underlying official image of PostgreSQL database.
 But you will probably want to have an access also to the web application and database.
 Hence we also exposure ports `80` and `5432`.
 Flag `-d` will run the container in the background.
@@ -73,7 +73,7 @@ docker run -d --name datero \
 
 Now you can access the web application on [http://localhost :octicons-tab-external-16:](http://localhost){: target="_blank" rel="noopener noreferrer" } and the database on `localhost:5432`.
 
-By default, `datero` contains compiled and installed connectors for the following databases:
+By default, Datero contains compiled and installed connectors for the following databases:
 
 ![Connectors](./images/connectors.jpg){ loading=lazy; align=right }
 
@@ -82,6 +82,8 @@ By default, `datero` contains compiled and installed connectors for the followin
 - MongoDB
 - Oracle
 - SQL Server
+- Redis
+- DuckDB
 - SQLite
 - File access
 - MariaDB (not tested yet, but should work)
@@ -104,36 +106,21 @@ $ docker exec -it datero psql postgres postgres
 
 You will log in as a `postgres` user and connect to the `postgres` database.
 ```
-psql (15.2 (Debian 15.2-1.pgdg110+1))
+psql (16.2 (Debian 16.2-1.pgdg120+2))
 Type "help" for help.
 
 postgres=# select version();
-                                                          version
------------------------------------------------------------------------------------------------------------------------------
-PostgreSQL 15.2 (Debian 15.2-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+                                                       version                                                       
+---------------------------------------------------------------------------------------------------------------------
+ PostgreSQL 16.2 (Debian 16.2-1.pgdg120+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
 (1 row)
 ```
 
 #### Database Configuration
-Official postgres image specifies a few environment variables that could be used to configure the superuser account and default database.
-As stated in the [official documentation :octicons-tab-external-16:](https://hub.docker.com/_/postgres){: target="_blank" rel="noopener noreferrer" }:
+Datero database engine is based on the official PostgreSQL database.
+For the list of Datero supported environment variables, see the corresponding [section](./administration/configuration.md#environment-variables) in the configuration guide.
 
-- `POSTGRES_USER`
-    - This optional environment variable is used in conjunction with `POSTGRES_PASSWORD` to set a user and its password.
-      This variable will create the specified user with superuser power and a database with the same name.
-      If it is not specified, then the default user of `postgres` will be used.
-- `POSTGRES_PASSWORD`
-    - The only _required_ variable.
-      It must not be empty or undefined.
-      This environment variable sets the superuser password for PostgreSQL.
-      The default superuser name is defined by the `POSTGRES_USER` environment variable listed above.
-- `POSTGRES_DB`
-    - This optional environment variable can be used to define a different name
-      for the default database that is created when the image is first started.
-      If it is not specified, then the value of `POSTGRES_USER` will be used.
-
-
-We started our image with specified only mandatory `POSTGRES_PASSWORD` environment variable.
+We started our image with specified the only mandatory `POSTGRES_PASSWORD` environment variable.
 This means that the default superuser name is `postgres` and the default database name is also `postgres`.
 
 Commands below show that we have single `postgres` database created and single `postgres` user with superuser privileges.
@@ -161,7 +148,7 @@ postgres=# \du
 
 #### File based data sources
 If you want to leverage functionality of the file based data sources, you will need to mount a volume to the container.
-Datero supports two types of file based connectors: `file_fdw` and `sqlite_fdw`.
+Datero supports the following types of file based connectors: `duckdb_fdw`, `file_fdw` and `sqlite_fdw`.
 When using these connectors you will have to specify a path to the file that you want to access.
 You can mount a volume to whatever path you want, but it's recommended to use `/data` path within container.
 

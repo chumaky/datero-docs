@@ -7,7 +7,7 @@ This section describes how to connect to DuckDB database from Datero.
 
 Before delving into the implementation details, let's describe shortly what DuckDB is and why connecting to it from Datero is interesting.
 It's a relational DBMS that could work in two modes: as an in-memory or a file-based database.
-It has a lot of features and [capabilities  :octicons-tab-external-16:](https://duckdb.org/why_duckdb){: target="_blank" rel="noopener noreferrer" }, but one of the most interesting is its superior ability to work with the files.
+It has a lot of features and [capabilities :octicons-tab-external-16:](https://duckdb.org/why_duckdb){: target="_blank" rel="noopener noreferrer" }, but one of the most interesting is its superior ability to work with the files.
 
 DuckDB can read/write a variety of file formats like CSV, JSON, Excel, Parquet, Iceberg and plain files.
 It can also work with remote files from AWS S3 or Azure Blob Storage.
