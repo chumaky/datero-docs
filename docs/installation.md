@@ -116,7 +116,7 @@ PostgreSQL 15.2 (Debian 15.2-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gc
 
 #### Database Configuration
 Official postgres image specifies a few environment variables that could be used to configure the superuser account and default database.
-As stated in [official documentation :octicons-tab-external-16:](https://hub.docker.com/_/postgres){: target="_blank" rel="noopener noreferrer" }:
+As stated in the [official documentation :octicons-tab-external-16:](https://hub.docker.com/_/postgres){: target="_blank" rel="noopener noreferrer" }:
 
 - `POSTGRES_USER`
     - This optional environment variable is used in conjunction with `POSTGRES_PASSWORD` to set a user and its password.

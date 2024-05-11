@@ -132,5 +132,6 @@ nav:
     - AKS: clouds/azure/aks.md
 - Administration:
   - administration/index.md
+  - Configuration: administration/configuration.md
   - IPv6 Support: administration/ipv6.md
   - Releases: releases/index.md

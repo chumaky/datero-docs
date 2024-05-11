@@ -11,5 +11,6 @@ It can be run easily by any developer or data analyst.
 However, if you want to run Datero in a more complex environment, like a cloud, you will need to know more about the platform.
 
 ## Contents
+- [Configuration](configuration.md)
 - [IPv6 Support](./ipv6.md)
 - [Releases](../releases/index.md)
