@@ -33,9 +33,10 @@ jobs:
     steps:
     - name: Print environment
       run: |
-        echo Environment: ${{ github.environment }}
         echo Artifact: ${{ inputs.ARTIFACT }}
-        echo Base path: ${{ env.BASE_PATH }}
+        echo Base path (env): ${{ env.BASE_PATH }}
+        echo Base path (secrets): ${{ secrets.BASE_PATH }}
+        echo Base path (vars): ${{ vars.BASE_PATH }}
 
     - name: Download an artifact
       uses: actions/download-artifact@v4
