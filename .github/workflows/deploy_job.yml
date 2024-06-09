@@ -3,6 +3,14 @@ name: Deploy docs to remote server
 on:
   workflow_call:
     inputs:
+      ENV_NAME:
+        required: true
+        default: dev
+        type: string
+      ARTIFACT:
+        required: true
+        default: docs.tar.gz
+        type: string
       REMOTE_HOST:
         required: true
         type: string
@@ -20,12 +28,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: 
-      name:  ${{ github.ref == 'refs/heads/develop' && 'dev' || github.ref == 'refs/heads/master' && 'prd' }}
+      name: ${{ inputs.ENV_NAME }}
 
     steps:
     - name: Print environment
       run: |
         echo Environment: ${{ github.environment }}
+        echo Artifact: ${{ inputs.ARTIFACT }}
         echo Base path: ${{ env.BASE_PATH }}
 
     - name: Download an artifact
@@ -37,7 +46,7 @@ jobs:
       run: ls -l
 
     - name: Copy artifact to remote server
-      uses: appleboy/scp-action@v0.1.3
+      uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ inputs.REMOTE_HOST }}
         username: ${{ inputs.REMOTE_USER }}
@@ -47,7 +56,7 @@ jobs:
         target: ${{ env.BASE_PATH }}
 
     - name: Deploy remote server
-      uses: appleboy/ssh-action@v0.1.10
+      uses: appleboy/ssh-action@v1.0.3
       env:
         DIST_TAR: ${{ env.ARTIFACT }}
         BASE_PATH: ${{ env.BASE_PATH }}
