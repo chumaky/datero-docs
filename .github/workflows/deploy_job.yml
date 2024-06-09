@@ -52,13 +52,13 @@ jobs:
         username: ${{ inputs.REMOTE_USER }}
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ inputs.REMOTE_PORT }}
-        source: ${{ env.ARTIFACT }}
+        source: ${{ inputs.ARTIFACT }}
         target: ${{ env.BASE_PATH }}
 
     - name: Deploy remote server
       uses: appleboy/ssh-action@v1.0.3
       env:
-        DIST_TAR: ${{ env.ARTIFACT }}
+        DIST_TAR: ${{ inputs.ARTIFACT }}
         BASE_PATH: ${{ env.BASE_PATH }}
       with:
         host: ${{ inputs.REMOTE_HOST }}
