@@ -34,9 +34,9 @@ jobs:
     - name: Print environment
       run: |
         echo Artifact: ${{ inputs.ARTIFACT }}
-        echo Base path (env): ${{ env.BASE_PATH }}
-        echo Base path (secrets): ${{ secrets.BASE_PATH }}
-        echo Base path (vars): ${{ vars.BASE_PATH }}
+        echo "Base path (env): ${{ env.BASE_PATH }}"
+        echo "Base path (secrets): ${{ secrets.BASE_PATH }}"
+        echo "Base path (vars): ${{ vars.BASE_PATH }}"
 
     - name: Download an artifact
       uses: actions/download-artifact@v4
@@ -54,13 +54,13 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ inputs.REMOTE_PORT }}
         source: ${{ inputs.ARTIFACT }}
-        target: ${{ env.BASE_PATH }}
+        target: ${{ vars.BASE_PATH }}
 
     - name: Deploy remote server
       uses: appleboy/ssh-action@v1.0.3
       env:
         DIST_TAR: ${{ inputs.ARTIFACT }}
-        BASE_PATH: ${{ env.BASE_PATH }}
+        BASE_PATH: ${{ vars.BASE_PATH }}
       with:
         host: ${{ inputs.REMOTE_HOST }}
         username: ${{ inputs.REMOTE_USER }}
