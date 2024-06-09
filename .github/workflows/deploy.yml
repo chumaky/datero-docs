@@ -62,6 +62,7 @@ jobs:
       REMOTE_HOST: ${{ vars.DEV_SERVER_HOST }}
       REMOTE_PORT: ${{ vars.DEV_SSH_PORT }}
       REMOTE_USER: ${{ vars.DEV_SERVER_USER}}
+    secrets:
       REMOTE_SSH_KEY: ${{ secrets.DEV_PRIVATE_KEY }}
       #BASE_PATH: /var/www/html
 
@@ -72,6 +73,7 @@ jobs:
       REMOTE_HOST: ${{ vars.PRD_SERVER_HOST }}
       REMOTE_PORT: ${{ vars.PRD_SSH_PORT }}
       REMOTE_USER: ${{ vars.PRD_SERVER_USER}}
+    secrets:
       REMOTE_SSH_KEY: ${{ secrets.PRD_PRIVATE_KEY }}
       #BASE_PATH: /var/www/html
 
