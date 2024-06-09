@@ -27,7 +27,7 @@ jobs:
     - name: Print environment
       run: |
         echo Environment: ${{ github.environment }}
-        echo Base path: ${{ evn.BASE_PATH }}
+        echo Base path: ${{ env.BASE_PATH }}
 
     - name: Download an artifact
       uses: actions/download-artifact@v3
