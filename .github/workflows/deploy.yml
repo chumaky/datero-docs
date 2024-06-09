@@ -57,6 +57,7 @@ jobs:
 
   deploy_dev:
     if: github.ref == 'refs/heads/develop'
+    needs: build
     uses: ./.github/workflows/deploy_job.yml
     with:
       REMOTE_HOST: ${{ vars.DEV_SERVER_HOST }}
@@ -68,6 +69,7 @@ jobs:
 
   deploy_prd:
     if: github.ref == 'refs/heads/master'
+    needs: build
     uses: ./.github/workflows/deploy_job.yml
     with:
       REMOTE_HOST: ${{ vars.PRD_SERVER_HOST }}
