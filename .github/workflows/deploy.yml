@@ -73,7 +73,7 @@ jobs:
     uses: ./.github/workflows/deploy_job.yml
     with:
       REMOTE_HOST: ${{ vars.PRD_SERVER_HOST }}
-      REMOTE_PORT: ${{ vars.PRD_SSH_PORT }}
+      REMOTE_PORT: ${{ fromJSON(vars.PRD_SSH_PORT) }}
       REMOTE_USER: ${{ vars.PRD_SERVER_USER}}
     secrets:
       REMOTE_SSH_KEY: ${{ secrets.PRD_PRIVATE_KEY }}
