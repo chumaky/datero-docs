@@ -14,7 +14,7 @@ This includes cloud environments like AWS, GCP, Azure, etc.
     It's just not documented yet.
 
 ## Individual guides
-- [:simple-amazonaws: AWS](./aws/index.md)
+- [:simple-amazonwebservices: AWS](./aws/index.md)
 - [:material-google-cloud: GCP](./gcp/index.md)
 - [:material-microsoft-azure: Azure](./azure/index.md)
 

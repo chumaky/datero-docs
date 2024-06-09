@@ -1,6 +1,6 @@
 ---
 description: Datero on AWS.
-icon: simple/amazonaws
+icon: simple/amazonwebservices
 ---
 
 # AWS
