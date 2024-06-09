@@ -1,0 +1,76 @@
+name: Deploy docs to remote server
+
+on:
+  workflow_call:
+    inputs:
+      REMOTE_HOST:
+        required: true
+        type: string
+      REMOTE_PORT:
+        required: true
+        type: number
+      REMOTE_USER:
+        required: true
+        type: string
+    secrets:
+      REMOTE_SSH_KEY:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: 
+      name:  ${{ github.ref == 'refs/heads/develop' && 'dev' || github.ref == 'refs/heads/master' && 'prd' }}
+    needs: build
+
+    steps:
+    - name: Print environment
+      run: |
+        echo Environment: ${{ github.environment }}
+        echo Base path: ${{ evn.BASE_PATH }}
+
+    - name: Download an artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: docs
+
+    - name: List an artifact
+      run: ls -l
+
+    - name: Copy artifact to remote server
+      uses: appleboy/scp-action@v0.1.3
+      with:
+        host: ${{ inputs.REMOTE_HOST }}
+        username: ${{ inputs.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        port: ${{ inputs.REMOTE_PORT }}
+        source: ${{ env.ARTIFACT }}
+        target: ${{ env.BASE_PATH }}
+
+    - name: Deploy remote server
+      uses: appleboy/ssh-action@v0.1.10
+      env:
+        DIST_TAR: ${{ env.ARTIFACT }}
+        BASE_PATH: ${{ env.BASE_PATH }}
+      with:
+        host: ${{ inputs.REMOTE_HOST }}
+        username: ${{ inputs.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        port: ${{ inputs.REMOTE_PORT }}
+        envs: DIST_TAR,BASE_PATH,SERVER_PATH,SERVER_OLD_PATH,SERVER_TMP_PATH
+        script: |
+          SERVER_PATH=${BASE_PATH}/docs
+          SERVER_OLD_PATH=${BASE_PATH}/docs_old
+          SERVER_TMP_PATH=${BASE_PATH}/docs_tmp
+
+          mkdir -p $SERVER_PATH
+          mkdir -p $SERVER_OLD_PATH
+          mkdir -p $SERVER_TMP_PATH
+
+          rsync -a --delete $SERVER_PATH/ $SERVER_OLD_PATH/
+          tar -xzf $BASE_PATH/$DIST_TAR --strip-components=1 -C $SERVER_TMP_PATH
+          rsync -a --delete $SERVER_TMP_PATH/ $SERVER_PATH/
+
+          rm -rf $SERVER_TMP_PATH
+          rm -f $BASE_PATH/$DIST_TAR
+

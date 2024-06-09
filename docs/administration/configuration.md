@@ -41,7 +41,7 @@ The `/data` directory is used for file-based data sources.
 !!! warning "Datero root directory"
     Datero root directory is located in the `/home` directory.
     **Do not** mount anything to it.
-    By doing so, you will overwrite its content and the application might not work as expected.
+    By doing so, you might overwrite its content and the application will not work as expected.
 
     The only exception is the `/home/instance/config.yaml` file, which is application configuration file.
     You can mount your own configuration file to it.
