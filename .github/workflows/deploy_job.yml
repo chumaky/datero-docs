@@ -34,9 +34,7 @@ jobs:
     - name: Print environment
       run: |
         echo Artifact: ${{ inputs.ARTIFACT }}
-        echo "Base path (env): ${{ env.BASE_PATH }}"
-        echo "Base path (secrets): ${{ secrets.BASE_PATH }}"
-        echo "Base path (vars): ${{ vars.BASE_PATH }}"
+        echo Base path: ${{ vars.BASE_PATH }}
 
     - name: Download an artifact
       uses: actions/download-artifact@v4
