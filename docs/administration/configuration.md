@@ -90,4 +90,54 @@ A minimum and full formats of the `docker run` command with some explanations ar
 
 
 ## Configuration file
-TBD
+You can provide a custom configuration file to the Datero instance.
+It allows you to specify database connection parameters, data sources, and other settings.
+By using it you could automate datasources creation and avoid manual configuration.
+
+The default configuration file is located at the `/home/instance/config.yaml`.
+To override it, you can mount your own configuration file to that path.
+
+It supports two main sections: `postgres` and `servers`.
+Both are optional and can be omitted if you are satisfied with the default settings.
+```yaml
+# Datero configuration file
+postgres:
+servers:
+```
+
+### Postgres section
+The `postgres` section is used to define the connection parameters to the underlying PostgreSQL database.
+It consists of the following parameters:
+```yaml
+postgres:
+  hostname:
+  port:
+  database:
+  username:
+  password:
+```
+
+Default values are:
+```yaml
+postgres:
+  hostname: localhost
+  port: 5432
+  database: postgres
+  username: postgres
+  password: postgres
+```
+
+What this mean is that if you do not provide a custom configuration file, 
+the Datero backend will connect to the PostgreSQL database running on the same host, 
+using the default superuser name and password.
+
+For all inclusive Datero image the backend API and the database are running in the same container.
+Postgres default security settings for all connections initiated from `localhost` is set to `trust` mode.
+This means, that in case of all inclusive Datero image the backend API can connect to the database without providing a password.
+And `password` field in the `postgres` section of the configuration file is not actually used.
+
+But all the other params are used and have an impact.
+If you specified some non-default values in environment variables during container creation,
+like `POSTGRES_USER` or `POSTGRES_DB` AND you use configuration file, 
+then you must provide the same values in the configuration file.
+
