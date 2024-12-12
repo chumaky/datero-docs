@@ -102,6 +102,7 @@ nav:
 - Home: index.md
 - Overview: overview.md
 - Installation: installation.md
+- Configuration: administration/configuration.md
 - Tutorial: tutorial.md
 - Connectors:
   - connectors/index.md
@@ -133,6 +134,5 @@ nav:
     - AKS: clouds/azure/aks.md
 - Administration:
   - administration/index.md
-  - Configuration: administration/configuration.md
   - IPv6 Support: administration/ipv6.md
   - Releases: releases/index.md

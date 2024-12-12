@@ -58,11 +58,50 @@ Wasn't publicly released.
 
 
 ## Datero Engine
-Latest Datero Engine release with the `latest` tag is identical to the `16.2` tag.
+Latest Datero Engine release with the `latest` tag is identical to the `16.6` tag.
+
+### 16.6
+Release date: 2024-12-06  
+Docker image: [chumaky/datero_engine:16.6 :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero_engine/tags?page=1&name=16.6){: target="_blank" rel="noopener noreferrer" }
+
+Included Foreign Data Wrappers:
+
+FDW|Version
+-|-
+mysql_fdw|2.9.1
+oracle_fdw|2.7.0
+sqlite_fdw|2.4.0
+mongo_fdw|5.5.1
+tds_fdw|2.0.4
+redis_fdw|16.6.0 (REL_16_STABLE branch)
+duckdb_fdw|1.1.2
+postgres_fdw|16.6.0 (built-in)
+file_fdw|16.6.0 (built-in)
+
+
+### 16.3
+Release date: 2024-07-12  
+Docker image: [chumaky/datero_engine:16.3 :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero_engine/tags?page=1&name=16.3){: target="_blank" rel="noopener noreferrer" }
+
+Features upgrade for the `duckdb_fdw` connector to the stable `1.0.0` DuckDB release.
+
+Included Foreign Data Wrappers:
+
+FDW|Version
+-|-
+mysql_fdw|2.9.1
+oracle_fdw|2.6.0
+sqlite_fdw|2.4.0
+mongo_fdw|5.5.1
+tds_fdw|2.0.3 (master branch)
+redis_fdw|16.3.0 (REL_16_STABLE branch)
+duckdb_fdw|1.0.0
+postgres_fdw|16.3.0 (built-in)
+file_fdw|16.3.0 (built-in)
+
 
 ### 16.2
 Release date: 2024-03-01  
-Last updated: 2024-05-01  
 Docker image: [chumaky/datero_engine:16.2 :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero_engine/tags?page=1&name=16.2){: target="_blank" rel="noopener noreferrer" }
 
 Included Foreign Data Wrappers:
@@ -78,7 +117,7 @@ redis_fdw|16.2.0 (REL_16_STABLE branch)
 duckdb_fdw|2.1.1 (ahuarte47:main_9x-10x-support branch)
 postgres_fdw|16.2.0 (built-in)
 file_fdw|16.2.0 (built-in)
-  
+
 
 ### 15.2
 Release date: 2023-04-15  
