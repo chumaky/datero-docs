@@ -64,12 +64,16 @@ It is very similar to `Import Schema` tab, but instead of selecting schema, you 
     `Import Table` tab functionality is under development.
 
 ### Advanced Settings
-`Datero` supports full set of individual connection parameters for each connector on an API level.
-In this section user will be able to specify or override any of the default parameters.
+`Datero` supports full set of the connector parameters.
+In this section user will be able to override any of them.
+There is a FDW specification project which specifies all the parameters for each connector.
+It's available on [github :octicons-tab-external-16:](https://github.com/chumaky/postgres-fdw-spec){: target="_blank" rel="noopener noreferrer" }.
+Datero uses this specification to generate displayed list of options.
 
-!!! info
-    `Advanced` tab functionality is under development.
-
+<figure markdown>
+  ![Connector settings](./images/advanced_settings.jpg){ loading=lazy }
+  <figcaption>Connector settings</figcaption>
+</figure>
 
 ## Query Data
 After you created connections to the sources, you can query data from them.
