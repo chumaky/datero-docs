@@ -18,20 +18,21 @@ This is because UI changes are quite frequent, and most users are interested in 
 
 
 ## Datero
-### latest
-Last updated: 2024-05-04  
-Docker image: [chumaky/datero:latest :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero/tags?page=1&name=latest){: target="_blank" rel="noopener noreferrer" }
+### 1.2.0
+Last updated: 2025-01-07  
+Docker image: [chumaky/datero:1.2.0 :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero/tags?page=1&name=1.2.0){: target="_blank" rel="noopener noreferrer" }
 
 Changes:
 
-- adding Redis connector  
-    - it's possible now to connect to Redis databases and use them as data sources
-- adding DuckDB connector  
+- Update to the Datero engine version 17.2
+- Adding Redis connector  
+    - It's possible now to connect to the Redis database and use it as a data source.
+- Adding DuckDB connector  
     - DuckDB database opens doors to a whole new set of use cases. 
       It's possible now to use it as a proxy for a JSON, Excel, Parquet, or Iceberg files.
-- switching to the FDW [specification :octicons-tab-external-16:](https://github.com/chumaky/postgres-fdw-spec){: target="_blank" rel="noopener noreferrer" } in default config.  
+- Switching to the FDW [specification :octicons-tab-external-16:](https://github.com/chumaky/postgres-fdw-spec){: target="_blank" rel="noopener noreferrer" } in default config.  
     - Leveraging the FDW specification allows more flexible and powerful configuration.
-- adding servers initialization on startup from config file.
+- Adding servers initialization on startup from config file.
     - It's possible now to define data sources (servers) in a config file and have them automatically created on startup.
 
 
@@ -58,7 +59,25 @@ Wasn't publicly released.
 
 
 ## Datero Engine
-Latest Datero Engine release with the `latest` tag is identical to the `16.6` tag.
+Latest Datero Engine release with the `latest` tag is identical to the `17.2` tag.
+
+### 17.2
+Release date: 2024-12-14  
+Docker image: [chumaky/datero_engine:17.2 :octicons-tab-external-16:](https://hub.docker.com/r/chumaky/datero_engine/tags?page=1&name=17.2){: target="_blank" rel="noopener noreferrer" }
+
+Included Foreign Data Wrappers:
+
+FDW|Version
+-|-
+mysql_fdw|2.9.2
+oracle_fdw|2.7.0
+sqlite_fdw|2.5.0
+mongo_fdw|5.5.2
+tds_fdw|2.0.4
+redis_fdw|17.2.0 (REL_17_STABLE branch)
+duckdb_fdw|1.1.2
+postgres_fdw|17.2.0 (built-in)
+file_fdw|17.2.0 (built-in)
 
 ### 16.6
 Release date: 2024-12-06  
