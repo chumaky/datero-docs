@@ -321,17 +321,26 @@ The previous step is a manual process. But we can do better.
 Datero supports automatic servers creation based on the configuration file which could be mounted to the `/home/instance/config.yaml` file.
 If you would uncomment the line 13 in the `docker-compose.yml` file and reinstantinate all the containers, then servers will be created automatically.
 
-```yaml linenums="1" hl_lines="13"
---8<-- "demo/docker-compose.yml:datero"
-```
 ``` bash
 docker compose -f demo/docker-compose.yml down
+
+# uncomment the line 13 in the docker-compose.yml file and save it.
+#- ./config.yaml:/home/instance/config.yaml
+
 docker compose -f demo/docker-compose.yml up -d
 ```
 
 Datero supports fully fledged configuration file with all the possible FDW options.
 For more details, please refer to the [configuration](../administration/configuration/#configuration-file) section.
 
+=== "Config file mounting"
+    ```yaml linenums="1" hl_lines="13"
+    --8<-- "demo/docker-compose.yml:datero"
+    ```
+=== "Config file"
+    ```yaml linenums="1"
+    --8<-- "demo/config.yaml"
+    ```
 
 ### Import schemas
 Once all the servers are created, we can import schemas/databases from them.
