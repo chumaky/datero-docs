@@ -1,0 +1,63 @@
+# overrides default values for underlying postgres connection
+postgres:
+  hostname: localhost
+  port: 5432
+  database: postgres
+  username: postgres
+  password: postgres
+
+servers:
+  mysql_customers:
+    description: MySQL - Customers
+    fdw_name: mysql_fdw
+    foreign_server:
+      host: mysql
+      port: 3306
+    user_mapping:
+      username: mysql
+      password: mysql
+
+  postgres_products:
+    description: Postgres - Products
+    fdw_name: postgres_fdw
+    foreign_server:
+      host: postgres
+      port: 5432
+      dbname: factory
+    user_mapping:
+      user: postgres
+      password: postgres
+
+  # using system generated name to allow re-use for the manually and automatically created servers
+  mongo_fdw_1:
+    description: Mongo - Orders
+    fdw_name: mongo_fdw
+    foreign_server:
+      address: mongo
+      port: 27017
+      authentication_database: admin
+    user_mapping:
+      username: mongo
+      password: mongo
+
+  mssql_employees:
+    description: MSSQL - Employees
+    fdw_name: tds_fdw
+    foreign_server:
+      servername: mssql
+      port: 1433
+      database: hr
+    user_mapping:
+      username: sa
+      password: Mssql_2019
+
+  sqlite_job-roles:
+    description: SQLite - Job Roles
+    fdw_name: sqlite_fdw
+    foreign_server:
+      database: /data/sqlite/job_roles.db
+
+  # using system generated name to allow re-use for the manually and automatically created servers
+  file_fdw_1:
+    description: CSV - Departments
+    fdw_name: file_fdw

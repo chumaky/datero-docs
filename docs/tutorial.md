@@ -44,12 +44,12 @@ In terms of datasources, this diagram looks like this:
 
 ``` mermaid
 flowchart BT
-  customers[("customers\n\nMySQL")]
-  orders[("orders\n\nMongoDB")]
-  products[(products\n\nPostgreSQL)]
-  employees[(employees\n\nMSSQL)]
-  job_roles[(job_roles\n\nSQLite)]
-  departments[(departments\n\nCSV)]
+  customers[("customers<br />MySQL")]
+  orders[("orders<br />MongoDB")]
+  products[(products<br />PostgreSQL)]
+  employees[(employees<br />MSSQL)]
+  job_roles[(job_roles<br />SQLite)]
+  departments[(departments<br />CSV)]
 
   customers --> orders
   products --> orders
@@ -95,7 +95,8 @@ Here is per-service breakdown of a compose file.
 
     !!! info "Main datero container"
         Web ui is available on port `8080`.
-        To distinguish from `postgres` datasource we run it on port `4444`.
+        This is done intentionally to allow run on linux hosts where port `80` might require root permissions.
+        To distinguish from `postgres` datasource we run `datero` database on port `4444`.
         For `sqlite` and `csv` datasources we must mount them into the file system of this `datero` container.
         See corresponding service sections for detals.
 
@@ -143,7 +144,7 @@ Here is per-service breakdown of a compose file.
         To handle this gracefuly there are `mssql_entrypoint.sh` and `mssql_configure_db.sh` supplementary scripts are used.
 
 === "sqlite"
-    ```yaml linenums="1" hl_lines="12"
+    ```yaml linenums="1" hl_lines="14"
     --8<-- "demo/docker-compose.yml:datero"
     ```
 
@@ -152,11 +153,12 @@ Here is per-service breakdown of a compose file.
         It doesn't have any listener over some port to connect to.
         Hence, we must mount it inside the `datero` container to enable access to it through its file system.
 
-        Database `sqlite_job_roles.db` will be mounted to the `/home/data` folder of the container as a `job_roles.db` file.
-        It contains `job_roles` table defined via `sqlite_job_roles.sql` setup script from the `demo` folder.
+        Database `job_roles.db` will be mounted to the `/data/sqlite` folder of the container.
+        This directory is made writable by `other` users to allow `datero` container to write to it.
+        The database contains `job_roles` table defined via `job_roles.sql` setup script from the `demo/sqlite` folder.
 
 === "csv"
-    ```yaml linenums="1" hl_lines="13"
+    ```yaml linenums="1" hl_lines="15"
     --8<-- "demo/docker-compose.yml:datero"
     ```
 
@@ -165,14 +167,14 @@ Here is per-service breakdown of a compose file.
         It doesn't have any listener over some port to connect to.
         To read the file, it must be accessible from local file system of the `datero` container.
 
-        File `departments.csv` from sibling `data/tutorial` directory will be mounted to the `/home/data` folder of the container as `departments.csv` file.
+        File `departments.csv` from the sibling `../data/tutorial` directory will be mounted to the `/data` folder of the container.
 
 
 To spin-up all the containers, clone this [docs :octicons-tab-external-16:](https://github.com/chumaky/datero-docs){: target="_blank" rel="noopener noreferrer" } repository and run the following command.
 It will first fetch all the images if they are absent on your local registry and then start all the containers.
 
 ``` bash
-docker-compose -f demo/docker-compose.yml up -d
+docker compose -f demo/docker-compose.yml up -d
 ```
 
 After execution of this command, you should see output similar to below.
@@ -314,6 +316,23 @@ In the left navigation pane of the dashboard in the Connectors section click on 
     </figure>
 
 
+### Automatic servers creation
+The previous step is a manual process. But we can do better.
+Datero supports automatic servers creation based on the configuration file which could be mounted to the `/home/instance/config.yaml` file.
+If you would uncomment the line 13 in the `docker-compose.yml` file and reinstantinate all the containers, then servers will be created automatically.
+
+```yaml linenums="1" hl_lines="13"
+--8<-- "demo/docker-compose.yml:datero"
+```
+``` bash
+docker compose -f demo/docker-compose.yml down
+docker compose -f demo/docker-compose.yml up -d
+```
+
+Datero supports fully fledged configuration file with all the possible FDW options.
+For more details, please refer to the [configuration](../administration/configuration/#configuration-file) section.
+
+
 ### Import schemas
 Once all the servers are created, we can import schemas/databases from them.
 
@@ -338,7 +357,7 @@ Once all the servers are created, we can import schemas/databases from them.
         To do this, open [Query Editor](overview.md#query-data) and execute the following query:
 
     ``` sql title="Mongo foreign table creation"
-    --8<-- "demo/mongo_datero_setup.sql"
+    --8<-- "demo/mongo/datero_setup.sql"
     ```
 
     <figure markdown>
@@ -367,14 +386,8 @@ Once all the servers are created, we can import schemas/databases from them.
         To do this, open [Query Editor](overview.md#query-data) and execute the following query:
 
     ``` sql title="File based foreign table creation"
-    --8<-- "demo/csv_datero_setup.sql"
+    --8<-- "demo/csv/datero_setup.sql"
     ```
-
-    <figure markdown>
-      ![File based foreign table](./images/tutorial/csv_import_table.jpg){ loading=lazy }
-      <figcaption>File based foreign table</figcaption>
-    </figure>
-
 
 --8<-- "include/schema_import.md"
 

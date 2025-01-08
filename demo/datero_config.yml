@@ -1,7 +1,0 @@
-# overrides default values for underlying postgres connection
-postgres:
-  hostname: localhost
-  port: 5432
-  database: postgres
-  username: postgres
-  password: postgres

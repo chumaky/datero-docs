@@ -6,5 +6,5 @@ CREATE FOREIGN TABLE csv.departments
 , name      varchar
 )
 SERVER file_fdw_1
-OPTIONS (filename '/home/data/departments.csv', format 'csv', header 'true')
+OPTIONS (filename '/data/departments.csv', format 'csv', header 'true')
 ;

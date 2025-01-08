@@ -10,9 +10,11 @@ services:
       - 8080:80
       - 4444:5432
     volumes:
-      - ./datero_config.yml:/home/instance/config.yaml              # Datero config. Must be specified if postgres image default values are changed
-      - ./sqlite_job_roles.db:/home/data/job_roles.db
-      - ../data/tutorial/departments.csv:/home/data/departments.csv
+      # Datero config. Must be specified if postgres image default values are changed.
+      # Also allows to specify servers explicitly thus avoiding manual creation
+      #- ./config.yaml:/home/instance/config.yaml              
+      - ./sqlite:/data/sqlite
+      - ../data/tutorial/departments.csv:/data/departments.csv
   # --8<-- [end:datero]
 
   # --8<-- [start:mysql]
@@ -27,7 +29,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./mysql_customers.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./mysql/customers.sql:/docker-entrypoint-initdb.d/setup.sql
   # --8<-- [end:mysql]
 
   # --8<-- [start:postgres]
@@ -41,7 +43,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./postgres_products.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./postgres/products.sql:/docker-entrypoint-initdb.d/setup.sql
   # --8<-- [end:postgres]
 
   # --8<-- [start:mongo]
@@ -55,7 +57,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./mongo_orders.js:/docker-entrypoint-initdb.d/setup.js
+      - ./mongo/orders.js:/docker-entrypoint-initdb.d/setup.js
   # --8<-- [end:mongo]
 
   # --8<-- [start:mssql]
@@ -70,8 +72,8 @@ services:
     entrypoint:
       - /usr/config/entrypoint.sh
     volumes:
-      - ./mssql_entrypoint.sh:/usr/config/entrypoint.sh
-      - ./mssql_configure_db.sh:/usr/config/configure-db.sh
-      - ./mssql_employees.sql:/usr/config/setup.sql
+      - ./mssql/entrypoint.sh:/usr/config/entrypoint.sh
+      - ./mssql/configure_db.sh:/usr/config/configure-db.sh
+      - ./mssql/employees.sql:/usr/config/setup.sql
   # --8<-- [end:mssql]
 
