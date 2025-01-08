@@ -274,7 +274,8 @@ Detailed instructions how to add data sources for each supported connector could
 We will not repeat them here, but instead will show how to add server and import schema whenever applicable for each of our datasources.
 
 ### Servers creation
-In the left navigation pane of the dashboard in the Connectors section click on the corresponding connector and fill out connection details as per below.
+In the left navigation pane of the dashboard in the Connectors section click on the corresponding connector and fill out connection details as per screenshots below.
+The passwords for all the datasources could be found in the `docker-compose.yml` file from which we [spinned up](#infrastructure-setup) all the containers.
 
 === "mysql"
     <figure markdown>
@@ -331,7 +332,7 @@ docker compose -f demo/docker-compose.yml up -d
 ```
 
 Datero supports fully fledged configuration file with all the possible FDW options.
-For more details, please refer to the [configuration](../administration/configuration/#configuration-file) section.
+For more details, please refer to the [configuration](administration/configuration.md#configuration-file) section.
 
 === "Config file mounting"
     ```yaml linenums="1" hl_lines="13"
